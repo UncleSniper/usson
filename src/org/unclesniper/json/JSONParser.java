@@ -32,6 +32,7 @@ public class JSONParser {
 		BEFORE_ELEMENT_SEPARATOR,
 		STRING,
 		STRING_ESCAPE,
+		STRING_UNICODE,
 		AFTER_DOCUMENT;
 
 	}
@@ -45,6 +46,10 @@ public class JSONParser {
 	private StringBuilder string;
 
 	private int line = 1;
+
+	private int code;
+
+	private int digits;
 
 	public JSONParser(JSONSink sink) {
 		if(sink == null)
@@ -151,7 +156,64 @@ public class JSONParser {
 					}
 					break;
 				case STRING_ESCAPE:
-					//TODO
+					switch(c) {
+						case '"':
+						case '\\':
+						case '/':
+							string.append(c);
+							start = offset + 1;
+							state = State.STRING;
+							break;
+						case 'b':
+							string.append('\b');
+							start = offset + 1;
+							state = State.STRING;
+							break;
+						case 'f':
+							string.append('\f');
+							start = offset + 1;
+							state = State.STRING;
+							break;
+						case 'n':
+							string.append('\n');
+							start = offset + 1;
+							state = State.STRING;
+							break;
+						case 'r':
+							string.append('\r');
+							start = offset + 1;
+							state = State.STRING;
+							break;
+						case 't':
+							string.append('\t');
+							start = offset + 1;
+							state = State.STRING;
+							break;
+						case 'u':
+							digits = code = 0;
+							state = State.STRING_UNICODE;
+							break;
+						default:
+							throw new MalformedJSONException("Escape symbol must be followed by one of '\"', "
+									+ "'\\', '/', 'b', 'f', 'n', 'r', 't' or 'u' in line " + line + ", not code "
+									+ (int)c, line);
+					}
+					break;
+				case STRING_UNICODE:
+					if(c >= '0' && c <= '9')
+						code = code * 16 + (c - '0');
+					else if(c >= 'a' && c <= 'f')
+						code = code * 16 + (c - 'a') + 10;
+					else if(c >= 'A' && c <= 'F')
+						code = code * 16 + (c - 'A') + 10;
+					else
+						throw new MalformedJSONException("Unicode escape (\\uXXXX) must be specified by "
+								+ "hexadecimal digits in line " + line + ", not code " + (int)c, line);
+					if(++digits == 4) {
+						string.append((char)code);
+						start = offset + 1;
+						state = State.STRING;
+					}
 					break;
 				case BEFORE_INITIAL_KEY:
 					switch(c) {
