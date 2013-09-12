@@ -549,6 +549,7 @@ public class JSONParser {
 						case 'e':
 						case 'E':
 							state = State.BEFORE_EXPONENT_SIGN;
+							break;
 						default:
 							if(c >= '0' && c <= '9')
 								break;
@@ -677,6 +678,7 @@ public class JSONParser {
 					if(c == '_' || c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c >= '0' && c <= '9')
 						throw new MalformedJSONException("Expected end of name after 'false' in line "
 								+ line + ", not code " + (int)c, line);
+					--offset;
 					state = stack.removeLast();
 					sink.foundBoolean(false);
 					break;
@@ -702,6 +704,7 @@ public class JSONParser {
 					if(c == '_' || c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c >= '0' && c <= '9')
 						throw new MalformedJSONException("Expected end of name after 'true' in line "
 								+ line + ", not code " + (int)c, line);
+					--offset;
 					state = stack.removeLast();
 					sink.foundBoolean(true);
 					break;
@@ -727,6 +730,7 @@ public class JSONParser {
 					if(c == '_' || c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c >= '0' && c <= '9')
 						throw new MalformedJSONException("Expected end of name after 'null' in line "
 								+ line + ", not code " + (int)c, line);
+					--offset;
 					state = stack.removeLast();
 					sink.foundNull();
 					break;

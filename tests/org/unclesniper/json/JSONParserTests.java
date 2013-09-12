@@ -3,6 +3,8 @@ package org.unclesniper.json;
 import org.junit.Test;
 import static org.junit.Assert.fail;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -150,6 +152,11 @@ public class JSONParserTests {
 		new JSONParser(new NullSink()).pushSerial("false");
 	}
 
+	@Test(expected = MalformedJSONException.class)
+	public void topNull() throws MalformedJSONException {
+		new JSONParser(new NullSink()).pushSerial("null");
+	}
+
 	@Test
 	public void plainString() throws MalformedJSONException {
 		StoringSink store = new StoringSink();
@@ -201,6 +208,416 @@ public class JSONParserTests {
 		assertNotNull(((StoringSink.FoundStringCall)calls[4]).value);
 		assertEquals("\n", ((StoringSink.FoundStringCall)calls[4]).value);
 		assertSame(StoringSink.CallKind.END_ARRAY, calls[5].getKind());
+	}
+
+	@Test
+	public void stringUnicode() throws MalformedJSONException {
+		StoringSink store = new StoringSink();
+		JSONParser parser = new JSONParser(store);
+		parser.pushSerial("[\"\\u12AB5678\",\"\\u");
+		parser.pushSerial("1234");
+		parser.pushSerial("\\u5");
+		parser.pushSerial("678\"]");
+		parser.endDocument();
+		StoringSink.Call[] calls = store.getCalls();
+		assertEquals(4, calls.length);
+		assertSame(StoringSink.CallKind.BEGIN_ARRAY, calls[0].getKind());
+		assertSame(StoringSink.CallKind.FOUND_STRING, calls[1].getKind());
+		assertNotNull(((StoringSink.FoundStringCall)calls[1]).value);
+		assertEquals("\u12AB" + "5678", ((StoringSink.FoundStringCall)calls[1]).value);
+		assertSame(StoringSink.CallKind.FOUND_STRING, calls[2].getKind());
+		assertNotNull(((StoringSink.FoundStringCall)calls[2]).value);
+		assertEquals("\u1234\u5678", ((StoringSink.FoundStringCall)calls[2]).value);
+		assertSame(StoringSink.CallKind.END_ARRAY, calls[3].getKind());
+	}
+
+	@Test(expected = MalformedJSONException.class)
+	public void stringShortUnicode() throws MalformedJSONException {
+		new JSONParser(new NullSink()).pushSerial("[\"\\u12x\"]");
+	}
+
+	@Test(expected = MalformedJSONException.class)
+	public void stringControlChar() throws MalformedJSONException {
+		new JSONParser(new NullSink()).pushSerial("[\"\n\"]");
+	}
+
+	@Test
+	public void number() throws MalformedJSONException {
+		StoringSink store = new StoringSink();
+		JSONParser parser = new JSONParser(store);
+		parser.pushSerial("[12,34.5,0,0.5,4,321,8.125,3e5,5E-3,6e+6,1.2e-5]");
+		parser.endDocument();
+		StoringSink.Call[] calls = store.getCalls();
+		assertEquals(13, calls.length);
+		assertSame(StoringSink.CallKind.BEGIN_ARRAY, calls[0].getKind());
+		assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[1].getKind());
+		assertEquals(12, ((StoringSink.FoundIntegerCall)calls[1]).value);
+		assertSame(StoringSink.CallKind.FOUND_FRACTION, calls[2].getKind());
+		assertEquals(34.5, ((StoringSink.FoundFractionCall)calls[2]).value, 0.01);
+		assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[3].getKind());
+		assertEquals(0, ((StoringSink.FoundIntegerCall)calls[3]).value);
+		assertSame(StoringSink.CallKind.FOUND_FRACTION, calls[4].getKind());
+		assertEquals(0.5, ((StoringSink.FoundFractionCall)calls[4]).value, 0.01);
+		assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[5].getKind());
+		assertEquals(4, ((StoringSink.FoundIntegerCall)calls[5]).value);
+		assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[6].getKind());
+		assertEquals(321, ((StoringSink.FoundIntegerCall)calls[6]).value);
+		assertSame(StoringSink.CallKind.FOUND_FRACTION, calls[7].getKind());
+		assertEquals(8.125, ((StoringSink.FoundFractionCall)calls[7]).value, 0.0001);
+		assertSame(StoringSink.CallKind.FOUND_FRACTION, calls[8].getKind());
+		assertEquals(300000.0, ((StoringSink.FoundFractionCall)calls[8]).value, 0.1);
+		assertSame(StoringSink.CallKind.FOUND_FRACTION, calls[9].getKind());
+		assertEquals(0.005, ((StoringSink.FoundFractionCall)calls[9]).value, 0.0001);
+		assertSame(StoringSink.CallKind.FOUND_FRACTION, calls[10].getKind());
+		assertEquals(6000000.0, ((StoringSink.FoundFractionCall)calls[10]).value, 0.1);
+		assertSame(StoringSink.CallKind.FOUND_FRACTION, calls[11].getKind());
+		assertEquals(0.000012, ((StoringSink.FoundFractionCall)calls[11]).value, 0.0000001);
+		assertSame(StoringSink.CallKind.END_ARRAY, calls[12].getKind());
+		store = new StoringSink();
+		parser = new JSONParser(store);
+		parser.pushSerial("[1");
+		parser.pushSerial("2,34");
+		parser.pushSerial(".5,0");
+		parser.pushSerial(",0.");
+		parser.pushSerial("5,4");
+		parser.pushSerial(",");
+		parser.pushSerial("321,");
+		parser.pushSerial("8.");
+		parser.pushSerial("1");
+		parser.pushSerial("25");
+		parser.pushSerial(",3");
+		parser.pushSerial("e5");
+		parser.pushSerial(",5E");
+		parser.pushSerial("-3,");
+		parser.pushSerial("6e");
+		parser.pushSerial("+");
+		parser.pushSerial("6,1.2");
+		parser.pushSerial("e");
+		parser.pushSerial("-5]");
+		parser.endDocument();
+		calls = store.getCalls();
+		assertEquals(13, calls.length);
+		assertSame(StoringSink.CallKind.BEGIN_ARRAY, calls[0].getKind());
+		assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[1].getKind());
+		assertEquals(12, ((StoringSink.FoundIntegerCall)calls[1]).value);
+		assertSame(StoringSink.CallKind.FOUND_FRACTION, calls[2].getKind());
+		assertEquals(34.5, ((StoringSink.FoundFractionCall)calls[2]).value, 0.01);
+		assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[3].getKind());
+		assertEquals(0, ((StoringSink.FoundIntegerCall)calls[3]).value);
+		assertSame(StoringSink.CallKind.FOUND_FRACTION, calls[4].getKind());
+		assertEquals(0.5, ((StoringSink.FoundFractionCall)calls[4]).value, 0.01);
+		assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[5].getKind());
+		assertEquals(4, ((StoringSink.FoundIntegerCall)calls[5]).value);
+		assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[6].getKind());
+		assertEquals(321, ((StoringSink.FoundIntegerCall)calls[6]).value);
+		assertSame(StoringSink.CallKind.FOUND_FRACTION, calls[7].getKind());
+		assertEquals(8.125, ((StoringSink.FoundFractionCall)calls[7]).value, 0.0001);
+		assertSame(StoringSink.CallKind.FOUND_FRACTION, calls[8].getKind());
+		assertEquals(300000.0, ((StoringSink.FoundFractionCall)calls[8]).value, 0.1);
+		assertSame(StoringSink.CallKind.FOUND_FRACTION, calls[9].getKind());
+		assertEquals(0.005, ((StoringSink.FoundFractionCall)calls[9]).value, 0.0001);
+		assertSame(StoringSink.CallKind.FOUND_FRACTION, calls[10].getKind());
+		assertEquals(6000000.0, ((StoringSink.FoundFractionCall)calls[10]).value, 0.1);
+		assertSame(StoringSink.CallKind.FOUND_FRACTION, calls[11].getKind());
+		assertEquals(0.000012, ((StoringSink.FoundFractionCall)calls[11]).value, 0.0000001);
+		assertSame(StoringSink.CallKind.END_ARRAY, calls[12].getKind());
+	}
+
+	@Test(expected = MalformedJSONException.class)
+	public void numberLeadingZero() throws MalformedJSONException {
+		new JSONParser(new NullSink()).pushSerial("[01]");
+	}
+
+	@Test(expected = MalformedJSONException.class)
+	public void numberPositive() throws MalformedJSONException {
+		new JSONParser(new NullSink()).pushSerial("[+1]");
+	}
+
+	@Test(expected = MalformedJSONException.class)
+	public void numberNoIntegral() throws MalformedJSONException {
+		new JSONParser(new NullSink()).pushSerial("[.5]");
+	}
+
+	@Test(expected = MalformedJSONException.class)
+	public void numberNoFractional() throws MalformedJSONException {
+		new JSONParser(new NullSink()).pushSerial("[2.]");
+	}
+
+	@Test(expected = MalformedJSONException.class)
+	public void numberNoExponent() throws MalformedJSONException {
+		new JSONParser(new NullSink()).pushSerial("[2e]");
+	}
+
+	@Test
+	public void emptyObject() throws MalformedJSONException {
+		StoringSink store = new StoringSink();
+		JSONParser parser = new JSONParser(store);
+		parser.pushSerial("{\t}");
+		parser.endDocument();
+		StoringSink.Call[] calls = store.getCalls();
+		assertEquals(2, calls.length);
+		assertSame(StoringSink.CallKind.BEGIN_OBJECT, calls[0].getKind());
+		assertSame(StoringSink.CallKind.END_OBJECT, calls[1].getKind());
+		store = new StoringSink();
+		parser = new JSONParser(store);
+		parser.pushSerial("{");
+		parser.pushSerial("}");
+		parser.endDocument();
+		calls = store.getCalls();
+		assertEquals(2, calls.length);
+		assertSame(StoringSink.CallKind.BEGIN_OBJECT, calls[0].getKind());
+		assertSame(StoringSink.CallKind.END_OBJECT, calls[1].getKind());
+	}
+
+	@Test
+	public void objectProperties() throws MalformedJSONException {
+		StoringSink store = new StoringSink();
+		JSONParser parser = new JSONParser(store);
+		parser.pushSerial(" { \"foo\" : 42 , \"bar\":\"baz\" } ");
+		parser.endDocument();
+		StoringSink.Call[] calls = store.getCalls();
+		assertEquals(6, calls.length);
+		assertSame(StoringSink.CallKind.BEGIN_OBJECT, calls[0].getKind());
+		assertSame(StoringSink.CallKind.FOUND_STRING, calls[1].getKind());
+		assertNotNull(((StoringSink.FoundStringCall)calls[1]).value);
+		assertEquals("foo", ((StoringSink.FoundStringCall)calls[1]).value);
+		assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[2].getKind());
+		assertEquals(42, ((StoringSink.FoundIntegerCall)calls[2]).value);
+		assertSame(StoringSink.CallKind.FOUND_STRING, calls[3].getKind());
+		assertNotNull(((StoringSink.FoundStringCall)calls[3]).value);
+		assertEquals("bar", ((StoringSink.FoundStringCall)calls[3]).value);
+		assertSame(StoringSink.CallKind.FOUND_STRING, calls[4].getKind());
+		assertNotNull(((StoringSink.FoundStringCall)calls[4]).value);
+		assertEquals("baz", ((StoringSink.FoundStringCall)calls[4]).value);
+		assertSame(StoringSink.CallKind.END_OBJECT, calls[5].getKind());
+		store = new StoringSink();
+		parser = new JSONParser(store);
+		parser.pushSerial("{");
+		parser.pushSerial("\"foo\"");
+		parser.pushSerial(":");
+		parser.pushSerial("42");
+		parser.pushSerial(",");
+		parser.pushSerial("\"bar\"");
+		parser.pushSerial(":");
+		parser.pushSerial("\"baz\"");
+		parser.pushSerial("}");
+		parser.endDocument();
+		calls = store.getCalls();
+		assertEquals(6, calls.length);
+		assertSame(StoringSink.CallKind.BEGIN_OBJECT, calls[0].getKind());
+		assertSame(StoringSink.CallKind.FOUND_STRING, calls[1].getKind());
+		assertNotNull(((StoringSink.FoundStringCall)calls[1]).value);
+		assertEquals("foo", ((StoringSink.FoundStringCall)calls[1]).value);
+		assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[2].getKind());
+		assertEquals(42, ((StoringSink.FoundIntegerCall)calls[2]).value);
+		assertSame(StoringSink.CallKind.FOUND_STRING, calls[3].getKind());
+		assertNotNull(((StoringSink.FoundStringCall)calls[3]).value);
+		assertEquals("bar", ((StoringSink.FoundStringCall)calls[3]).value);
+		assertSame(StoringSink.CallKind.FOUND_STRING, calls[4].getKind());
+		assertNotNull(((StoringSink.FoundStringCall)calls[4]).value);
+		assertEquals("baz", ((StoringSink.FoundStringCall)calls[4]).value);
+		assertSame(StoringSink.CallKind.END_OBJECT, calls[5].getKind());
+	}
+
+	@Test(expected = MalformedJSONException.class)
+	public void leadingMemberSeparator() throws MalformedJSONException {
+		new JSONParser(new NullSink()).pushSerial("{,\"a\":\"b\"}");
+	}
+
+	@Test(expected = MalformedJSONException.class)
+	public void trailingMemberSeparator() throws MalformedJSONException {
+		new JSONParser(new NullSink()).pushSerial("{\"a\":\"b\",}");
+	}
+
+	@Test(expected = MalformedJSONException.class)
+	public void objectNoValue() throws MalformedJSONException {
+		new JSONParser(new NullSink()).pushSerial("{\"a\"}");
+	}
+
+	@Test(expected = MalformedJSONException.class)
+	public void objectNoNameSeparator() throws MalformedJSONException {
+		new JSONParser(new NullSink()).pushSerial("{\"a\" \"b\"}");
+	}
+
+	@Test(expected = MalformedJSONException.class)
+	public void objectNoMemberSeparator() throws MalformedJSONException {
+		new JSONParser(new NullSink()).pushSerial("{\"a\":\"b\" \"c\":\"d\"}");
+	}
+
+	@Test(expected = MalformedJSONException.class)
+	public void leadingNameSeparator() throws MalformedJSONException {
+		new JSONParser(new NullSink()).pushSerial("{:\"b\"}");
+	}
+
+	@Test(expected = MalformedJSONException.class)
+	public void trailingNameSeparator() throws MalformedJSONException {
+		new JSONParser(new NullSink()).pushSerial("{\"b\":}");
+	}
+
+	@Test(expected = MalformedJSONException.class)
+	public void numberKey() throws MalformedJSONException {
+		new JSONParser(new NullSink()).pushSerial("{42:\"b\"}");
+	}
+
+	@Test(expected = MalformedJSONException.class)
+	public void signKey() throws MalformedJSONException {
+		new JSONParser(new NullSink()).pushSerial("{-42:\"b\"}");
+	}
+
+	@Test(expected = MalformedJSONException.class)
+	public void arrayKey() throws MalformedJSONException {
+		new JSONParser(new NullSink()).pushSerial("{[]:\"b\"}");
+	}
+
+	@Test(expected = MalformedJSONException.class)
+	public void objectKey() throws MalformedJSONException {
+		new JSONParser(new NullSink()).pushSerial("{{}:\"b\"}");
+	}
+
+	@Test(expected = MalformedJSONException.class)
+	public void trueKey() throws MalformedJSONException {
+		new JSONParser(new NullSink()).pushSerial("{true:\"b\"}");
+	}
+
+	@Test(expected = MalformedJSONException.class)
+	public void falseKey() throws MalformedJSONException {
+		new JSONParser(new NullSink()).pushSerial("{false:\"b\"}");
+	}
+
+	@Test(expected = MalformedJSONException.class)
+	public void nullKey() throws MalformedJSONException {
+		new JSONParser(new NullSink()).pushSerial("{null:\"b\"}");
+	}
+
+	@Test
+	public void emptyArray() throws MalformedJSONException {
+		StoringSink store = new StoringSink();
+		JSONParser parser = new JSONParser(store);
+		parser.pushSerial("[\t]");
+		parser.endDocument();
+		StoringSink.Call[] calls = store.getCalls();
+		assertEquals(2, calls.length);
+		assertSame(StoringSink.CallKind.BEGIN_ARRAY, calls[0].getKind());
+		assertSame(StoringSink.CallKind.END_ARRAY, calls[1].getKind());
+		store = new StoringSink();
+		parser = new JSONParser(store);
+		parser.pushSerial("[");
+		parser.pushSerial("]");
+		parser.endDocument();
+		calls = store.getCalls();
+		assertEquals(2, calls.length);
+		assertSame(StoringSink.CallKind.BEGIN_ARRAY, calls[0].getKind());
+		assertSame(StoringSink.CallKind.END_ARRAY, calls[1].getKind());
+	}
+
+	@Test
+	public void arrayElements() throws MalformedJSONException {
+		StoringSink store = new StoringSink();
+		JSONParser parser = new JSONParser(store);
+		parser.pushSerial("[ 42 , \"foo\",12.5 ]");
+		parser.endDocument();
+		StoringSink.Call[] calls = store.getCalls();
+		assertEquals(5, calls.length);
+		assertSame(StoringSink.CallKind.BEGIN_ARRAY, calls[0].getKind());
+		assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[1].getKind());
+		assertEquals(42, ((StoringSink.FoundIntegerCall)calls[1]).value);
+		assertSame(StoringSink.CallKind.FOUND_STRING, calls[2].getKind());
+		assertNotNull(((StoringSink.FoundStringCall)calls[2]).value);
+		assertEquals("foo", ((StoringSink.FoundStringCall)calls[2]).value);
+		assertSame(StoringSink.CallKind.FOUND_FRACTION, calls[3].getKind());
+		assertEquals(12.5, ((StoringSink.FoundFractionCall)calls[3]).value, 0.01);
+		assertSame(StoringSink.CallKind.END_ARRAY, calls[4].getKind());
+		store = new StoringSink();
+		parser = new JSONParser(store);
+		parser.pushSerial("[");
+		parser.pushSerial("42");
+		parser.pushSerial(",");
+		parser.pushSerial("\"foo\"");
+		parser.pushSerial(",");
+		parser.pushSerial("12.5");
+		parser.pushSerial("]");
+		parser.endDocument();
+		calls = store.getCalls();
+		assertEquals(5, calls.length);
+		assertSame(StoringSink.CallKind.BEGIN_ARRAY, calls[0].getKind());
+		assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[1].getKind());
+		assertEquals(42, ((StoringSink.FoundIntegerCall)calls[1]).value);
+		assertSame(StoringSink.CallKind.FOUND_STRING, calls[2].getKind());
+		assertNotNull(((StoringSink.FoundStringCall)calls[2]).value);
+		assertEquals("foo", ((StoringSink.FoundStringCall)calls[2]).value);
+		assertSame(StoringSink.CallKind.FOUND_FRACTION, calls[3].getKind());
+		assertEquals(12.5, ((StoringSink.FoundFractionCall)calls[3]).value, 0.01);
+		assertSame(StoringSink.CallKind.END_ARRAY, calls[4].getKind());
+	}
+
+	@Test(expected = MalformedJSONException.class)
+	public void leadingElementSeparator() throws MalformedJSONException {
+		new JSONParser(new NullSink()).pushSerial("[,5]");
+	}
+
+	@Test(expected = MalformedJSONException.class)
+	public void trailingElementSeparator() throws MalformedJSONException {
+		new JSONParser(new NullSink()).pushSerial("[5,]");
+	}
+
+	@Test(expected = MalformedJSONException.class)
+	public void arrayNoElementSeparator() throws MalformedJSONException {
+		new JSONParser(new NullSink()).pushSerial("[5 6]");
+	}
+
+	@Test
+	public void constantsInArray() throws MalformedJSONException {
+		StoringSink store = new StoringSink();
+		JSONParser parser = new JSONParser(store);
+		parser.pushSerial("[true,false,null, true , false , null ]");
+		parser.endDocument();
+		StoringSink.Call[] calls = store.getCalls();
+		assertEquals(8, calls.length);
+		assertSame(StoringSink.CallKind.BEGIN_ARRAY, calls[0].getKind());
+		assertSame(StoringSink.CallKind.FOUND_BOOLEAN, calls[1].getKind());
+		assertTrue(((StoringSink.FoundBooleanCall)calls[1]).value);
+		assertSame(StoringSink.CallKind.FOUND_BOOLEAN, calls[2].getKind());
+		assertFalse(((StoringSink.FoundBooleanCall)calls[2]).value);
+		assertSame(StoringSink.CallKind.FOUND_NULL, calls[3].getKind());
+		assertSame(StoringSink.CallKind.FOUND_BOOLEAN, calls[4].getKind());
+		assertTrue(((StoringSink.FoundBooleanCall)calls[4]).value);
+		assertSame(StoringSink.CallKind.FOUND_BOOLEAN, calls[5].getKind());
+		assertFalse(((StoringSink.FoundBooleanCall)calls[5]).value);
+		assertSame(StoringSink.CallKind.FOUND_NULL, calls[6].getKind());
+		assertSame(StoringSink.CallKind.END_ARRAY, calls[7].getKind());
+		store = new StoringSink();
+		parser = new JSONParser(store);
+		parser.pushSerial("[t");
+		parser.pushSerial("ru");
+		parser.pushSerial("e");
+		parser.pushSerial(",f");
+		parser.pushSerial("als");
+		parser.pushSerial("e");
+		parser.pushSerial(",n");
+		parser.pushSerial("ul");
+		parser.pushSerial("l");
+		parser.pushSerial(",");
+		parser.pushSerial("true");
+		parser.pushSerial(",");
+		parser.pushSerial("false");
+		parser.pushSerial(",");
+		parser.pushSerial("null");
+		parser.pushSerial("]");
+		parser.endDocument();
+		calls = store.getCalls();
+		assertEquals(8, calls.length);
+		assertSame(StoringSink.CallKind.BEGIN_ARRAY, calls[0].getKind());
+		assertSame(StoringSink.CallKind.FOUND_BOOLEAN, calls[1].getKind());
+		assertTrue(((StoringSink.FoundBooleanCall)calls[1]).value);
+		assertSame(StoringSink.CallKind.FOUND_BOOLEAN, calls[2].getKind());
+		assertFalse(((StoringSink.FoundBooleanCall)calls[2]).value);
+		assertSame(StoringSink.CallKind.FOUND_NULL, calls[3].getKind());
+		assertSame(StoringSink.CallKind.FOUND_BOOLEAN, calls[4].getKind());
+		assertTrue(((StoringSink.FoundBooleanCall)calls[4]).value);
+		assertSame(StoringSink.CallKind.FOUND_BOOLEAN, calls[5].getKind());
+		assertFalse(((StoringSink.FoundBooleanCall)calls[5]).value);
+		assertSame(StoringSink.CallKind.FOUND_NULL, calls[6].getKind());
+		assertSame(StoringSink.CallKind.END_ARRAY, calls[7].getKind());
 	}
 
 }
