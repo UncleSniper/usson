@@ -179,7 +179,7 @@ public class JSONParser {
 						case '\\':
 							if(string == null)
 								string = new StringBuilder();
-							string.append(data, start, offset);
+							string.append(data, start, offset - start);
 							state = State.STRING_ESCAPE;
 							break;
 						default:
@@ -736,8 +736,6 @@ public class JSONParser {
 		}
 		switch(state) {
 			case STRING:
-			case STRING_ESCAPE:
-			case STRING_UNICODE:
 			case BEFORE_INT:
 			case WITHIN_INT:
 			case AFTER_INT:
@@ -754,6 +752,8 @@ public class JSONParser {
 				break;
 			case BEFORE_DOCUMENT:
 			case NONE:
+			case STRING_ESCAPE:
+			case STRING_UNICODE:
 			case NAME_F:
 			case NAME_FA:
 			case NAME_FAL:
