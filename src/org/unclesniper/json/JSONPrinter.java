@@ -11,11 +11,17 @@ public class JSONPrinter implements JSONSink {
 
 	private enum Enclosing {
 
-		EMPTY_OBJECT,
-		NONEMPTY_OBJECT,
-		EMPTY_ARRAY,
-		SIMPLE_ARRAY,
-		COMPLEX_ARRAY;
+		EMPTY_OBJECT(JSON.TYPE_OBJECT),
+		NONEMPTY_OBJECT(JSON.TYPE_OBJECT),
+		EMPTY_ARRAY(JSON.TYPE_ARRAY),
+		SIMPLE_ARRAY(JSON.TYPE_ARRAY),
+		COMPLEX_ARRAY(JSON.TYPE_ARRAY);
+
+		final int type;
+
+		private Enclosing(int type) {
+			this.type = type;
+		}
 
 	}
 
@@ -28,6 +34,20 @@ public class JSONPrinter implements JSONSink {
 	private static final char[] falseChars = "false".toCharArray();
 
 	private static final char[] nullChars = "null".toCharArray();
+
+	private static final char[] backspaceChars = "\\b".toCharArray();
+
+	private static final char[] formfeedChars = "\\f".toCharArray();
+
+	private static final char[] newlineChars = "\\n".toCharArray();
+
+	private static final char[] carriageReturnChars = "\\r".toCharArray();
+
+	private static final char[] tabChars = "\\t".toCharArray();
+
+	private static final char[] unicodeChars = "\\t".toCharArray();
+
+	private static final char[] hexChars = "0123456789ABCDEF".toCharArray();
 
 	private Writer out;
 
@@ -145,7 +165,49 @@ public class JSONPrinter implements JSONSink {
 	}
 
 	public void foundString(String value) {
-		//TODO
+		try {
+			formatEnclosing(false);
+			out.write('"');
+			int i, length = value.length();
+			char c;
+			for(i = 0; i < length; ++i)
+				switch(c = value.charAt(i)) {
+					case '"':
+					case '\\':
+						out.write('\\');
+						out.write(c);
+						break;
+					case '\b':
+						out.write(JSONPrinter.backspaceChars);
+						break;
+					case '\f':
+						out.write(JSONPrinter.formfeedChars);
+						break;
+					case '\n':
+						out.write(JSONPrinter.newlineChars);
+						break;
+					case '\r':
+						out.write(JSONPrinter.carriageReturnChars);
+						break;
+					case '\t':
+						out.write(JSONPrinter.tabChars);
+						break;
+					default:
+						if(c < ' ') {
+							out.write(unicodeChars);
+							int code = (int)c;
+							for(i = 12; i >= 0; i -= 4)
+								out.write(JSONPrinter.hexChars[(code >> i) & 0xF]);
+						}
+						else
+							out.write(c);
+						break;
+				}
+			out.write('"');
+		}
+		catch(IOException ioe) {
+			throw new SerializationException(ioe.getMessage(), ioe);
+		}
 	}
 
 	public void foundInteger(int value) {
@@ -170,6 +232,7 @@ public class JSONPrinter implements JSONSink {
 
 	public void beginObject() {
 		try {
+			formatEnclosing(true);
 			out.write('{');
 		}
 		catch(IOException ioe) {
@@ -179,11 +242,24 @@ public class JSONPrinter implements JSONSink {
 	}
 
 	public void endObject() {
-		//TODO
+		if(stack.removeLast().type != JSON.TYPE_OBJECT)
+			throw new IllegalStateException("Cannot end JSON object, top of stack is an array");
+		try {
+			if(pretty) {
+				out.write(lineBreakString);
+				for(int count = stack.size(); count > 0; --count)
+					out.write(indentString);
+			}
+			out.write('}');
+		}
+		catch(IOException ioe) {
+			throw new SerializationException(ioe.getMessage(), ioe);
+		}
 	}
 
 	public void beginArray() {
 		try {
+			formatEnclosing(true);
 			out.write('[');
 		}
 		catch(IOException ioe) {
@@ -193,7 +269,25 @@ public class JSONPrinter implements JSONSink {
 	}
 
 	public void endArray() {
-		//TODO
+		try {
+			switch(stack.removeLast()) {
+				case COMPLEX_ARRAY:
+					if(pretty) {
+						out.write(lineBreakString);
+						for(int count = stack.size(); count > 0; --count)
+							out.write(indentString);
+					}
+				case EMPTY_ARRAY:
+				case SIMPLE_ARRAY:
+					out.write(']');
+					break;
+				default:
+					throw new IllegalStateException("Cannot end JSON array, top of stack is an object");
+			}
+		}
+		catch(IOException ioe) {
+			throw new SerializationException(ioe.getMessage(), ioe);
+		}
 	}
 
 }
