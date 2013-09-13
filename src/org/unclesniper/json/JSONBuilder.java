@@ -101,6 +101,7 @@ public class JSONBuilder implements JSONSink {
 			stack.getLast().takePair(key, array);
 			key = null;
 		}
+		stack.addLast(array);
 	}
 
 	public void endArray() {
