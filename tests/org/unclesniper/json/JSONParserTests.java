@@ -872,4 +872,224 @@ public class JSONParserTests {
 		assertSame(StoringSink.CallKind.END_ARRAY, calls[39].getKind());
 	}
 
+	@Test
+	public void nestingObject() throws MalformedJSONException {
+		StoringSink store = new StoringSink();
+		JSONParser parser = new JSONParser(store);
+		parser.pushSerial(
+			"{\n" +
+				"\"shallowArray\":[1,2,3],\n" +
+				"\"deepArray\":[[5],[6],[7]],\n" +
+				"\"shallowObject\":{\"a\":1,\"b\":2,\"c\":3},\n" +
+				"\"deepObject\":{\"a\":[1],\"b\":[2],\"c\":[3]}\n" +
+			"}"
+		);
+		parser.endDocument();
+		StoringSink.Call[] calls = store.getCalls();
+		assertEquals(44, calls.length);
+		assertSame(StoringSink.CallKind.BEGIN_OBJECT, calls[0].getKind());
+			assertSame(StoringSink.CallKind.FOUND_STRING, calls[1].getKind());
+			assertNotNull(((StoringSink.FoundStringCall)calls[1]).value);
+			assertEquals("shallowArray", ((StoringSink.FoundStringCall)calls[1]).value);
+			assertSame(StoringSink.CallKind.BEGIN_ARRAY, calls[2].getKind());
+				assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[3].getKind());
+				assertEquals(1, ((StoringSink.FoundIntegerCall)calls[3]).value);
+				assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[4].getKind());
+				assertEquals(2, ((StoringSink.FoundIntegerCall)calls[4]).value);
+				assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[5].getKind());
+				assertEquals(3, ((StoringSink.FoundIntegerCall)calls[5]).value);
+			assertSame(StoringSink.CallKind.END_ARRAY, calls[6].getKind());
+			assertSame(StoringSink.CallKind.FOUND_STRING, calls[7].getKind());
+			assertNotNull(((StoringSink.FoundStringCall)calls[7]).value);
+			assertEquals("deepArray", ((StoringSink.FoundStringCall)calls[7]).value);
+			assertSame(StoringSink.CallKind.BEGIN_ARRAY, calls[8].getKind());
+				assertSame(StoringSink.CallKind.BEGIN_ARRAY, calls[9].getKind());
+					assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[10].getKind());
+					assertEquals(5, ((StoringSink.FoundIntegerCall)calls[10]).value);
+				assertSame(StoringSink.CallKind.END_ARRAY, calls[11].getKind());
+				assertSame(StoringSink.CallKind.BEGIN_ARRAY, calls[12].getKind());
+					assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[13].getKind());
+					assertEquals(6, ((StoringSink.FoundIntegerCall)calls[13]).value);
+				assertSame(StoringSink.CallKind.END_ARRAY, calls[14].getKind());
+				assertSame(StoringSink.CallKind.BEGIN_ARRAY, calls[15].getKind());
+					assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[16].getKind());
+					assertEquals(7, ((StoringSink.FoundIntegerCall)calls[16]).value);
+				assertSame(StoringSink.CallKind.END_ARRAY, calls[17].getKind());
+			assertSame(StoringSink.CallKind.END_ARRAY, calls[18].getKind());
+			assertSame(StoringSink.CallKind.FOUND_STRING, calls[19].getKind());
+			assertNotNull(((StoringSink.FoundStringCall)calls[19]).value);
+			assertEquals("shallowObject", ((StoringSink.FoundStringCall)calls[19]).value);
+			assertSame(StoringSink.CallKind.BEGIN_OBJECT, calls[20].getKind());
+				assertSame(StoringSink.CallKind.FOUND_STRING, calls[21].getKind());
+				assertNotNull(((StoringSink.FoundStringCall)calls[21]).value);
+				assertEquals("a", ((StoringSink.FoundStringCall)calls[21]).value);
+				assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[22].getKind());
+				assertEquals(1, ((StoringSink.FoundIntegerCall)calls[22]).value);
+				assertSame(StoringSink.CallKind.FOUND_STRING, calls[23].getKind());
+				assertNotNull(((StoringSink.FoundStringCall)calls[23]).value);
+				assertEquals("b", ((StoringSink.FoundStringCall)calls[23]).value);
+				assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[24].getKind());
+				assertEquals(2, ((StoringSink.FoundIntegerCall)calls[24]).value);
+				assertSame(StoringSink.CallKind.FOUND_STRING, calls[25].getKind());
+				assertNotNull(((StoringSink.FoundStringCall)calls[25]).value);
+				assertEquals("c", ((StoringSink.FoundStringCall)calls[25]).value);
+				assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[26].getKind());
+				assertEquals(3, ((StoringSink.FoundIntegerCall)calls[26]).value);
+			assertSame(StoringSink.CallKind.END_OBJECT, calls[27].getKind());
+			assertSame(StoringSink.CallKind.FOUND_STRING, calls[28].getKind());
+			assertNotNull(((StoringSink.FoundStringCall)calls[28]).value);
+			assertEquals("deepObject", ((StoringSink.FoundStringCall)calls[28]).value);
+			assertSame(StoringSink.CallKind.BEGIN_OBJECT, calls[29].getKind());
+				assertSame(StoringSink.CallKind.FOUND_STRING, calls[30].getKind());
+				assertNotNull(((StoringSink.FoundStringCall)calls[30]).value);
+				assertEquals("a", ((StoringSink.FoundStringCall)calls[30]).value);
+				assertSame(StoringSink.CallKind.BEGIN_ARRAY, calls[31].getKind());
+					assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[32].getKind());
+					assertEquals(1, ((StoringSink.FoundIntegerCall)calls[32]).value);
+				assertSame(StoringSink.CallKind.END_ARRAY, calls[33].getKind());
+				assertSame(StoringSink.CallKind.FOUND_STRING, calls[34].getKind());
+				assertNotNull(((StoringSink.FoundStringCall)calls[34]).value);
+				assertEquals("b", ((StoringSink.FoundStringCall)calls[34]).value);
+				assertSame(StoringSink.CallKind.BEGIN_ARRAY, calls[35].getKind());
+					assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[36].getKind());
+					assertEquals(2, ((StoringSink.FoundIntegerCall)calls[36]).value);
+				assertSame(StoringSink.CallKind.END_ARRAY, calls[37].getKind());
+				assertSame(StoringSink.CallKind.FOUND_STRING, calls[38].getKind());
+				assertNotNull(((StoringSink.FoundStringCall)calls[38]).value);
+				assertEquals("c", ((StoringSink.FoundStringCall)calls[38]).value);
+				assertSame(StoringSink.CallKind.BEGIN_ARRAY, calls[39].getKind());
+					assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[40].getKind());
+					assertEquals(3, ((StoringSink.FoundIntegerCall)calls[40]).value);
+				assertSame(StoringSink.CallKind.END_ARRAY, calls[41].getKind());
+			assertSame(StoringSink.CallKind.END_OBJECT, calls[42].getKind());
+		assertSame(StoringSink.CallKind.END_OBJECT, calls[43].getKind());
+	}
+
+	@Test
+	public void nestingObjectChars() throws MalformedJSONException {
+		StoringSink store = new StoringSink();
+		JSONParser parser = new JSONParser(store);
+		String data =
+			"{\n" +
+				"\"shallowArray\":[1,2,3],\n" +
+				"\"deepArray\":[[5],[6],[7]],\n" +
+				"\"shallowObject\":{\"a\":1,\"b\":2,\"c\":3},\n" +
+				"\"deepObject\":{\"a\":[1],\"b\":[2],\"c\":[3]}\n" +
+			"}";
+		for(int i = 0; i < data.length(); ++i)
+			parser.pushSerial(data.substring(i, i + 1));
+		parser.endDocument();
+		StoringSink.Call[] calls = store.getCalls();
+		assertEquals(44, calls.length);
+		assertSame(StoringSink.CallKind.BEGIN_OBJECT, calls[0].getKind());
+			assertSame(StoringSink.CallKind.FOUND_STRING, calls[1].getKind());
+			assertNotNull(((StoringSink.FoundStringCall)calls[1]).value);
+			assertEquals("shallowArray", ((StoringSink.FoundStringCall)calls[1]).value);
+			assertSame(StoringSink.CallKind.BEGIN_ARRAY, calls[2].getKind());
+				assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[3].getKind());
+				assertEquals(1, ((StoringSink.FoundIntegerCall)calls[3]).value);
+				assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[4].getKind());
+				assertEquals(2, ((StoringSink.FoundIntegerCall)calls[4]).value);
+				assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[5].getKind());
+				assertEquals(3, ((StoringSink.FoundIntegerCall)calls[5]).value);
+			assertSame(StoringSink.CallKind.END_ARRAY, calls[6].getKind());
+			assertSame(StoringSink.CallKind.FOUND_STRING, calls[7].getKind());
+			assertNotNull(((StoringSink.FoundStringCall)calls[7]).value);
+			assertEquals("deepArray", ((StoringSink.FoundStringCall)calls[7]).value);
+			assertSame(StoringSink.CallKind.BEGIN_ARRAY, calls[8].getKind());
+				assertSame(StoringSink.CallKind.BEGIN_ARRAY, calls[9].getKind());
+					assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[10].getKind());
+					assertEquals(5, ((StoringSink.FoundIntegerCall)calls[10]).value);
+				assertSame(StoringSink.CallKind.END_ARRAY, calls[11].getKind());
+				assertSame(StoringSink.CallKind.BEGIN_ARRAY, calls[12].getKind());
+					assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[13].getKind());
+					assertEquals(6, ((StoringSink.FoundIntegerCall)calls[13]).value);
+				assertSame(StoringSink.CallKind.END_ARRAY, calls[14].getKind());
+				assertSame(StoringSink.CallKind.BEGIN_ARRAY, calls[15].getKind());
+					assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[16].getKind());
+					assertEquals(7, ((StoringSink.FoundIntegerCall)calls[16]).value);
+				assertSame(StoringSink.CallKind.END_ARRAY, calls[17].getKind());
+			assertSame(StoringSink.CallKind.END_ARRAY, calls[18].getKind());
+			assertSame(StoringSink.CallKind.FOUND_STRING, calls[19].getKind());
+			assertNotNull(((StoringSink.FoundStringCall)calls[19]).value);
+			assertEquals("shallowObject", ((StoringSink.FoundStringCall)calls[19]).value);
+			assertSame(StoringSink.CallKind.BEGIN_OBJECT, calls[20].getKind());
+				assertSame(StoringSink.CallKind.FOUND_STRING, calls[21].getKind());
+				assertNotNull(((StoringSink.FoundStringCall)calls[21]).value);
+				assertEquals("a", ((StoringSink.FoundStringCall)calls[21]).value);
+				assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[22].getKind());
+				assertEquals(1, ((StoringSink.FoundIntegerCall)calls[22]).value);
+				assertSame(StoringSink.CallKind.FOUND_STRING, calls[23].getKind());
+				assertNotNull(((StoringSink.FoundStringCall)calls[23]).value);
+				assertEquals("b", ((StoringSink.FoundStringCall)calls[23]).value);
+				assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[24].getKind());
+				assertEquals(2, ((StoringSink.FoundIntegerCall)calls[24]).value);
+				assertSame(StoringSink.CallKind.FOUND_STRING, calls[25].getKind());
+				assertNotNull(((StoringSink.FoundStringCall)calls[25]).value);
+				assertEquals("c", ((StoringSink.FoundStringCall)calls[25]).value);
+				assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[26].getKind());
+				assertEquals(3, ((StoringSink.FoundIntegerCall)calls[26]).value);
+			assertSame(StoringSink.CallKind.END_OBJECT, calls[27].getKind());
+			assertSame(StoringSink.CallKind.FOUND_STRING, calls[28].getKind());
+			assertNotNull(((StoringSink.FoundStringCall)calls[28]).value);
+			assertEquals("deepObject", ((StoringSink.FoundStringCall)calls[28]).value);
+			assertSame(StoringSink.CallKind.BEGIN_OBJECT, calls[29].getKind());
+				assertSame(StoringSink.CallKind.FOUND_STRING, calls[30].getKind());
+				assertNotNull(((StoringSink.FoundStringCall)calls[30]).value);
+				assertEquals("a", ((StoringSink.FoundStringCall)calls[30]).value);
+				assertSame(StoringSink.CallKind.BEGIN_ARRAY, calls[31].getKind());
+					assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[32].getKind());
+					assertEquals(1, ((StoringSink.FoundIntegerCall)calls[32]).value);
+				assertSame(StoringSink.CallKind.END_ARRAY, calls[33].getKind());
+				assertSame(StoringSink.CallKind.FOUND_STRING, calls[34].getKind());
+				assertNotNull(((StoringSink.FoundStringCall)calls[34]).value);
+				assertEquals("b", ((StoringSink.FoundStringCall)calls[34]).value);
+				assertSame(StoringSink.CallKind.BEGIN_ARRAY, calls[35].getKind());
+					assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[36].getKind());
+					assertEquals(2, ((StoringSink.FoundIntegerCall)calls[36]).value);
+				assertSame(StoringSink.CallKind.END_ARRAY, calls[37].getKind());
+				assertSame(StoringSink.CallKind.FOUND_STRING, calls[38].getKind());
+				assertNotNull(((StoringSink.FoundStringCall)calls[38]).value);
+				assertEquals("c", ((StoringSink.FoundStringCall)calls[38]).value);
+				assertSame(StoringSink.CallKind.BEGIN_ARRAY, calls[39].getKind());
+					assertSame(StoringSink.CallKind.FOUND_INTEGER, calls[40].getKind());
+					assertEquals(3, ((StoringSink.FoundIntegerCall)calls[40]).value);
+				assertSame(StoringSink.CallKind.END_ARRAY, calls[41].getKind());
+			assertSame(StoringSink.CallKind.END_OBJECT, calls[42].getKind());
+		assertSame(StoringSink.CallKind.END_OBJECT, calls[43].getKind());
+	}
+
+	@Test(expected = MalformedJSONException.class)
+	public void badNesting() throws MalformedJSONException {
+		new JSONParser(new NullSink()).pushSerial("[}");
+	}
+
+	@Test(expected = MalformedJSONException.class)
+	public void unclosedString() throws MalformedJSONException {
+		JSONParser parser = new JSONParser(new NullSink());
+		parser.pushSerial("[\"foo]");
+		parser.endDocument();
+	}
+
+	@Test(expected = MalformedJSONException.class)
+	public void unclosedEscape() throws MalformedJSONException {
+		JSONParser parser = new JSONParser(new NullSink());
+		parser.pushSerial("[\"foo\\");
+		parser.endDocument();
+	}
+
+	@Test(expected = MalformedJSONException.class)
+	public void unclosedArray() throws MalformedJSONException {
+		JSONParser parser = new JSONParser(new NullSink());
+		parser.pushSerial("[");
+		parser.endDocument();
+	}
+
+	@Test(expected = MalformedJSONException.class)
+	public void unclosedObject() throws MalformedJSONException {
+		JSONParser parser = new JSONParser(new NullSink());
+		parser.pushSerial("{");
+		parser.endDocument();
+	}
+
 }
