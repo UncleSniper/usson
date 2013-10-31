@@ -59,6 +59,8 @@ public class JSONPrinter implements JSONSink {
 
 	private Deque<Enclosing> stack = new ArrayDeque<Enclosing>();
 
+	private boolean haveKey;
+
 	public JSONPrinter(Writer out) {
 		this.out = out;
 	}
@@ -107,9 +109,17 @@ public class JSONPrinter implements JSONSink {
 					for(int count = stack.size(); count > 0; --count)
 						out.write(indentString);
 				}
+				haveKey = !haveKey;
 				break;
 			case NONEMPTY_OBJECT:
-				out.write(',');
+				if(haveKey) {
+					out.write(':');
+					haveKey = false;
+				}
+				else {
+					out.write(',');
+					haveKey = true;
+				}
 				if(pretty) {
 					out.write(lineBreakString);
 					for(int count = stack.size(); count > 0; --count)
@@ -239,6 +249,7 @@ public class JSONPrinter implements JSONSink {
 			throw new SerializationException(ioe.getMessage(), ioe);
 		}
 		stack.addLast(Enclosing.EMPTY_OBJECT);
+		haveKey = false;
 	}
 
 	public void endObject() {
@@ -255,6 +266,7 @@ public class JSONPrinter implements JSONSink {
 		catch(IOException ioe) {
 			throw new SerializationException(ioe.getMessage(), ioe);
 		}
+		haveKey = false;
 	}
 
 	public void beginArray() {
@@ -288,6 +300,7 @@ public class JSONPrinter implements JSONSink {
 		catch(IOException ioe) {
 			throw new SerializationException(ioe.getMessage(), ioe);
 		}
+		haveKey = false;
 	}
 
 }
