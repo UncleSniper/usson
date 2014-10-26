@@ -2,6 +2,7 @@ package org.unclesniper.json;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.io.IOException;
 
 public class JSONObject extends HashMap<String, JSON> implements JSONCompound {
 
@@ -19,7 +20,7 @@ public class JSONObject extends HashMap<String, JSON> implements JSONCompound {
 		put(key, value == null ? JSONNull.instance : value);
 	}
 
-	public void sinkJSON(JSONSink sink) {
+	public void sinkJSON(JSONSink sink) throws IOException {
 		sink.beginObject();
 		for(Map.Entry<String, JSON> entry : entrySet()) {
 			sink.foundString(entry.getKey());

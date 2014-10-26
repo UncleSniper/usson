@@ -78,19 +78,19 @@ public class JSONParser {
 		line = 1;
 	}
 
-	public void pushSerial(char[] data) throws MalformedJSONException {
+	public void pushSerial(char[] data) throws IOException, MalformedJSONException {
 		pushSerial(data, 0, data.length);
 	}
 
-	public void pushSerial(String data) throws MalformedJSONException {
+	public void pushSerial(String data) throws IOException, MalformedJSONException {
 		pushSerial(data.toCharArray(), 0, data.length());
 	}
 
-	public void pushSerial(String data, int offset, int count) throws MalformedJSONException {
+	public void pushSerial(String data, int offset, int count) throws IOException, MalformedJSONException {
 		pushSerial(data.toCharArray(), offset, count);
 	}
 
-	public void pushSerial(char[] data, int offset, int count) throws MalformedJSONException {
+	public void pushSerial(char[] data, int offset, int count) throws IOException, MalformedJSONException {
 		int start = offset;
 		for(; offset < count; ++offset) {
 			char c = data[offset];

@@ -1,23 +1,25 @@
 package org.unclesniper.json;
 
+import java.io.IOException;
+
 public interface JSONSink {
 
-	void foundBoolean(boolean value);
+	void foundBoolean(boolean value) throws IOException;
 
-	void foundNull();
+	void foundNull() throws IOException;
 
-	void foundString(String value);
+	void foundString(String value) throws IOException;
 
-	void foundInteger(int value);
+	void foundInteger(int value) throws IOException;
 
-	void foundFraction(double value);
+	void foundFraction(double value) throws IOException;
 
-	void beginObject();
+	void beginObject() throws IOException;
 
-	void endObject();
+	void endObject() throws IOException;
 
-	void beginArray();
+	void beginArray() throws IOException;
 
-	void endArray();
+	void endArray() throws IOException;
 
 }

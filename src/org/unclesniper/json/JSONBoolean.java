@@ -1,5 +1,7 @@
 package org.unclesniper.json;
 
+import java.io.IOException;
+
 public class JSONBoolean extends JSONPrimitive {
 
 	private boolean value;
@@ -12,7 +14,7 @@ public class JSONBoolean extends JSONPrimitive {
 		return value;
 	}
 
-	public void sinkJSON(JSONSink sink) {
+	public void sinkJSON(JSONSink sink) throws IOException {
 		sink.foundBoolean(value);
 	}
 

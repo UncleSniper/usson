@@ -112,7 +112,12 @@ public class JSONBuilder implements JSONSink {
 	public static JSON readFrom(String data) throws MalformedJSONException {
 		JSONBuilder builder = new JSONBuilder();
 		JSONParser parser = new JSONParser(builder);
-		parser.pushSerial(data.toCharArray(), 0, data.length());
+		try {
+			parser.pushSerial(data.toCharArray(), 0, data.length());
+		}
+		catch(IOException ioe) {
+			throw new AssertionError(ioe.getMessage(), ioe);
+		}
 		parser.endDocument();
 		return builder.getRoot();
 	}
@@ -120,7 +125,12 @@ public class JSONBuilder implements JSONSink {
 	public static JSON readFrom(String data, int offset, int count) throws MalformedJSONException {
 		JSONBuilder builder = new JSONBuilder();
 		JSONParser parser = new JSONParser(builder);
-		parser.pushSerial(data.toCharArray(), offset, count);
+		try {
+			parser.pushSerial(data.toCharArray(), offset, count);
+		}
+		catch(IOException ioe) {
+			throw new AssertionError(ioe.getMessage(), ioe);
+		}
 		parser.endDocument();
 		return builder.getRoot();
 	}
@@ -128,7 +138,12 @@ public class JSONBuilder implements JSONSink {
 	public static JSON readFrom(char[] data) throws MalformedJSONException {
 		JSONBuilder builder = new JSONBuilder();
 		JSONParser parser = new JSONParser(builder);
-		parser.pushSerial(data, 0, data.length);
+		try {
+			parser.pushSerial(data, 0, data.length);
+		}
+		catch(IOException ioe) {
+			throw new AssertionError(ioe.getMessage(), ioe);
+		}
 		parser.endDocument();
 		return builder.getRoot();
 	}
@@ -136,7 +151,12 @@ public class JSONBuilder implements JSONSink {
 	public static JSON readFrom(char[] data, int offset, int count) throws MalformedJSONException {
 		JSONBuilder builder = new JSONBuilder();
 		JSONParser parser = new JSONParser(builder);
-		parser.pushSerial(data, offset, count);
+		try {
+			parser.pushSerial(data, offset, count);
+		}
+		catch(IOException ioe) {
+			throw new AssertionError(ioe.getMessage(), ioe);
+		}
 		parser.endDocument();
 		return builder.getRoot();
 	}

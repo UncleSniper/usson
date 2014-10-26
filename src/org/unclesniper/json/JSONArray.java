@@ -1,6 +1,7 @@
 package org.unclesniper.json;
 
 import java.util.Vector;
+import java.io.IOException;
 
 public class JSONArray extends Vector<JSON> implements JSONCompound {
 
@@ -16,7 +17,7 @@ public class JSONArray extends Vector<JSON> implements JSONCompound {
 		throw new UnsupportedOperationException("JSON array does not take key/value pairs");
 	}
 
-	public void sinkJSON(JSONSink sink) {
+	public void sinkJSON(JSONSink sink) throws IOException {
 		sink.beginArray();
 		for(JSON element : this)
 			element.sinkJSON(sink);

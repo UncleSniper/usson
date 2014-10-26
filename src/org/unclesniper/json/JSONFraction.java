@@ -1,5 +1,7 @@
 package org.unclesniper.json;
 
+import java.io.IOException;
+
 public class JSONFraction extends JSONNumber {
 
 	private double value;
@@ -16,7 +18,7 @@ public class JSONFraction extends JSONNumber {
 		return value;
 	}
 
-	public void sinkJSON(JSONSink sink) {
+	public void sinkJSON(JSONSink sink) throws IOException {
 		sink.foundFraction(value);
 	}
 

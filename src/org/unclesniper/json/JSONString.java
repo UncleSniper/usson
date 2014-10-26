@@ -1,5 +1,7 @@
 package org.unclesniper.json;
 
+import java.io.IOException;
+
 public class JSONString extends JSONPrimitive {
 
 	private static final char[] hexChars = "0123456789ABCDEF".toCharArray();
@@ -16,7 +18,7 @@ public class JSONString extends JSONPrimitive {
 		return value;
 	}
 
-	public void sinkJSON(JSONSink sink) {
+	public void sinkJSON(JSONSink sink) throws IOException {
 		sink.foundString(value);
 	}
 

@@ -1,5 +1,7 @@
 package org.unclesniper.json;
 
+import java.io.IOException;
+
 public interface JSON {
 
 	public static final int TYPE_STRING    = 0001;
@@ -19,7 +21,7 @@ public interface JSON {
 
 	void takePair(String key, JSON value);
 
-	void sinkJSON(JSONSink sink);
+	void sinkJSON(JSONSink sink) throws IOException;
 
 	int getJSONType();
 
