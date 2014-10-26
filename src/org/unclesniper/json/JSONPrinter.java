@@ -45,7 +45,7 @@ public class JSONPrinter implements JSONSink {
 
 	private static final char[] tabChars = "\\t".toCharArray();
 
-	private static final char[] unicodeChars = "\\t".toCharArray();
+	private static final char[] unicodeChars = "\\u".toCharArray();
 
 	private static final char[] hexChars = "0123456789ABCDEF".toCharArray();
 
