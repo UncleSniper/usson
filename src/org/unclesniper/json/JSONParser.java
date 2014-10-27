@@ -735,7 +735,7 @@ public class JSONParser {
 					sink.foundNull();
 					break;
 				default:
-					throw new AssertionError("Unrecognized state: " + state.name());
+					throw new OMGWereDoomedError("Unrecognized state: " + state.name());
 			}
 		}
 		switch(state) {
@@ -782,7 +782,7 @@ public class JSONParser {
 			case AFTER_DOCUMENT:
 				break;
 			default:
-				throw new AssertionError("Unrecognized state: " + state.name());
+				throw new OMGWereDoomedError("Unrecognized state: " + state.name());
 		}
 	}
 

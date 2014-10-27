@@ -150,7 +150,7 @@ public class JSONPrinter implements JSONSink {
 				}
 				break;
 			default:
-				throw new AssertionError("Unrecognized enclosing value: " + stack.getLast().name());
+				throw new OMGWereDoomedError("Unrecognized enclosing value: " + stack.getLast().name());
 		}
 	}
 
