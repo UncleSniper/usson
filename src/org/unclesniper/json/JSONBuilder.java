@@ -116,7 +116,7 @@ public class JSONBuilder implements JSONSink {
 			parser.pushSerial(data.toCharArray(), 0, data.length());
 		}
 		catch(IOException ioe) {
-			throw new AssertionError(ioe.getMessage(), ioe);
+			throw new OMGWereDoomedError(ioe.getMessage(), ioe);
 		}
 		parser.endDocument();
 		return builder.getRoot();
@@ -129,7 +129,7 @@ public class JSONBuilder implements JSONSink {
 			parser.pushSerial(data.toCharArray(), offset, count);
 		}
 		catch(IOException ioe) {
-			throw new AssertionError(ioe.getMessage(), ioe);
+			throw new OMGWereDoomedError(ioe.getMessage(), ioe);
 		}
 		parser.endDocument();
 		return builder.getRoot();
@@ -142,7 +142,7 @@ public class JSONBuilder implements JSONSink {
 			parser.pushSerial(data, 0, data.length);
 		}
 		catch(IOException ioe) {
-			throw new AssertionError(ioe.getMessage(), ioe);
+			throw new OMGWereDoomedError(ioe.getMessage(), ioe);
 		}
 		parser.endDocument();
 		return builder.getRoot();
@@ -155,7 +155,7 @@ public class JSONBuilder implements JSONSink {
 			parser.pushSerial(data, offset, count);
 		}
 		catch(IOException ioe) {
-			throw new AssertionError(ioe.getMessage(), ioe);
+			throw new OMGWereDoomedError(ioe.getMessage(), ioe);
 		}
 		parser.endDocument();
 		return builder.getRoot();
