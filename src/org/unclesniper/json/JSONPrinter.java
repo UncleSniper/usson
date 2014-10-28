@@ -154,156 +154,111 @@ public class JSONPrinter implements JSONSink {
 		}
 	}
 
-	public void foundBoolean(boolean value) {
-		try {
-			formatEnclosing(false);
-			out.write(value ? JSONPrinter.trueChars : JSONPrinter.falseChars);
-		}
-		catch(IOException ioe) {
-			throw new SerializationException(ioe.getMessage(), ioe);
-		}
+	public void foundBoolean(boolean value) throws IOException {
+		formatEnclosing(false);
+		out.write(value ? JSONPrinter.trueChars : JSONPrinter.falseChars);
 	}
 
-	public void foundNull() {
-		try {
-			formatEnclosing(false);
-			out.write(JSONPrinter.nullChars);
-		}
-		catch(IOException ioe) {
-			throw new SerializationException(ioe.getMessage(), ioe);
-		}
+	public void foundNull() throws IOException {
+		formatEnclosing(false);
+		out.write(JSONPrinter.nullChars);
 	}
 
-	public void foundString(String value) {
-		try {
-			formatEnclosing(false);
-			out.write('"');
-			int i, length = value.length();
-			char c;
-			for(i = 0; i < length; ++i)
-				switch(c = value.charAt(i)) {
-					case '"':
-					case '\\':
-						out.write('\\');
+	public void foundString(String value) throws IOException {
+		formatEnclosing(false);
+		out.write('"');
+		int i, length = value.length();
+		char c;
+		for(i = 0; i < length; ++i)
+			switch(c = value.charAt(i)) {
+				case '"':
+				case '\\':
+					out.write('\\');
+					out.write(c);
+					break;
+				case '\b':
+					out.write(JSONPrinter.backspaceChars);
+					break;
+				case '\f':
+					out.write(JSONPrinter.formfeedChars);
+					break;
+				case '\n':
+					out.write(JSONPrinter.newlineChars);
+					break;
+				case '\r':
+					out.write(JSONPrinter.carriageReturnChars);
+					break;
+				case '\t':
+					out.write(JSONPrinter.tabChars);
+					break;
+				default:
+					if(c < ' ') {
+						out.write(unicodeChars);
+						int code = (int)c;
+						for(i = 12; i >= 0; i -= 4)
+							out.write(JSONPrinter.hexChars[(code >> i) & 0xF]);
+					}
+					else
 						out.write(c);
-						break;
-					case '\b':
-						out.write(JSONPrinter.backspaceChars);
-						break;
-					case '\f':
-						out.write(JSONPrinter.formfeedChars);
-						break;
-					case '\n':
-						out.write(JSONPrinter.newlineChars);
-						break;
-					case '\r':
-						out.write(JSONPrinter.carriageReturnChars);
-						break;
-					case '\t':
-						out.write(JSONPrinter.tabChars);
-						break;
-					default:
-						if(c < ' ') {
-							out.write(unicodeChars);
-							int code = (int)c;
-							for(i = 12; i >= 0; i -= 4)
-								out.write(JSONPrinter.hexChars[(code >> i) & 0xF]);
-						}
-						else
-							out.write(c);
-						break;
-				}
-			out.write('"');
-		}
-		catch(IOException ioe) {
-			throw new SerializationException(ioe.getMessage(), ioe);
-		}
+					break;
+			}
+		out.write('"');
 	}
 
-	public void foundInteger(int value) {
-		try {
-			formatEnclosing(false);
-			out.write(String.valueOf(value));
-		}
-		catch(IOException ioe) {
-			throw new SerializationException(ioe.getMessage(), ioe);
-		}
+	public void foundInteger(int value) throws IOException {
+		formatEnclosing(false);
+		out.write(String.valueOf(value));
 	}
 
-	public void foundFraction(double value) {
-		try {
-			formatEnclosing(false);
-			out.write(String.valueOf(value));
-		}
-		catch(IOException ioe) {
-			throw new SerializationException(ioe.getMessage(), ioe);
-		}
+	public void foundFraction(double value) throws IOException {
+		formatEnclosing(false);
+		out.write(String.valueOf(value));
 	}
 
-	public void beginObject() {
-		try {
-			formatEnclosing(true);
-			out.write('{');
-		}
-		catch(IOException ioe) {
-			throw new SerializationException(ioe.getMessage(), ioe);
-		}
+	public void beginObject() throws IOException {
+		formatEnclosing(true);
+		out.write('{');
 		stack.addLast(Enclosing.EMPTY_OBJECT);
 		haveKey = false;
 	}
 
-	public void endObject() {
+	public void endObject() throws IOException {
 		if(stack.removeLast().type != JSON.TYPE_OBJECT)
 			throw new IllegalStateException("Cannot end JSON object, top of stack is an array");
-		try {
-			if(pretty) {
-				out.write(lineBreakString);
-				for(int count = stack.size(); count > 0; --count)
-					out.write(indentString);
-			}
-			out.write('}');
-			if(stack.isEmpty())
-				out.flush();
+		if(pretty) {
+			out.write(lineBreakString);
+			for(int count = stack.size(); count > 0; --count)
+				out.write(indentString);
 		}
-		catch(IOException ioe) {
-			throw new SerializationException(ioe.getMessage(), ioe);
-		}
+		out.write('}');
+		if(stack.isEmpty())
+			out.flush();
 		haveKey = false;
 	}
 
-	public void beginArray() {
-		try {
-			formatEnclosing(true);
-			out.write('[');
-		}
-		catch(IOException ioe) {
-			throw new SerializationException(ioe.getMessage(), ioe);
-		}
+	public void beginArray() throws IOException {
+		formatEnclosing(true);
+		out.write('[');
 		stack.addLast(Enclosing.EMPTY_ARRAY);
 	}
 
-	public void endArray() {
-		try {
-			switch(stack.removeLast()) {
-				case COMPLEX_ARRAY:
-					if(pretty) {
-						out.write(lineBreakString);
-						for(int count = stack.size(); count > 0; --count)
-							out.write(indentString);
-					}
-				case EMPTY_ARRAY:
-				case SIMPLE_ARRAY:
-					out.write(']');
-					break;
-				default:
-					throw new IllegalStateException("Cannot end JSON array, top of stack is an object");
-			}
-			if(stack.isEmpty())
-				out.flush();
+	public void endArray() throws IOException {
+		switch(stack.removeLast()) {
+			case COMPLEX_ARRAY:
+				if(pretty) {
+					out.write(lineBreakString);
+					for(int count = stack.size(); count > 0; --count)
+						out.write(indentString);
+				}
+			case EMPTY_ARRAY:
+			case SIMPLE_ARRAY:
+				out.write(']');
+				break;
+			default:
+				throw new IllegalStateException("Cannot end JSON array, top of stack is an object");
 		}
-		catch(IOException ioe) {
-			throw new SerializationException(ioe.getMessage(), ioe);
-		}
+		if(stack.isEmpty())
+			out.flush();
 		haveKey = false;
 	}
 

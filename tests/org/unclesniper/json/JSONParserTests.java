@@ -1,6 +1,7 @@
 package org.unclesniper.json;
 
 import org.junit.Test;
+import java.io.IOException;
 import static org.junit.Assert.fail;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
@@ -36,14 +37,14 @@ public class JSONParserTests {
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void emptyDocument() throws MalformedJSONException {
+	public void emptyDocument() throws MalformedJSONException, IOException {
 		JSONParser parser = new JSONParser(new NullSink());
 		parser.pushSerial(new char[0], 0, 0);
 		parser.endDocument();
 	}
 
 	@Test
-	public void pushCharArray() throws MalformedJSONException {
+	public void pushCharArray() throws MalformedJSONException, IOException {
 		StoringParser store = new StoringParser();
 		char[] data = new char[16];
 		store.pushSerial(data);
@@ -55,7 +56,7 @@ public class JSONParserTests {
 	}
 
 	@Test
-	public void pushString() throws MalformedJSONException {
+	public void pushString() throws MalformedJSONException, IOException {
 		StoringParser store = new StoringParser();
 		String data = "hello, world!";
 		store.pushSerial(data);
@@ -70,7 +71,7 @@ public class JSONParserTests {
 	}
 
 	@Test
-	public void pushStringSlice() throws MalformedJSONException {
+	public void pushStringSlice() throws MalformedJSONException, IOException {
 		StoringParser store = new StoringParser();
 		String data = "hello, world! how are you?";
 		int offset = data.length() / 3, count = data.length() / 2;
@@ -86,7 +87,7 @@ public class JSONParserTests {
 	}
 
 	@Test
-	public void beforeDocumentLine() throws MalformedJSONException {
+	public void beforeDocumentLine() throws MalformedJSONException, IOException {
 		try {
 			new JSONParser(new NullSink()).pushSerial(" }");
 			fail("invalid document parsed");
@@ -104,7 +105,7 @@ public class JSONParserTests {
 	}
 
 	@Test
-	public void topObjectPop() throws MalformedJSONException {
+	public void topObjectPop() throws MalformedJSONException, IOException {
 		StoringSink store = new StoringSink();
 		JSONParser parser = new JSONParser(store);
 		parser.pushSerial("{}");
@@ -116,7 +117,7 @@ public class JSONParserTests {
 	}
 
 	@Test
-	public void topArrayPop() throws MalformedJSONException {
+	public void topArrayPop() throws MalformedJSONException, IOException {
 		StoringSink store = new StoringSink();
 		JSONParser parser = new JSONParser(store);
 		parser.pushSerial("[]");
@@ -128,37 +129,37 @@ public class JSONParserTests {
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void topString() throws MalformedJSONException {
+	public void topString() throws MalformedJSONException, IOException {
 		new JSONParser(new NullSink()).pushSerial("\"foo\"");
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void topNumber() throws MalformedJSONException {
+	public void topNumber() throws MalformedJSONException, IOException {
 		new JSONParser(new NullSink()).pushSerial("42");
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void topSign() throws MalformedJSONException {
+	public void topSign() throws MalformedJSONException, IOException {
 		new JSONParser(new NullSink()).pushSerial("-42");
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void topTrue() throws MalformedJSONException {
+	public void topTrue() throws MalformedJSONException, IOException {
 		new JSONParser(new NullSink()).pushSerial("true");
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void topFalse() throws MalformedJSONException {
+	public void topFalse() throws MalformedJSONException, IOException {
 		new JSONParser(new NullSink()).pushSerial("false");
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void topNull() throws MalformedJSONException {
+	public void topNull() throws MalformedJSONException, IOException {
 		new JSONParser(new NullSink()).pushSerial("null");
 	}
 
 	@Test
-	public void plainString() throws MalformedJSONException {
+	public void plainString() throws MalformedJSONException, IOException {
 		StoringSink store = new StoringSink();
 		JSONParser parser = new JSONParser(store);
 		parser.pushSerial("[\"hello\",");
@@ -186,7 +187,7 @@ public class JSONParserTests {
 	}
 
 	@Test
-	public void stringEscapes() throws MalformedJSONException {
+	public void stringEscapes() throws MalformedJSONException, IOException {
 		StoringSink store = new StoringSink();
 		JSONParser parser = new JSONParser(store);
 		parser.pushSerial("[\"a\\\\b\\/cd\",\"\\\"\",\"\\b\\f\\n\\r\\t\",\"\\");
@@ -211,7 +212,7 @@ public class JSONParserTests {
 	}
 
 	@Test
-	public void stringUnicode() throws MalformedJSONException {
+	public void stringUnicode() throws MalformedJSONException, IOException {
 		StoringSink store = new StoringSink();
 		JSONParser parser = new JSONParser(store);
 		parser.pushSerial("[\"\\u12AB5678\",\"\\u");
@@ -232,17 +233,17 @@ public class JSONParserTests {
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void stringShortUnicode() throws MalformedJSONException {
+	public void stringShortUnicode() throws MalformedJSONException, IOException {
 		new JSONParser(new NullSink()).pushSerial("[\"\\u12x\"]");
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void stringControlChar() throws MalformedJSONException {
+	public void stringControlChar() throws MalformedJSONException, IOException {
 		new JSONParser(new NullSink()).pushSerial("[\"\n\"]");
 	}
 
 	@Test
-	public void number() throws MalformedJSONException {
+	public void number() throws MalformedJSONException, IOException {
 		StoringSink store = new StoringSink();
 		JSONParser parser = new JSONParser(store);
 		parser.pushSerial("[12,34.5,0,0.5,4,321,8.125,3e5,5E-3,6e+6,1.2e-5]");
@@ -324,32 +325,32 @@ public class JSONParserTests {
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void numberLeadingZero() throws MalformedJSONException {
+	public void numberLeadingZero() throws MalformedJSONException, IOException {
 		new JSONParser(new NullSink()).pushSerial("[01]");
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void numberPositive() throws MalformedJSONException {
+	public void numberPositive() throws MalformedJSONException, IOException {
 		new JSONParser(new NullSink()).pushSerial("[+1]");
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void numberNoIntegral() throws MalformedJSONException {
+	public void numberNoIntegral() throws MalformedJSONException, IOException {
 		new JSONParser(new NullSink()).pushSerial("[.5]");
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void numberNoFractional() throws MalformedJSONException {
+	public void numberNoFractional() throws MalformedJSONException, IOException {
 		new JSONParser(new NullSink()).pushSerial("[2.]");
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void numberNoExponent() throws MalformedJSONException {
+	public void numberNoExponent() throws MalformedJSONException, IOException {
 		new JSONParser(new NullSink()).pushSerial("[2e]");
 	}
 
 	@Test
-	public void emptyObject() throws MalformedJSONException {
+	public void emptyObject() throws MalformedJSONException, IOException {
 		StoringSink store = new StoringSink();
 		JSONParser parser = new JSONParser(store);
 		parser.pushSerial("{\t}");
@@ -370,7 +371,7 @@ public class JSONParserTests {
 	}
 
 	@Test
-	public void objectProperties() throws MalformedJSONException {
+	public void objectProperties() throws MalformedJSONException, IOException {
 		StoringSink store = new StoringSink();
 		JSONParser parser = new JSONParser(store);
 		parser.pushSerial(" { \"foo\" : 42 , \"bar\":\"baz\" } ");
@@ -420,77 +421,77 @@ public class JSONParserTests {
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void leadingMemberSeparator() throws MalformedJSONException {
+	public void leadingMemberSeparator() throws MalformedJSONException, IOException {
 		new JSONParser(new NullSink()).pushSerial("{,\"a\":\"b\"}");
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void trailingMemberSeparator() throws MalformedJSONException {
+	public void trailingMemberSeparator() throws MalformedJSONException, IOException {
 		new JSONParser(new NullSink()).pushSerial("{\"a\":\"b\",}");
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void objectNoValue() throws MalformedJSONException {
+	public void objectNoValue() throws MalformedJSONException, IOException {
 		new JSONParser(new NullSink()).pushSerial("{\"a\"}");
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void objectNoNameSeparator() throws MalformedJSONException {
+	public void objectNoNameSeparator() throws MalformedJSONException, IOException {
 		new JSONParser(new NullSink()).pushSerial("{\"a\" \"b\"}");
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void objectNoMemberSeparator() throws MalformedJSONException {
+	public void objectNoMemberSeparator() throws MalformedJSONException, IOException {
 		new JSONParser(new NullSink()).pushSerial("{\"a\":\"b\" \"c\":\"d\"}");
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void leadingNameSeparator() throws MalformedJSONException {
+	public void leadingNameSeparator() throws MalformedJSONException, IOException {
 		new JSONParser(new NullSink()).pushSerial("{:\"b\"}");
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void trailingNameSeparator() throws MalformedJSONException {
+	public void trailingNameSeparator() throws MalformedJSONException, IOException {
 		new JSONParser(new NullSink()).pushSerial("{\"b\":}");
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void numberKey() throws MalformedJSONException {
+	public void numberKey() throws MalformedJSONException, IOException {
 		new JSONParser(new NullSink()).pushSerial("{42:\"b\"}");
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void signKey() throws MalformedJSONException {
+	public void signKey() throws MalformedJSONException, IOException {
 		new JSONParser(new NullSink()).pushSerial("{-42:\"b\"}");
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void arrayKey() throws MalformedJSONException {
+	public void arrayKey() throws MalformedJSONException, IOException {
 		new JSONParser(new NullSink()).pushSerial("{[]:\"b\"}");
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void objectKey() throws MalformedJSONException {
+	public void objectKey() throws MalformedJSONException, IOException {
 		new JSONParser(new NullSink()).pushSerial("{{}:\"b\"}");
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void trueKey() throws MalformedJSONException {
+	public void trueKey() throws MalformedJSONException, IOException {
 		new JSONParser(new NullSink()).pushSerial("{true:\"b\"}");
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void falseKey() throws MalformedJSONException {
+	public void falseKey() throws MalformedJSONException, IOException {
 		new JSONParser(new NullSink()).pushSerial("{false:\"b\"}");
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void nullKey() throws MalformedJSONException {
+	public void nullKey() throws MalformedJSONException, IOException {
 		new JSONParser(new NullSink()).pushSerial("{null:\"b\"}");
 	}
 
 	@Test
-	public void emptyArray() throws MalformedJSONException {
+	public void emptyArray() throws MalformedJSONException, IOException {
 		StoringSink store = new StoringSink();
 		JSONParser parser = new JSONParser(store);
 		parser.pushSerial("[\t]");
@@ -511,7 +512,7 @@ public class JSONParserTests {
 	}
 
 	@Test
-	public void arrayElements() throws MalformedJSONException {
+	public void arrayElements() throws MalformedJSONException, IOException {
 		StoringSink store = new StoringSink();
 		JSONParser parser = new JSONParser(store);
 		parser.pushSerial("[ 42 , \"foo\",12.5 ]");
@@ -551,22 +552,22 @@ public class JSONParserTests {
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void leadingElementSeparator() throws MalformedJSONException {
+	public void leadingElementSeparator() throws MalformedJSONException, IOException {
 		new JSONParser(new NullSink()).pushSerial("[,5]");
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void trailingElementSeparator() throws MalformedJSONException {
+	public void trailingElementSeparator() throws MalformedJSONException, IOException {
 		new JSONParser(new NullSink()).pushSerial("[5,]");
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void arrayNoElementSeparator() throws MalformedJSONException {
+	public void arrayNoElementSeparator() throws MalformedJSONException, IOException {
 		new JSONParser(new NullSink()).pushSerial("[5 6]");
 	}
 
 	@Test
-	public void constantsInArray() throws MalformedJSONException {
+	public void constantsInArray() throws MalformedJSONException, IOException {
 		StoringSink store = new StoringSink();
 		JSONParser parser = new JSONParser(store);
 		parser.pushSerial("[true,false,null, true , false , null ]");
@@ -621,7 +622,7 @@ public class JSONParserTests {
 	}
 
 	@Test
-	public void constantsInObject() throws MalformedJSONException {
+	public void constantsInObject() throws MalformedJSONException, IOException {
 		StoringSink store = new StoringSink();
 		JSONParser parser = new JSONParser(store);
 		parser.pushSerial("{\"a\":true,\"b\":false,\"c\":null,\"d\": true ,\"e\" : false ,\"f\" : null }");
@@ -710,7 +711,7 @@ public class JSONParserTests {
 	}
 
 	@Test
-	public void nestingArray() throws MalformedJSONException {
+	public void nestingArray() throws MalformedJSONException, IOException {
 		StoringSink store = new StoringSink();
 		JSONParser parser = new JSONParser(store);
 		parser.pushSerial(
@@ -791,7 +792,7 @@ public class JSONParserTests {
 	}
 
 	@Test
-	public void nestingArrayChars() throws MalformedJSONException {
+	public void nestingArrayChars() throws MalformedJSONException, IOException {
 		StoringSink store = new StoringSink();
 		JSONParser parser = new JSONParser(store);
 		String data =
@@ -873,7 +874,7 @@ public class JSONParserTests {
 	}
 
 	@Test
-	public void nestingObject() throws MalformedJSONException {
+	public void nestingObject() throws MalformedJSONException, IOException {
 		StoringSink store = new StoringSink();
 		JSONParser parser = new JSONParser(store);
 		parser.pushSerial(
@@ -966,7 +967,7 @@ public class JSONParserTests {
 	}
 
 	@Test
-	public void nestingObjectChars() throws MalformedJSONException {
+	public void nestingObjectChars() throws MalformedJSONException, IOException {
 		StoringSink store = new StoringSink();
 		JSONParser parser = new JSONParser(store);
 		String data =
@@ -1060,33 +1061,33 @@ public class JSONParserTests {
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void badNesting() throws MalformedJSONException {
+	public void badNesting() throws MalformedJSONException, IOException {
 		new JSONParser(new NullSink()).pushSerial("[}");
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void unclosedString() throws MalformedJSONException {
+	public void unclosedString() throws MalformedJSONException, IOException {
 		JSONParser parser = new JSONParser(new NullSink());
 		parser.pushSerial("[\"foo]");
 		parser.endDocument();
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void unclosedEscape() throws MalformedJSONException {
+	public void unclosedEscape() throws MalformedJSONException, IOException {
 		JSONParser parser = new JSONParser(new NullSink());
 		parser.pushSerial("[\"foo\\");
 		parser.endDocument();
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void unclosedArray() throws MalformedJSONException {
+	public void unclosedArray() throws MalformedJSONException, IOException {
 		JSONParser parser = new JSONParser(new NullSink());
 		parser.pushSerial("[");
 		parser.endDocument();
 	}
 
 	@Test(expected = MalformedJSONException.class)
-	public void unclosedObject() throws MalformedJSONException {
+	public void unclosedObject() throws MalformedJSONException, IOException {
 		JSONParser parser = new JSONParser(new NullSink());
 		parser.pushSerial("{");
 		parser.endDocument();
