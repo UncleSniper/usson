@@ -262,6 +262,8 @@ public class JSONPrinter implements JSONSink {
 					out.write(indentString);
 			}
 			out.write('}');
+			if(stack.isEmpty())
+				out.flush();
 		}
 		catch(IOException ioe) {
 			throw new SerializationException(ioe.getMessage(), ioe);
@@ -296,6 +298,8 @@ public class JSONPrinter implements JSONSink {
 				default:
 					throw new IllegalStateException("Cannot end JSON array, top of stack is an object");
 			}
+			if(stack.isEmpty())
+				out.flush();
 		}
 		catch(IOException ioe) {
 			throw new SerializationException(ioe.getMessage(), ioe);
