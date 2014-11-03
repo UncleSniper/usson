@@ -115,15 +115,17 @@ public class JSONPrinter implements JSONSink {
 				if(haveKey) {
 					out.write(':');
 					haveKey = false;
+					if(pretty)
+						out.write(' ');
 				}
 				else {
 					out.write(',');
 					haveKey = true;
-				}
-				if(pretty) {
-					out.write(lineBreakString);
-					for(int count = stack.size(); count > 0; --count)
-						out.write(indentString);
+					if(pretty) {
+						out.write(lineBreakString);
+						for(int count = stack.size(); count > 0; --count)
+							out.write(indentString);
+					}
 				}
 				break;
 			case EMPTY_ARRAY:
