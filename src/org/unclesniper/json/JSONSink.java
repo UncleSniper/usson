@@ -10,7 +10,7 @@ public interface JSONSink {
 
 	void foundString(String value) throws IOException;
 
-	void foundInteger(int value) throws IOException;
+	void foundInteger(long value) throws IOException;
 
 	void foundFraction(double value) throws IOException;
 

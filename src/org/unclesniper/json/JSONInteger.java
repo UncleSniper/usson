@@ -4,17 +4,17 @@ import java.io.IOException;
 
 public class JSONInteger extends JSONNumber {
 
-	private int value;
+	private long value;
 
-	public JSONInteger(int value) {
+	public JSONInteger(long value) {
 		this.value = value;
 	}
 
-	public int intValue() {
+	public long longValue() {
 		return value;
 	}
 
-	public Integer numberValue() {
+	public Long numberValue() {
 		return value;
 	}
 

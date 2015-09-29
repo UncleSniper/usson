@@ -69,9 +69,9 @@ public class StoringSink implements JSONSink {
 
 	public static class FoundIntegerCall extends Call {
 
-		public final int value;
+		public final long value;
 
-		public FoundIntegerCall(int value) {
+		public FoundIntegerCall(long value) {
 			this.value = value;
 		}
 
@@ -111,7 +111,7 @@ public class StoringSink implements JSONSink {
 		calls.add(new FoundStringCall(value));
 	}
 
-	public void foundInteger(int value) {
+	public void foundInteger(long value) {
 		calls.add(new FoundIntegerCall(value));
 	}
 

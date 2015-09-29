@@ -17,7 +17,7 @@ public class DumpingJSONSink implements JSONSink {
 		System.err.flush();
 	}
 
-	public void foundInteger(int value) {
+	public void foundInteger(long value) {
 		System.err.println("foundInteger(" + value + ")");
 		System.err.flush();
 	}

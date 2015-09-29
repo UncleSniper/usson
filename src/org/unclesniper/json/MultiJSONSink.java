@@ -50,7 +50,7 @@ public class MultiJSONSink implements JSONSink {
 			sink.foundString(value);
 	}
 
-	public void foundInteger(int value) throws IOException {
+	public void foundInteger(long value) throws IOException {
 		for(JSONSink sink : sinks)
 			sink.foundInteger(value);
 	}

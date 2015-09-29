@@ -15,7 +15,7 @@ public class JSONBuilderTests {
 		builder.foundBoolean(true);
 		builder.foundNull();
 		builder.foundString("foo");
-		builder.foundInteger(42);
+		builder.foundInteger(42l);
 		builder.foundFraction(3.141);
 		builder.endArray();
 		JSON root = builder.getRoot();
@@ -29,7 +29,7 @@ public class JSONBuilderTests {
 		assertNotNull(((JSONString)array.get(2)).stringValue());
 		assertEquals("foo", ((JSONString)array.get(2)).stringValue());
 		assertTrue(array.get(3) instanceof JSONInteger);
-		assertEquals(42, ((JSONInteger)array.get(3)).intValue());
+		assertEquals(42l, ((JSONInteger)array.get(3)).longValue());
 		assertTrue(array.get(4) instanceof JSONFraction);
 		assertEquals(3.141, ((JSONFraction)array.get(4)).doubleValue(), 0.0001);
 	}
@@ -45,7 +45,7 @@ public class JSONBuilderTests {
 		builder.foundString("str");
 		builder.foundString("hello");
 		builder.foundString("int");
-		builder.foundInteger(123);
+		builder.foundInteger(123l);
 		builder.foundString("double");
 		builder.foundFraction(6.5);
 		builder.endObject();
@@ -64,7 +64,7 @@ public class JSONBuilderTests {
 		assertEquals("hello", ((JSONString)object.get("str")).stringValue());
 		assertTrue(object.containsKey("int"));
 		assertTrue(object.get("int") instanceof JSONInteger);
-		assertEquals(123, ((JSONInteger)object.get("int")).intValue());
+		assertEquals(123l, ((JSONInteger)object.get("int")).longValue());
 		assertTrue(object.containsKey("double"));
 		assertTrue(object.get("double") instanceof JSONFraction);
 		assertEquals(6.5, ((JSONFraction)object.get("double")).doubleValue(), 0.01);

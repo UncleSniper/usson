@@ -555,12 +555,12 @@ public class JSONParser {
 								break;
 							state = stack.removeLast();
 							if(string == null)
-								sink.foundInteger(Integer.parseInt(String.valueOf(data, start, offset-- - start)));
+								sink.foundInteger(Long.parseLong(String.valueOf(data, start, offset-- - start)));
 							else {
 								string.append(data, start, offset-- - start);
 								String s = string.toString();
 								string = null;
-								sink.foundInteger(Integer.parseInt(s));
+								sink.foundInteger(Long.parseLong(s));
 							}
 							break;
 					}
@@ -577,12 +577,12 @@ public class JSONParser {
 						default:
 							state = stack.removeLast();
 							if(string == null)
-								sink.foundInteger(Integer.parseInt(String.valueOf(data, start, offset-- - start)));
+								sink.foundInteger(Long.parseLong(String.valueOf(data, start, offset-- - start)));
 							else {
 								string.append(data, start, offset-- - start);
 								String s = string.toString();
 								string = null;
-								sink.foundInteger(Integer.parseInt(s));
+								sink.foundInteger(Long.parseLong(s));
 							}
 							break;
 					}

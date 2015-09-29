@@ -207,7 +207,7 @@ public class JSONPrinter implements JSONSink {
 		out.write('"');
 	}
 
-	public void foundInteger(int value) throws IOException {
+	public void foundInteger(long value) throws IOException {
 		formatEnclosing(false);
 		out.write(String.valueOf(value));
 	}

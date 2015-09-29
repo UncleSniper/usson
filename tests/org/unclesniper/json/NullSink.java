@@ -8,7 +8,7 @@ public class NullSink implements JSONSink {
 
 	public void foundString(String value) {}
 
-	public void foundInteger(int value) {}
+	public void foundInteger(long value) {}
 
 	public void foundFraction(double value) {}
 

@@ -55,7 +55,7 @@ public class JSONBuilder implements JSONSink {
 		}
 	}
 
-	public void foundInteger(int value) {
+	public void foundInteger(long value) {
 		if(key == null)
 			stack.getLast().takeElement(new JSONInteger(value));
 		else {
