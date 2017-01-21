@@ -1,5 +1,9 @@
 package org.unclesniper.json.tool.syntax;
 
+import org.unclesniper.json.tool.values.Value;
+import org.unclesniper.json.tool.TransformationContext;
+import org.unclesniper.json.tool.TransformationException;
+
 public class BinaryLogicalExpression extends BinaryOperation {
 
 	public enum Operator {
@@ -21,6 +25,11 @@ public class BinaryLogicalExpression extends BinaryOperation {
 
 	public void setOperator(Operator operator) {
 		this.operator = operator;
+	}
+
+	public Value eval(TransformationContext context) throws TransformationException {
+		//TODO
+		return null;
 	}
 
 }

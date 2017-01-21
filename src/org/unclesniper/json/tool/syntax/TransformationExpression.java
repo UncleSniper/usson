@@ -2,6 +2,9 @@ package org.unclesniper.json.tool.syntax;
 
 import java.util.List;
 import java.util.LinkedList;
+import org.unclesniper.json.tool.values.Value;
+import org.unclesniper.json.tool.TransformationContext;
+import org.unclesniper.json.tool.TransformationException;
 
 public class TransformationExpression extends SimpleValue {
 
@@ -28,6 +31,13 @@ public class TransformationExpression extends SimpleValue {
 
 	public void addTransform(Transform transform) {
 		transforms.add(transform);
+	}
+
+	public Value eval(TransformationContext context) throws TransformationException {
+		Value result = subject.eval(context);
+		for(Transform transform : transforms)
+			result = transform.transform(context, result);
+		return result;
 	}
 
 }

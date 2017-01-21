@@ -1,5 +1,9 @@
 package org.unclesniper.json.tool.syntax;
 
+import org.unclesniper.json.tool.values.Value;
+import org.unclesniper.json.tool.TransformationContext;
+import org.unclesniper.json.tool.TransformationException;
+
 public class PrefixExpression extends PIExpression {
 
 	public enum Operator {
@@ -33,6 +37,11 @@ public class PrefixExpression extends PIExpression {
 
 	public void setOperand(ComplexValue operand) {
 		this.operand = operand;
+	}
+
+	public Value eval(TransformationContext context) throws TransformationException {
+		//TODO
+		return null;
 	}
 
 }

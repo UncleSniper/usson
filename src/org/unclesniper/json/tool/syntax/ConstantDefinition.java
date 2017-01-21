@@ -1,5 +1,10 @@
 package org.unclesniper.json.tool.syntax;
 
+import org.unclesniper.json.JSON;
+import org.unclesniper.json.tool.values.Value;
+import org.unclesniper.json.tool.TransformationContext;
+import org.unclesniper.json.tool.TransformationException;
+
 public class ConstantDefinition extends Transform {
 
 	private String constant;
@@ -26,6 +31,12 @@ public class ConstantDefinition extends Transform {
 
 	public void setValue(ComplexValue value) {
 		this.value = value;
+	}
+
+	protected Value doTransform(TransformationContext context, JSON tree, Value input)
+			throws TransformationException {
+		context.setConstant(constant, value.eval(context));
+		return input;
 	}
 
 }

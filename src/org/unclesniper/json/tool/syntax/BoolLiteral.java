@@ -1,29 +1,29 @@
 package org.unclesniper.json.tool.syntax;
 
-import org.unclesniper.json.JSONFraction;
+import org.unclesniper.json.JSONBoolean;
 import org.unclesniper.json.tool.values.Value;
 import org.unclesniper.json.tool.values.JSONValue;
 import org.unclesniper.json.tool.TransformationContext;
 
-public class FloatLiteral extends AtomicValue {
+public class BoolLiteral extends AtomicValue {
 
-	private double value;
+	private boolean value;
 
-	public FloatLiteral(int offset, double value) {
+	public BoolLiteral(int offset, boolean value) {
 		super(offset);
 		this.value = value;
 	}
 
-	public double getValue() {
+	public boolean getValue() {
 		return value;
 	}
 
-	public void setValue(double value) {
+	public void setValue(boolean value) {
 		this.value = value;
 	}
 
 	public Value eval(TransformationContext context) {
-		return new JSONValue(new JSONFraction(value));
+		return new JSONValue(new JSONBoolean(value));
 	}
 
 }

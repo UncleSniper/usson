@@ -4,9 +4,11 @@ import org.unclesniper.json.tool.syntax.Selector;
 import org.unclesniper.json.tool.syntax.Transform;
 import org.unclesniper.json.tool.syntax.NameValue;
 import org.unclesniper.json.tool.syntax.ThisValue;
+import org.unclesniper.json.tool.syntax.NullValue;
 import org.unclesniper.json.tool.syntax.IntLiteral;
 import org.unclesniper.json.tool.syntax.SimpleValue;
 import org.unclesniper.json.tool.syntax.Subselector;
+import org.unclesniper.json.tool.syntax.BoolLiteral;
 import org.unclesniper.json.tool.syntax.Construction;
 import org.unclesniper.json.tool.syntax.ComplexValue;
 import org.unclesniper.json.tool.syntax.NonNameValue;
@@ -183,6 +185,9 @@ public class Parser {
 			case STRING:
 			case INT:
 			case FLOAT:
+			case TRUE:
+			case FALSE:
+			case NULL:
 			case NAME:
 			case THIS:
 			case LEFT_ANGLE:
@@ -236,6 +241,9 @@ public class Parser {
 			case STRING:
 			case INT:
 			case FLOAT:
+			case TRUE:
+			case FALSE:
+			case NULL:
 			case THIS:
 			case LEFT_ANGLE:
 				key = parseNonNameValue();
@@ -269,6 +277,9 @@ public class Parser {
 			case STRING:
 			case INT:
 			case FLOAT:
+			case TRUE:
+			case FALSE:
+			case NULL:
 			case NAME:
 			case THIS:
 				array.addElement(parseComplexValue());
@@ -488,6 +499,9 @@ public class Parser {
 			case STRING:
 			case INT:
 			case FLOAT:
+			case TRUE:
+			case FALSE:
+			case NULL:
 			case THIS:
 			case LEFT_CURLY:
 			case LEFT_SQUARE:
@@ -892,6 +906,9 @@ public class Parser {
 			case STRING:
 			case INT:
 			case FLOAT:
+			case TRUE:
+			case FALSE:
+			case NULL:
 			case THIS:
 			case LEFT_CURLY:
 			case LEFT_SQUARE:
@@ -932,6 +949,19 @@ public class Parser {
 					FloatLiteral literal = new FloatLiteral(token.getOffset(), Double.parseDouble(token.getText()));
 					next();
 					return literal;
+				}
+			case TRUE:
+			case FALSE:
+				{
+					BoolLiteral literal = new BoolLiteral(token.getOffset(), token.getType() == Token.Type.TRUE);
+					next();
+					return literal;
+				}
+			case NULL:
+				{
+					NullValue symbolic = new NullValue(token.getOffset());
+					next();
+					return symbolic;
 				}
 			case THIS:
 				{

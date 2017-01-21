@@ -43,7 +43,10 @@ public class Token {
 		PERCENT(false, false, "%"),
 		NOT(false, false, "!"),
 		TILDE(false, false, "~"),
-		AT(false, false, "@");
+		AT(false, false, "@"),
+		TRUE(false, true, "true"),
+		FALSE(false, true, "false"),
+		NULL(false, true, "null");
 
 		private final boolean literal;
 

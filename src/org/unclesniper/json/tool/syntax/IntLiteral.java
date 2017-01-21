@@ -1,5 +1,10 @@
 package org.unclesniper.json.tool.syntax;
 
+import org.unclesniper.json.JSONInteger;
+import org.unclesniper.json.tool.values.Value;
+import org.unclesniper.json.tool.values.JSONValue;
+import org.unclesniper.json.tool.TransformationContext;
+
 public class IntLiteral extends AtomicValue {
 
 	private long value;
@@ -15,6 +20,10 @@ public class IntLiteral extends AtomicValue {
 
 	public void setValue(long value) {
 		this.value = value;
+	}
+
+	public Value eval(TransformationContext context) {
+		return new JSONValue(new JSONInteger(value));
 	}
 
 }

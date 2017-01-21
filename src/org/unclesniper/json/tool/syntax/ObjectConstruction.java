@@ -2,6 +2,14 @@ package org.unclesniper.json.tool.syntax;
 
 import java.util.List;
 import java.util.LinkedList;
+import org.unclesniper.json.JSON;
+import org.unclesniper.json.JSONObject;
+import org.unclesniper.json.tool.values.Value;
+import org.unclesniper.json.tool.values.JSONValue;
+import org.unclesniper.json.tool.TransformationContext;
+import org.unclesniper.json.tool.NotAJSONValueException;
+import org.unclesniper.json.tool.TransformationException;
+import org.unclesniper.json.tool.NotAJSONPrimitiveException;
 
 public class ObjectConstruction extends Construction {
 
@@ -64,6 +72,21 @@ public class ObjectConstruction extends Construction {
 		if(bindings.isEmpty() && getOffset() < 0)
 			setOffset(binding.getOffset());
 		bindings.add(binding);
+	}
+
+	public Value construct(TransformationContext context) throws TransformationException {
+		JSONObject object = new JSONObject();
+		for(Binding binding : bindings) {
+			Value k = binding.getKey().eval(context), v = binding.getValue().eval(context);
+			String property = Transform.stringOf(k);
+			if(property == null)
+				throw new NotAJSONPrimitiveException(getOffset(), k, "use property name in constructed object");
+			JSON baked = Transform.bake(v);
+			if(baked == null)
+				throw new NotAJSONValueException(getOffset(), v, "use property value in constructed object");
+			object.put(property, baked);
+		}
+		return new JSONValue(object);
 	}
 
 }
