@@ -1,0 +1,52 @@
+transform		::= plain_transform
+					| '(' transform (',' transform)* ')'
+plain_transform	::= with_component
+					| construction
+					| constant
+with_component	::=	selector ('+' | '-' | '=' complex_value)?
+selector		::= subselector+
+subselector		::= '.' direct_key
+					| '/' indirect_key
+					| '@' by_value
+direct_key		::= NAME | STRING
+					| INT (':' INT)?
+					| '(' direct_keys ')'
+direct_keys		::= (NAME | STRING) (',' (NAME | STRING))*
+					| INT (':' INT)? (',' INT (':' INT)?)*
+indirect_key	::= value (':' value)?
+					| '(' indirect_keys ')'
+indirect_keys	::= value (':' value | selector)? (',' value (':' value | selector)?)*
+construction	::= array_cons
+					| object_cons
+					| '<' complex_value '>'
+array_cons		::= '[' (complex_value (',' complex_value)*)? ']'
+object_cons		::= '{' (binding (',' binding)*)? '}'
+binding			::= NAME (':' | '=') complex_value
+					| non_name_value '=' complex_value
+constant		::= NAME '=' complex_value
+by_value		::= ('==' | '!=' | 'lt' | 'le' | 'gt' | 'ge') value
+					| NAME '<' complex_value selector? '>'
+value			::= untrans_value ('{' plain_transform (',' plain_transform)* '}')?
+untrans_value	::= NAME | non_name_value
+non_name_value	::= '?'+
+					| STRING
+					| INT
+					| FLOAT
+					| array_cons
+					| object_cons
+					| '<' complex_value selector? '>'
+complex_value	::= log_disjunction
+log_disjunction	::= log_conjunction ('||' log_conjunction)*
+log_conjunction	::= bit_disjunction ('&&' bit_disjunction)*
+bit_disjunction	::= bit_xor ('|' bit_xor)*
+bit_xor			::= bit_conjunction ('^' bit_conjunction)*
+bit_conjunction	::= equality ('&' equality)*
+equality		::= inequality (('==' | '!=') inequality)*
+inequality		::= sum (('lt' | 'le' | 'gt' | 'ge') sum)*
+sum				::= product (('+' | '-') product)*
+product			::= prefix (('*' | 'div' | '%') prefix)*
+prefix			::= ('+' | '-' | '!' | '~')* postfix
+postfix			::= primary postfix_op*
+postfix_op		::= '(' (complex_value (',' complex_value)*)? ')'
+					| '{' plain_transform (',' plain_transform)* '}'
+primary			::= untrans_value
