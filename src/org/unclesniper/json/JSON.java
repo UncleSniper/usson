@@ -14,6 +14,7 @@ public interface JSON {
 	public static final int TYPE_ARRAY     = 0040;
 	public static final int TYPE_OBJECT    = 0100;
 	public static final int TYPE_COMPOUND  = 0140;
+	public static final int TYPE_ANY       = 0177;
 
 	boolean takesPairs();
 

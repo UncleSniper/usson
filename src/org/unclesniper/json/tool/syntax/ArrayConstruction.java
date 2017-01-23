@@ -36,7 +36,7 @@ public class ArrayConstruction extends Construction {
 		JSONArray array = new JSONArray();
 		for(ComplexValue element : elements) {
 			Value value = element.eval(context);
-			JSON baked = Transform.bake(value);
+			JSON baked = Transform.bake(value, JSON.TYPE_ANY, false);
 			if(baked == null)
 				throw new NotAJSONValueException(getOffset(), value, "add element to constructed array");
 			array.add(baked);

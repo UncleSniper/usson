@@ -1,5 +1,7 @@
 package org.unclesniper.json.tool.syntax;
 
+import org.unclesniper.json.JSON;
+
 public abstract class WithComponent extends Transform {
 
 	private Selector selector;
@@ -19,6 +21,14 @@ public abstract class WithComponent extends Transform {
 		this.selector = selector;
 		if(selector != null && getOffset() < 0)
 			setOffset(selector.getOffset());
+	}
+
+	protected boolean requiresTuT() {
+		return false;
+	}
+
+	protected int getDesiredTuTType() {
+		return JSON.TYPE_ANY;
 	}
 
 }

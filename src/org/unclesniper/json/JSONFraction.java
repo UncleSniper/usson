@@ -4,6 +4,12 @@ import java.io.IOException;
 
 public class JSONFraction extends JSONNumber {
 
+	public static final JSONFraction NaN = new JSONFraction(Double.NaN);
+
+	public static final JSONFraction POSITIVE_INFINITY = new JSONFraction(Double.POSITIVE_INFINITY);
+
+	public static final JSONFraction NEGATIVE_INFINITY = new JSONFraction(Double.NEGATIVE_INFINITY);
+
 	private double value;
 
 	public JSONFraction(double value) {

@@ -4,7 +4,9 @@ import java.io.IOException;
 
 public class JSONInteger extends JSONNumber {
 
-	private long value;
+	public static final JSONInteger ZERO = new JSONInteger(0l);
+
+	private final long value;
 
 	public JSONInteger(long value) {
 		this.value = value;

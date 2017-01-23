@@ -26,4 +26,6 @@ public abstract class Value {
 
 	public abstract Type getType();
 
+	public abstract boolean isTrue();
+
 }

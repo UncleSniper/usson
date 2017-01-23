@@ -29,4 +29,8 @@ public class IndexComponentSet extends Value {
 		return Type.INDEX_COMPONENT_SET;
 	}
 
+	public boolean isTrue() {
+		return true;
+	}
+
 }

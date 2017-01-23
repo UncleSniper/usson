@@ -16,6 +16,14 @@ public abstract class Construction extends Transform {
 		return construct(context);
 	}
 
+	protected boolean requiresTuT() {
+		return false;
+	}
+
+	protected int getDesiredTuTType() {
+		return JSON.TYPE_ANY;
+	}
+
 	public abstract Value construct(TransformationContext context) throws TransformationException;
 
 }

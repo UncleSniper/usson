@@ -2,6 +2,7 @@ package org.unclesniper.json.tool.syntax;
 
 import org.unclesniper.json.JSON;
 import org.unclesniper.json.JSONInteger;
+import org.unclesniper.json.tool.ECMAUtils;
 import org.unclesniper.json.tool.values.Value;
 import org.unclesniper.json.tool.values.JSONValue;
 import org.unclesniper.json.tool.TransformationContext;
@@ -49,20 +50,9 @@ public class BinaryBitwiseExpression extends BinaryOperation {
 		if(l.getType() != Value.Type.JSON)
 			throw new WrongOperandTypeException(getOffset(), operator.getHumanReadable(), "left",
 					"integer", l.getType().getHumanReadable());
-		JSON lj = ((JSONValue)l).getJSON();
-		if(lj.getJSONType() != JSON.TYPE_INTEGER)
-			throw new WrongOperandTypeException(getOffset(), operator.getHumanReadable(), "left",
-					"integer", JSONValue.typeToHumanReadable(lj));
-		long li = ((JSONInteger)lj).longValue();
-		if(r.getType() != Value.Type.JSON)
-			throw new WrongOperandTypeException(getOffset(), operator.getHumanReadable(), "right",
-					"integer", r.getType().getHumanReadable());
-		JSON rj = ((JSONValue)l).getJSON();
-		if(rj.getJSONType() != JSON.TYPE_INTEGER)
-			throw new WrongOperandTypeException(getOffset(), operator.getHumanReadable(), "right",
-					"integer", JSONValue.typeToHumanReadable(rj));
-		long ri = ((JSONInteger)rj).longValue();
-		long result;
+		int li = ECMAUtils.toInt32(((JSONValue)l).getJSON());
+		int ri = ECMAUtils.toInt32(((JSONValue)r).getJSON());
+		int result;
 		switch(operator) {
 			case CONJUNCTION:
 				result = li & ri;

@@ -29,4 +29,8 @@ public class MixedComponentSet extends Value {
 		return Type.MIXED_COMPONENT_SET;
 	}
 
+	public boolean isTrue() {
+		return true;
+	}
+
 }

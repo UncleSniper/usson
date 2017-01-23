@@ -18,9 +18,14 @@ public abstract class Transform extends Syntax {
 	}
 
 	public Value transform(TransformationContext context, Value input) throws TransformationException {
-		JSON baked = Transform.bake(input);
-		if(baked == null)
-			throw new NotAJSONValueException(getOffset(), input, "transform value");
+		JSON baked;
+		if(requiresTuT()) {
+			baked = Transform.bake(input, getDesiredTuTType(), prefersTuTArray());
+			if(baked == null)
+				throw new NotAJSONValueException(getOffset(), input, "transform value");
+		}
+		else
+			baked = null;
 		context.pushTree(baked);
 		try {
 			return doTransform(context, baked, input);
@@ -40,10 +45,20 @@ public abstract class Transform extends Syntax {
 		}
 	}
 
+	protected boolean requiresTuT() {
+		return true;
+	}
+
+	protected abstract int getDesiredTuTType();
+
+	protected boolean prefersTuTArray() {
+		return false;
+	}
+
 	protected abstract Value doTransform(TransformationContext context, JSON tree, Value input)
 			throws TransformationException;
 
-	public static JSON bake(Value value) {
+	public static JSON bake(Value value, int desiredType, boolean preferArray) {
 		switch(value.getType()) {
 			case JSON:
 				return ((JSONValue)value).getJSON();

@@ -214,6 +214,8 @@ public class JSONPrinter implements JSONSink {
 
 	public void foundFraction(double value) throws IOException {
 		formatEnclosing(false);
+		if(value == Double.NaN || value == Double.POSITIVE_INFINITY || value == Double.NEGATIVE_INFINITY)
+			value = 0.0;
 		out.write(String.valueOf(value));
 	}
 

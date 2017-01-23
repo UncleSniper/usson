@@ -1,6 +1,8 @@
 package org.unclesniper.json.tool.syntax;
 
+import org.unclesniper.json.JSONBoolean;
 import org.unclesniper.json.tool.values.Value;
+import org.unclesniper.json.tool.values.JSONValue;
 import org.unclesniper.json.tool.TransformationContext;
 import org.unclesniper.json.tool.TransformationException;
 
@@ -28,8 +30,19 @@ public class BinaryLogicalExpression extends BinaryOperation {
 	}
 
 	public Value eval(TransformationContext context) throws TransformationException {
-		//TODO
-		return null;
+		boolean l = getLeftOperand().eval(context).isTrue(), r = getRightOperand().eval(context).isTrue();
+		boolean result;
+		switch(operator) {
+			case CONJUNCTION:
+				result = l && r;
+				break;
+			case DISJUNCTION:
+				result = l || r;
+				break;
+			default:
+				throw new Error("Unrecognized Operator: " + operator.name());
+		}
+		return new JSONValue(new JSONBoolean(result));
 	}
 
 }

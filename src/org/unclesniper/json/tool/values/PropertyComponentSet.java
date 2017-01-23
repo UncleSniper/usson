@@ -29,4 +29,8 @@ public class PropertyComponentSet extends Value {
 		return Type.PROPERTY_COMPONENT_SET;
 	}
 
+	public boolean isTrue() {
+		return true;
+	}
+
 }

@@ -81,7 +81,7 @@ public class ObjectConstruction extends Construction {
 			String property = Transform.stringOf(k);
 			if(property == null)
 				throw new NotAJSONPrimitiveException(getOffset(), k, "use property name in constructed object");
-			JSON baked = Transform.bake(v);
+			JSON baked = Transform.bake(v, JSON.TYPE_ANY, false);
 			if(baked == null)
 				throw new NotAJSONValueException(getOffset(), v, "use property value in constructed object");
 			object.put(property, baked);

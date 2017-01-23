@@ -33,6 +33,14 @@ public class ConstantDefinition extends Transform {
 		this.value = value;
 	}
 
+	protected boolean requiresTuT() {
+		return false;
+	}
+
+	protected int getDesiredTuTType() {
+		return JSON.TYPE_ANY;
+	}
+
 	protected Value doTransform(TransformationContext context, JSON tree, Value input)
 			throws TransformationException {
 		context.setConstant(constant, value.eval(context));
