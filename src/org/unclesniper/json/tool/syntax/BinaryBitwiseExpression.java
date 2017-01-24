@@ -50,6 +50,9 @@ public class BinaryBitwiseExpression extends BinaryOperation {
 		if(l.getType() != Value.Type.JSON)
 			throw new WrongOperandTypeException(getOffset(), operator.getHumanReadable(), "left",
 					"integer", l.getType().getHumanReadable());
+		if(r.getType() != Value.Type.JSON)
+			throw new WrongOperandTypeException(getOffset(), operator.getHumanReadable(), "right",
+					"integer", r.getType().getHumanReadable());
 		int li = ECMAUtils.toInt32(((JSONValue)l).getJSON());
 		int ri = ECMAUtils.toInt32(((JSONValue)r).getJSON());
 		int result;
