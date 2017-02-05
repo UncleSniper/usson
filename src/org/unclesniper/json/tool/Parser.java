@@ -77,6 +77,16 @@ public class Parser {
 	public Transform parse() throws CompilationException {
 		next();
 		Transform transform = parseTransform();
+		TransformChain chain = null;
+		while(token != null && token.getType() == Token.Type.COMMA) {
+			next();
+			if(chain == null) {
+				chain = new TransformChain(transform.getOffset());
+				chain.addTransform(transform);
+				transform = chain;
+			}
+			chain.addTransform(parseTransform());
+		}
 		if(token != null)
 			unexpected("end of transform");
 		return transform;

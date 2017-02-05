@@ -1,6 +1,7 @@
 package org.unclesniper.json.tool.syntax;
 
 import org.unclesniper.json.JSON;
+import org.unclesniper.json.JSONNull;
 import org.unclesniper.json.JSONString;
 import org.unclesniper.json.JSONInteger;
 import org.unclesniper.json.JSONBoolean;
@@ -25,7 +26,7 @@ public abstract class Transform extends Syntax {
 				throw new NotAJSONValueException(getOffset(), input, "transform value");
 		}
 		else
-			baked = null;
+			baked = JSONNull.instance;
 		context.pushTree(baked);
 		try {
 			return doTransform(context, baked, input);
