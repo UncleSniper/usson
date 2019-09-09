@@ -6,6 +6,8 @@ import org.unclesniper.json.j8.ObjectP;
 
 public class StringJSONizer implements JSONizer<String> {
 
+	public static final JSONizer<String> instance = new StringJSONizer();
+
 	private ObjectP<? super String> needed;
 
 	public StringJSONizer() {}

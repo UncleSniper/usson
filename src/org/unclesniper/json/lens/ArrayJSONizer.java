@@ -37,7 +37,8 @@ public class ArrayJSONizer<ValueT> implements JSONizer<ValueT> {
 			sink.foundNull();
 		else {
 			sink.beginArray();
-			generator.jsonize(value, sink, version);
+			if(generator != null)
+				generator.jsonize(value, sink, version);
 			sink.endArray();
 		}
 	}

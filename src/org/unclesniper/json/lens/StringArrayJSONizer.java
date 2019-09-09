@@ -10,9 +10,13 @@ public class StringArrayJSONizer implements JSONizer<Iterable<String>> {
 
 	private StaticJSON ifEmpty;
 
-	public StringArrayJSONizer(ObjectP<? super Iterable<String>> needed, StaticJSON ifEmpty) {
+	private ObjectP<? super String> filter;
+
+	public StringArrayJSONizer(ObjectP<? super Iterable<String>> needed, StaticJSON ifEmpty,
+			ObjectP<? super String> filter) {
 		this.needed = needed;
 		this.ifEmpty = ifEmpty;
+		this.filter = filter;
 	}
 
 	public ObjectP<? super Iterable<String>> getNeeded() {
@@ -31,6 +35,14 @@ public class StringArrayJSONizer implements JSONizer<Iterable<String>> {
 		this.ifEmpty = ifEmpty;
 	}
 
+	public ObjectP<? super String> getFilter() {
+		return filter;
+	}
+
+	public void setFilter(ObjectP<? super String> filter) {
+		this.filter = filter;
+	}
+
 	@Override
 	public void jsonize(Iterable<String> value, JSONSink sink, int version) throws IOException {
 		if(value == null || (needed != null && !needed.testObject(value))) {
@@ -39,6 +51,8 @@ public class StringArrayJSONizer implements JSONizer<Iterable<String>> {
 		}
 		boolean first = true;
 		for(String element : value) {
+			if(filter != null && !filter.testObject(element))
+				continue;
 			if(first) {
 				sink.beginArray();
 				first = false;

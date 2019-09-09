@@ -1,33 +1,24 @@
 package org.unclesniper.json.lens;
 
+import org.unclesniper.json.j8.IntP;
+
 public abstract class VersionBoundJSONizerBase<ValueT> {
 
-	protected int version;
-
-	protected OrderRelation order;
+	protected IntP predicate;
 
 	protected InnerJSONizer<? super ValueT> jsonizer;
 
-	public VersionBoundJSONizerBase(int version, OrderRelation order, InnerJSONizer<? super ValueT> jsonizer) {
-		this.version = version;
-		this.order = order;
+	public VersionBoundJSONizerBase(IntP predicate, InnerJSONizer<? super ValueT> jsonizer) {
+		this.predicate = predicate;
 		this.jsonizer = jsonizer;
 	}
 
-	public int getVersion() {
-		return version;
+	public IntP getPredicate() {
+		return predicate;
 	}
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
-
-	public OrderRelation getOrder() {
-		return order;
-	}
-
-	public void setOrder(OrderRelation order) {
-		this.order = order;
+	public void setPredicate(IntP predicate) {
+		this.predicate = predicate;
 	}
 
 	public InnerJSONizer<? super ValueT> getJSONizer() {

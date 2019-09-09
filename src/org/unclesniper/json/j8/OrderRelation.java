@@ -1,4 +1,4 @@
-package org.unclesniper.json.lens;
+package org.unclesniper.json.j8;
 
 public enum OrderRelation {
 	LT,
