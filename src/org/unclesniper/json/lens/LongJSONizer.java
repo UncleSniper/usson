@@ -2,25 +2,25 @@ package org.unclesniper.json.lens;
 
 import java.io.IOException;
 import org.unclesniper.json.JSONSink;
-import org.unclesniper.json.j8.ObjectP;
+import org.unclesniper.json.j8.IOObjectP;
 
 public class LongJSONizer implements JSONizer<Long> {
 
 	public static final JSONizer<Long> instance = new LongJSONizer();
 
-	private ObjectP<? super Long> needed;
+	private IOObjectP<? super Long> needed;
 
 	public LongJSONizer() {}
 
-	public LongJSONizer(ObjectP<? super Long> needed) {
+	public LongJSONizer(IOObjectP<? super Long> needed) {
 		this.needed = needed;
 	}
 
-	public ObjectP<? super Long> getNeeded() {
+	public IOObjectP<? super Long> getNeeded() {
 		return needed;
 	}
 
-	public void setNeeded(ObjectP<? super Long> needed) {
+	public void setNeeded(IOObjectP<? super Long> needed) {
 		this.needed = needed;
 	}
 

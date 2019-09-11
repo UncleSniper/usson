@@ -2,15 +2,15 @@ package org.unclesniper.json.lens;
 
 import java.io.IOException;
 import org.unclesniper.json.JSONSink;
-import org.unclesniper.json.j8.ObjectP;
+import org.unclesniper.json.j8.IOObjectP;
 
 public class ArrayJSONizer<ValueT> implements JSONizer<ValueT> {
 
 	private SequenceJSONizer<? super ValueT> generator;
 
-	private ObjectP<? super ValueT> needed;
+	private IOObjectP<? super ValueT> needed;
 
-	public ArrayJSONizer(SequenceJSONizer<? super ValueT> generator, ObjectP<? super ValueT> needed) {
+	public ArrayJSONizer(SequenceJSONizer<? super ValueT> generator, IOObjectP<? super ValueT> needed) {
 		this.generator = generator;
 		this.needed = needed;
 	}
@@ -23,11 +23,11 @@ public class ArrayJSONizer<ValueT> implements JSONizer<ValueT> {
 		this.generator = generator;
 	}
 
-	public ObjectP<? super ValueT> getNeeded() {
+	public IOObjectP<? super ValueT> getNeeded() {
 		return needed;
 	}
 
-	public void setNeeded(ObjectP<? super ValueT> needed) {
+	public void setNeeded(IOObjectP<? super ValueT> needed) {
 		this.needed = needed;
 	}
 

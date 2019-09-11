@@ -2,25 +2,25 @@ package org.unclesniper.json.lens;
 
 import java.io.IOException;
 import org.unclesniper.json.JSONSink;
-import org.unclesniper.json.j8.ObjectP;
+import org.unclesniper.json.j8.IOObjectP;
 
 public class BooleanJSONizer implements JSONizer<Boolean> {
 
 	public static final JSONizer<Boolean> instance = new BooleanJSONizer();
 
-	private ObjectP<? super Boolean> needed;
+	private IOObjectP<? super Boolean> needed;
 
 	public BooleanJSONizer() {}
 
-	public BooleanJSONizer(ObjectP<? super Boolean> needed) {
+	public BooleanJSONizer(IOObjectP<? super Boolean> needed) {
 		this.needed = needed;
 	}
 
-	public ObjectP<? super Boolean> getNeeded() {
+	public IOObjectP<? super Boolean> getNeeded() {
 		return needed;
 	}
 
-	public void setNeeded(ObjectP<? super Boolean> needed) {
+	public void setNeeded(IOObjectP<? super Boolean> needed) {
 		this.needed = needed;
 	}
 

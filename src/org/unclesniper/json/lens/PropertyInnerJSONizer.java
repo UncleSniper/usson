@@ -2,7 +2,7 @@ package org.unclesniper.json.lens;
 
 import java.io.IOException;
 import org.unclesniper.json.JSONSink;
-import org.unclesniper.json.j8.ObjectP;
+import org.unclesniper.json.j8.IOObjectP;
 
 public class PropertyInnerJSONizer<BaseT> implements InnerJSONizer<BaseT> {
 
@@ -10,13 +10,13 @@ public class PropertyInnerJSONizer<BaseT> implements InnerJSONizer<BaseT> {
 
 	private JSONizer<? super BaseT> property;
 
-	private ObjectP<? super BaseT> needed;
+	private IOObjectP<? super BaseT> needed;
 
 	public PropertyInnerJSONizer(String name, JSONizer<? super BaseT> property) {
 		this(name, property, null);
 	}
 
-	public PropertyInnerJSONizer(String name, JSONizer<? super BaseT> property, ObjectP<? super BaseT> needed) {
+	public PropertyInnerJSONizer(String name, JSONizer<? super BaseT> property, IOObjectP<? super BaseT> needed) {
 		this.name = name;
 		this.property = property;
 		this.needed = needed;
@@ -38,11 +38,11 @@ public class PropertyInnerJSONizer<BaseT> implements InnerJSONizer<BaseT> {
 		this.property = property;
 	}
 
-	public ObjectP<? super BaseT> getNeeded() {
+	public IOObjectP<? super BaseT> getNeeded() {
 		return needed;
 	}
 
-	public void setNeeded(ObjectP<? super BaseT> needed) {
+	public void setNeeded(IOObjectP<? super BaseT> needed) {
 		this.needed = needed;
 	}
 

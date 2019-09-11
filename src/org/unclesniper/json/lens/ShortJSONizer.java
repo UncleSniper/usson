@@ -2,25 +2,25 @@ package org.unclesniper.json.lens;
 
 import java.io.IOException;
 import org.unclesniper.json.JSONSink;
-import org.unclesniper.json.j8.ObjectP;
+import org.unclesniper.json.j8.IOObjectP;
 
 public class ShortJSONizer implements JSONizer<Short> {
 
 	public static final JSONizer<Short> instance = new ShortJSONizer();
 
-	private ObjectP<? super Short> needed;
+	private IOObjectP<? super Short> needed;
 
 	public ShortJSONizer() {}
 
-	public ShortJSONizer(ObjectP<? super Short> needed) {
+	public ShortJSONizer(IOObjectP<? super Short> needed) {
 		this.needed = needed;
 	}
 
-	public ObjectP<? super Short> getNeeded() {
+	public IOObjectP<? super Short> getNeeded() {
 		return needed;
 	}
 
-	public void setNeeded(ObjectP<? super Short> needed) {
+	public void setNeeded(IOObjectP<? super Short> needed) {
 		this.needed = needed;
 	}
 

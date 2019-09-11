@@ -2,25 +2,25 @@ package org.unclesniper.json.lens;
 
 import java.io.IOException;
 import org.unclesniper.json.JSONSink;
-import org.unclesniper.json.j8.ObjectP;
+import org.unclesniper.json.j8.IOObjectP;
 
 public class ByteJSONizer implements JSONizer<Byte> {
 
 	public static final JSONizer<Byte> instance = new ByteJSONizer();
 
-	private ObjectP<? super Byte> needed;
+	private IOObjectP<? super Byte> needed;
 
 	public ByteJSONizer() {}
 
-	public ByteJSONizer(ObjectP<? super Byte> needed) {
+	public ByteJSONizer(IOObjectP<? super Byte> needed) {
 		this.needed = needed;
 	}
 
-	public ObjectP<? super Byte> getNeeded() {
+	public IOObjectP<? super Byte> getNeeded() {
 		return needed;
 	}
 
-	public void setNeeded(ObjectP<? super Byte> needed) {
+	public void setNeeded(IOObjectP<? super Byte> needed) {
 		this.needed = needed;
 	}
 

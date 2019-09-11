@@ -2,33 +2,33 @@ package org.unclesniper.json.lens;
 
 import java.io.IOException;
 import org.unclesniper.json.JSONSink;
-import org.unclesniper.json.j8.ObjectP;
-import org.unclesniper.json.j8.ObjectGetter;
+import org.unclesniper.json.j8.IOObjectP;
+import org.unclesniper.json.j8.IOObjectGetter;
 
 public class StringPropertyJSONizer<BaseT> implements JSONizer<BaseT> {
 
-	private ObjectGetter<? super BaseT, String> getter;
+	private IOObjectGetter<? super BaseT, String> getter;
 
-	private ObjectP<? super String> needed;
+	private IOObjectP<? super String> needed;
 
-	public StringPropertyJSONizer(ObjectGetter<? super BaseT, String> getter, ObjectP<? super String> needed) {
+	public StringPropertyJSONizer(IOObjectGetter<? super BaseT, String> getter, IOObjectP<? super String> needed) {
 		this.getter = getter;
 		this.needed = needed;
 	}
 
-	public ObjectGetter<? super BaseT, String> getGetter() {
+	public IOObjectGetter<? super BaseT, String> getGetter() {
 		return getter;
 	}
 
-	public void setGetter(ObjectGetter<? super BaseT, String> getter) {
+	public void setGetter(IOObjectGetter<? super BaseT, String> getter) {
 		this.getter = getter;
 	}
 
-	public ObjectP<? super String> getNeeded() {
+	public IOObjectP<? super String> getNeeded() {
 		return needed;
 	}
 
-	public void setNeeded(ObjectP<? super String> needed) {
+	public void setNeeded(IOObjectP<? super String> needed) {
 		this.needed = needed;
 	}
 

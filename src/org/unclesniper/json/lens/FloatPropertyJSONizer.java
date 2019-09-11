@@ -2,33 +2,33 @@ package org.unclesniper.json.lens;
 
 import java.io.IOException;
 import org.unclesniper.json.JSONSink;
-import org.unclesniper.json.j8.FloatP;
-import org.unclesniper.json.j8.FloatGetter;
+import org.unclesniper.json.j8.IOFloatP;
+import org.unclesniper.json.j8.IOFloatGetter;
 
 public class FloatPropertyJSONizer<BaseT> implements JSONizer<BaseT> {
 
-	private FloatGetter<? super BaseT> getter;
+	private IOFloatGetter<? super BaseT> getter;
 
-	private FloatP needed;
+	private IOFloatP needed;
 
-	public FloatPropertyJSONizer(FloatGetter<? super BaseT> getter, FloatP needed) {
+	public FloatPropertyJSONizer(IOFloatGetter<? super BaseT> getter, IOFloatP needed) {
 		this.getter = getter;
 		this.needed = needed;
 	}
 
-	public FloatGetter<? super BaseT> getGetter() {
+	public IOFloatGetter<? super BaseT> getGetter() {
 		return getter;
 	}
 
-	public void setGetter(FloatGetter<? super BaseT> getter) {
+	public void setGetter(IOFloatGetter<? super BaseT> getter) {
 		this.getter = getter;
 	}
 
-	public FloatP getNeeded() {
+	public IOFloatP getNeeded() {
 		return needed;
 	}
 
-	public void setNeeded(FloatP needed) {
+	public void setNeeded(IOFloatP needed) {
 		this.needed = needed;
 	}
 

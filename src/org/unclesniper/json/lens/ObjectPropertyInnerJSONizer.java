@@ -2,23 +2,23 @@ package org.unclesniper.json.lens;
 
 import java.io.IOException;
 import org.unclesniper.json.JSONSink;
-import org.unclesniper.json.j8.ObjectP;
-import org.unclesniper.json.j8.ObjectGetter;
+import org.unclesniper.json.j8.IOObjectP;
+import org.unclesniper.json.j8.IOObjectGetter;
 
 public class ObjectPropertyInnerJSONizer<BaseT, PropertyT> implements InnerJSONizer<BaseT> {
 
 	private String name;
 
-	private ObjectGetter<? super BaseT, ? extends PropertyT> getter;
+	private IOObjectGetter<? super BaseT, ? extends PropertyT> getter;
 
-	private ObjectP<? super BaseT> outerNeeded;
+	private IOObjectP<? super BaseT> outerNeeded;
 
-	private ObjectP<? super PropertyT> innerNeeded;
+	private IOObjectP<? super PropertyT> innerNeeded;
 
 	private JSONizer<? super PropertyT> jsonizer;
 
-	public ObjectPropertyInnerJSONizer(String name, ObjectGetter<? super BaseT, ? extends PropertyT> getter,
-			ObjectP<? super BaseT> outerNeeded, ObjectP<? super PropertyT> innerNeeded,
+	public ObjectPropertyInnerJSONizer(String name, IOObjectGetter<? super BaseT, ? extends PropertyT> getter,
+			IOObjectP<? super BaseT> outerNeeded, IOObjectP<? super PropertyT> innerNeeded,
 			JSONizer<? super PropertyT> jsonizer) {
 		this.name = name;
 		this.getter = getter;
@@ -35,27 +35,27 @@ public class ObjectPropertyInnerJSONizer<BaseT, PropertyT> implements InnerJSONi
 		this.name = name;
 	}
 
-	public ObjectGetter<? super BaseT, ? extends PropertyT> getGetter() {
+	public IOObjectGetter<? super BaseT, ? extends PropertyT> getGetter() {
 		return getter;
 	}
 
-	public void setGetter(ObjectGetter<? super BaseT, ? extends PropertyT> getter) {
+	public void setGetter(IOObjectGetter<? super BaseT, ? extends PropertyT> getter) {
 		this.getter = getter;
 	}
 
-	public ObjectP<? super BaseT> getOuterNeeded() {
+	public IOObjectP<? super BaseT> getOuterNeeded() {
 		return outerNeeded;
 	}
 
-	public void setOuterNeeded(ObjectP<? super BaseT> outerNeeded) {
+	public void setOuterNeeded(IOObjectP<? super BaseT> outerNeeded) {
 		this.outerNeeded = outerNeeded;
 	}
 
-	public ObjectP<? super PropertyT> getInnerNeeded() {
+	public IOObjectP<? super PropertyT> getInnerNeeded() {
 		return innerNeeded;
 	}
 
-	public void setInnerNeeded(ObjectP<? super PropertyT> innerNeeded) {
+	public void setInnerNeeded(IOObjectP<? super PropertyT> innerNeeded) {
 		this.innerNeeded = innerNeeded;
 	}
 

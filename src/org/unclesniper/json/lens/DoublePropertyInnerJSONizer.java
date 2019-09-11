@@ -2,22 +2,22 @@ package org.unclesniper.json.lens;
 
 import java.io.IOException;
 import org.unclesniper.json.JSONSink;
-import org.unclesniper.json.j8.ObjectP;
-import org.unclesniper.json.j8.DoubleP;
-import org.unclesniper.json.j8.DoubleGetter;
+import org.unclesniper.json.j8.IOObjectP;
+import org.unclesniper.json.j8.IODoubleP;
+import org.unclesniper.json.j8.IODoubleGetter;
 
 public class DoublePropertyInnerJSONizer<BaseT> implements InnerJSONizer<BaseT> {
 
 	private String name;
 
-	private DoubleGetter<? super BaseT> getter;
+	private IODoubleGetter<? super BaseT> getter;
 
-	private ObjectP<? super BaseT> outerNeeded;
+	private IOObjectP<? super BaseT> outerNeeded;
 
-	private DoubleP innerNeeded;
+	private IODoubleP innerNeeded;
 
-	public DoublePropertyInnerJSONizer(String name, DoubleGetter<? super BaseT> getter,
-			ObjectP<? super BaseT> outerNeeded, DoubleP innerNeeded) {
+	public DoublePropertyInnerJSONizer(String name, IODoubleGetter<? super BaseT> getter,
+			IOObjectP<? super BaseT> outerNeeded, IODoubleP innerNeeded) {
 		this.name = name;
 		this.getter = getter;
 		this.outerNeeded = outerNeeded;
@@ -32,27 +32,27 @@ public class DoublePropertyInnerJSONizer<BaseT> implements InnerJSONizer<BaseT> 
 		this.name = name;
 	}
 
-	public DoubleGetter<? super BaseT> getGetter() {
+	public IODoubleGetter<? super BaseT> getGetter() {
 		return getter;
 	}
 
-	public void setGetter(DoubleGetter<? super BaseT> getter) {
+	public void setGetter(IODoubleGetter<? super BaseT> getter) {
 		this.getter = getter;
 	}
 
-	public ObjectP<? super BaseT> getOuterNeeded() {
+	public IOObjectP<? super BaseT> getOuterNeeded() {
 		return outerNeeded;
 	}
 
-	public void setOuterNeeded(ObjectP<? super BaseT> outerNeeded) {
+	public void setOuterNeeded(IOObjectP<? super BaseT> outerNeeded) {
 		this.outerNeeded = outerNeeded;
 	}
 
-	public DoubleP getInnerNeeded() {
+	public IODoubleP getInnerNeeded() {
 		return innerNeeded;
 	}
 
-	public void setInnerNeeded(DoubleP innerNeeded) {
+	public void setInnerNeeded(IODoubleP innerNeeded) {
 		this.innerNeeded = innerNeeded;
 	}
 

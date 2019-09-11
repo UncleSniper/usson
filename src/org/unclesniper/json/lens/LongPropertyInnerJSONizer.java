@@ -1,23 +1,23 @@
 package org.unclesniper.json.lens;
 
 import java.io.IOException;
-import org.unclesniper.json.j8.LongP;
 import org.unclesniper.json.JSONSink;
-import org.unclesniper.json.j8.ObjectP;
-import org.unclesniper.json.j8.LongGetter;
+import org.unclesniper.json.j8.IOLongP;
+import org.unclesniper.json.j8.IOObjectP;
+import org.unclesniper.json.j8.IOLongGetter;
 
 public class LongPropertyInnerJSONizer<BaseT> implements InnerJSONizer<BaseT> {
 
 	private String name;
 
-	private LongGetter<? super BaseT> getter;
+	private IOLongGetter<? super BaseT> getter;
 
-	private ObjectP<? super BaseT> outerNeeded;
+	private IOObjectP<? super BaseT> outerNeeded;
 
-	private LongP innerNeeded;
+	private IOLongP innerNeeded;
 
-	public LongPropertyInnerJSONizer(String name, LongGetter<? super BaseT> getter,
-			ObjectP<? super BaseT> outerNeeded, LongP innerNeeded) {
+	public LongPropertyInnerJSONizer(String name, IOLongGetter<? super BaseT> getter,
+			IOObjectP<? super BaseT> outerNeeded, IOLongP innerNeeded) {
 		this.name = name;
 		this.getter = getter;
 		this.outerNeeded = outerNeeded;
@@ -32,27 +32,27 @@ public class LongPropertyInnerJSONizer<BaseT> implements InnerJSONizer<BaseT> {
 		this.name = name;
 	}
 
-	public LongGetter<? super BaseT> getGetter() {
+	public IOLongGetter<? super BaseT> getGetter() {
 		return getter;
 	}
 
-	public void setGetter(LongGetter<? super BaseT> getter) {
+	public void setGetter(IOLongGetter<? super BaseT> getter) {
 		this.getter = getter;
 	}
 
-	public ObjectP<? super BaseT> getOuterNeeded() {
+	public IOObjectP<? super BaseT> getOuterNeeded() {
 		return outerNeeded;
 	}
 
-	public void setOuterNeeded(ObjectP<? super BaseT> outerNeeded) {
+	public void setOuterNeeded(IOObjectP<? super BaseT> outerNeeded) {
 		this.outerNeeded = outerNeeded;
 	}
 
-	public LongP getInnerNeeded() {
+	public IOLongP getInnerNeeded() {
 		return innerNeeded;
 	}
 
-	public void setInnerNeeded(LongP innerNeeded) {
+	public void setInnerNeeded(IOLongP innerNeeded) {
 		this.innerNeeded = innerNeeded;
 	}
 

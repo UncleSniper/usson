@@ -2,19 +2,19 @@ package org.unclesniper.json.lens;
 
 import java.io.IOException;
 import org.unclesniper.json.JSONSink;
-import org.unclesniper.json.j8.ObjectP;
-import org.unclesniper.json.j8.BooleanGetter;
+import org.unclesniper.json.j8.IOObjectP;
+import org.unclesniper.json.j8.IOBooleanGetter;
 
 public class BooleanPropertyInnerJSONizer<BaseT> implements InnerJSONizer<BaseT> {
 
 	private String name;
 
-	private BooleanGetter<? super BaseT> getter;
+	private IOBooleanGetter<? super BaseT> getter;
 
-	private ObjectP<? super BaseT> needed;
+	private IOObjectP<? super BaseT> needed;
 
-	public BooleanPropertyInnerJSONizer(String name, BooleanGetter<? super BaseT> getter,
-			ObjectP<? super BaseT> needed) {
+	public BooleanPropertyInnerJSONizer(String name, IOBooleanGetter<? super BaseT> getter,
+			IOObjectP<? super BaseT> needed) {
 		this.name = name;
 		this.getter = getter;
 		this.needed = needed;
@@ -28,19 +28,19 @@ public class BooleanPropertyInnerJSONizer<BaseT> implements InnerJSONizer<BaseT>
 		this.name = name;
 	}
 
-	public BooleanGetter<? super BaseT> getGetter() {
+	public IOBooleanGetter<? super BaseT> getGetter() {
 		return getter;
 	}
 
-	public void setGetter(BooleanGetter<? super BaseT> getter) {
+	public void setGetter(IOBooleanGetter<? super BaseT> getter) {
 		this.getter = getter;
 	}
 
-	public ObjectP<? super BaseT> getNeeded() {
+	public IOObjectP<? super BaseT> getNeeded() {
 		return needed;
 	}
 
-	public void setNeeded(ObjectP<? super BaseT> needed) {
+	public void setNeeded(IOObjectP<? super BaseT> needed) {
 		this.needed = needed;
 	}
 

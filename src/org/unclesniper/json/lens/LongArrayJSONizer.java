@@ -2,30 +2,30 @@ package org.unclesniper.json.lens;
 
 import java.io.IOException;
 import org.unclesniper.json.JSONSink;
-import org.unclesniper.json.j8.LongP;
-import org.unclesniper.json.j8.ObjectP;
-import org.unclesniper.json.j8.LongIterator;
-import org.unclesniper.json.j8.LongIterable;
+import org.unclesniper.json.j8.IOLongP;
+import org.unclesniper.json.j8.IOObjectP;
+import org.unclesniper.json.j8.IOLongIterator;
+import org.unclesniper.json.j8.IOLongIterable;
 
-public class LongArrayJSONizer implements JSONizer<LongIterable> {
+public class LongArrayJSONizer implements JSONizer<IOLongIterable> {
 
-	private ObjectP<? super LongIterable> needed;
+	private IOObjectP<? super IOLongIterable> needed;
 
 	private StaticJSON ifEmpty;
 
-	private LongP filter;
+	private IOLongP filter;
 
-	public LongArrayJSONizer(ObjectP<? super LongIterable> needed, StaticJSON ifEmpty, LongP filter) {
+	public LongArrayJSONizer(IOObjectP<? super IOLongIterable> needed, StaticJSON ifEmpty, IOLongP filter) {
 		this.needed = needed;
 		this.ifEmpty = ifEmpty;
 		this.filter = filter;
 	}
 
-	public ObjectP<? super LongIterable> getNeeded() {
+	public IOObjectP<? super IOLongIterable> getNeeded() {
 		return needed;
 	}
 
-	public void setNeeded(ObjectP<? super LongIterable> needed) {
+	public void setNeeded(IOObjectP<? super IOLongIterable> needed) {
 		this.needed = needed;
 	}
 
@@ -37,21 +37,21 @@ public class LongArrayJSONizer implements JSONizer<LongIterable> {
 		this.ifEmpty = ifEmpty;
 	}
 
-	public LongP getFilter() {
+	public IOLongP getFilter() {
 		return filter;
 	}
 
-	public void setFilter(LongP filter) {
+	public void setFilter(IOLongP filter) {
 		this.filter = filter;
 	}
 
 	@Override
-	public void jsonize(LongIterable value, JSONSink sink, int version) throws IOException {
+	public void jsonize(IOLongIterable value, JSONSink sink, int version) throws IOException {
 		if(value == null || (needed != null && !needed.testObject(value))) {
 			sink.foundNull();
 			return;
 		}
-		LongIterator it = value.longIterator();
+		IOLongIterator it = value.longIterator();
 		boolean first = true;
 		while(it.hasNext()) {
 			long element = it.nextLong();

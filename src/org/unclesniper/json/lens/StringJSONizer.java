@@ -2,25 +2,25 @@ package org.unclesniper.json.lens;
 
 import java.io.IOException;
 import org.unclesniper.json.JSONSink;
-import org.unclesniper.json.j8.ObjectP;
+import org.unclesniper.json.j8.IOObjectP;
 
 public class StringJSONizer implements JSONizer<String> {
 
 	public static final JSONizer<String> instance = new StringJSONizer();
 
-	private ObjectP<? super String> needed;
+	private IOObjectP<? super String> needed;
 
 	public StringJSONizer() {}
 
-	public StringJSONizer(ObjectP<? super String> needed) {
+	public StringJSONizer(IOObjectP<? super String> needed) {
 		this.needed = needed;
 	}
 
-	public ObjectP<? super String> getNeeded() {
+	public IOObjectP<? super String> getNeeded() {
 		return needed;
 	}
 
-	public void setNeeded(ObjectP<? super String> needed) {
+	public void setNeeded(IOObjectP<? super String> needed) {
 		this.needed = needed;
 	}
 

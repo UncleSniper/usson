@@ -2,30 +2,30 @@ package org.unclesniper.json.lens;
 
 import java.io.IOException;
 import org.unclesniper.json.JSONSink;
-import org.unclesniper.json.j8.ObjectP;
-import org.unclesniper.json.j8.DoubleP;
-import org.unclesniper.json.j8.DoubleIterator;
-import org.unclesniper.json.j8.DoubleIterable;
+import org.unclesniper.json.j8.IOObjectP;
+import org.unclesniper.json.j8.IODoubleP;
+import org.unclesniper.json.j8.IODoubleIterator;
+import org.unclesniper.json.j8.IODoubleIterable;
 
-public class DoubleArrayJSONizer implements JSONizer<DoubleIterable> {
+public class DoubleArrayJSONizer implements JSONizer<IODoubleIterable> {
 
-	private ObjectP<? super DoubleIterable> needed;
+	private IOObjectP<? super IODoubleIterable> needed;
 
 	private StaticJSON ifEmpty;
 
-	private DoubleP filter;
+	private IODoubleP filter;
 
-	public DoubleArrayJSONizer(ObjectP<? super DoubleIterable> needed, StaticJSON ifEmpty, DoubleP filter) {
+	public DoubleArrayJSONizer(IOObjectP<? super IODoubleIterable> needed, StaticJSON ifEmpty, IODoubleP filter) {
 		this.needed = needed;
 		this.ifEmpty = ifEmpty;
 		this.filter = filter;
 	}
 
-	public ObjectP<? super DoubleIterable> getNeeded() {
+	public IOObjectP<? super IODoubleIterable> getNeeded() {
 		return needed;
 	}
 
-	public void setNeeded(ObjectP<? super DoubleIterable> needed) {
+	public void setNeeded(IOObjectP<? super IODoubleIterable> needed) {
 		this.needed = needed;
 	}
 
@@ -37,21 +37,21 @@ public class DoubleArrayJSONizer implements JSONizer<DoubleIterable> {
 		this.ifEmpty = ifEmpty;
 	}
 
-	public DoubleP getFilter() {
+	public IODoubleP getFilter() {
 		return filter;
 	}
 
-	public void setFilter(DoubleP filter) {
+	public void setFilter(IODoubleP filter) {
 		this.filter = filter;
 	}
 
 	@Override
-	public void jsonize(DoubleIterable value, JSONSink sink, int version) throws IOException {
+	public void jsonize(IODoubleIterable value, JSONSink sink, int version) throws IOException {
 		if(value == null || (needed != null && !needed.testObject(value))) {
 			sink.foundNull();
 			return;
 		}
-		DoubleIterator it = value.doubleIterator();
+		IODoubleIterator it = value.doubleIterator();
 		boolean first = true;
 		while(it.hasNext()) {
 			double element = it.nextDouble();

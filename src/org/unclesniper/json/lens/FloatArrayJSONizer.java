@@ -2,30 +2,30 @@ package org.unclesniper.json.lens;
 
 import java.io.IOException;
 import org.unclesniper.json.JSONSink;
-import org.unclesniper.json.j8.FloatP;
-import org.unclesniper.json.j8.ObjectP;
-import org.unclesniper.json.j8.FloatIterable;
-import org.unclesniper.json.j8.FloatIterator;
+import org.unclesniper.json.j8.IOFloatP;
+import org.unclesniper.json.j8.IOObjectP;
+import org.unclesniper.json.j8.IOFloatIterable;
+import org.unclesniper.json.j8.IOFloatIterator;
 
-public class FloatArrayJSONizer implements JSONizer<FloatIterable> {
+public class FloatArrayJSONizer implements JSONizer<IOFloatIterable> {
 
-	private ObjectP<? super FloatIterable> needed;
+	private IOObjectP<? super IOFloatIterable> needed;
 
 	private StaticJSON ifEmpty;
 
-	private FloatP filter;
+	private IOFloatP filter;
 
-	public FloatArrayJSONizer(ObjectP<? super FloatIterable> needed, StaticJSON ifEmpty, FloatP filter) {
+	public FloatArrayJSONizer(IOObjectP<? super IOFloatIterable> needed, StaticJSON ifEmpty, IOFloatP filter) {
 		this.needed = needed;
 		this.ifEmpty = ifEmpty;
 		this.filter = filter;
 	}
 
-	public ObjectP<? super FloatIterable> getNeeded() {
+	public IOObjectP<? super IOFloatIterable> getNeeded() {
 		return needed;
 	}
 
-	public void setNeeded(ObjectP<? super FloatIterable> needed) {
+	public void setNeeded(IOObjectP<? super IOFloatIterable> needed) {
 		this.needed = needed;
 	}
 
@@ -37,21 +37,21 @@ public class FloatArrayJSONizer implements JSONizer<FloatIterable> {
 		this.ifEmpty = ifEmpty;
 	}
 
-	public FloatP getFilter() {
+	public IOFloatP getFilter() {
 		return filter;
 	}
 
-	public void setFilter(FloatP filter) {
+	public void setFilter(IOFloatP filter) {
 		this.filter = filter;
 	}
 
 	@Override
-	public void jsonize(FloatIterable value, JSONSink sink, int version) throws IOException {
+	public void jsonize(IOFloatIterable value, JSONSink sink, int version) throws IOException {
 		if(value == null || (needed != null && !needed.testObject(value))) {
 			sink.foundNull();
 			return;
 		}
-		FloatIterator it = value.floatIterator();
+		IOFloatIterator it = value.floatIterator();
 		boolean first = true;
 		while(it.hasNext()) {
 			float element = it.nextFloat();

@@ -1,31 +1,31 @@
 package org.unclesniper.json.lens;
 
 import java.io.IOException;
-import org.unclesniper.json.j8.IntP;
 import org.unclesniper.json.JSONSink;
-import org.unclesniper.json.j8.ObjectP;
-import org.unclesniper.json.j8.IntIterator;
-import org.unclesniper.json.j8.IntIterable;
+import org.unclesniper.json.j8.IOIntP;
+import org.unclesniper.json.j8.IOObjectP;
+import org.unclesniper.json.j8.IOIntIterator;
+import org.unclesniper.json.j8.IOIntIterable;
 
-public class IntegerArrayJSONizer implements JSONizer<IntIterable> {
+public class IntegerArrayJSONizer implements JSONizer<IOIntIterable> {
 
-	private ObjectP<? super IntIterable> needed;
+	private IOObjectP<? super IOIntIterable> needed;
 
 	private StaticJSON ifEmpty;
 
-	private IntP filter;
+	private IOIntP filter;
 
-	public IntegerArrayJSONizer(ObjectP<? super IntIterable> needed, StaticJSON ifEmpty, IntP filter) {
+	public IntegerArrayJSONizer(IOObjectP<? super IOIntIterable> needed, StaticJSON ifEmpty, IOIntP filter) {
 		this.needed = needed;
 		this.ifEmpty = ifEmpty;
 		this.filter = filter;
 	}
 
-	public ObjectP<? super IntIterable> getNeeded() {
+	public IOObjectP<? super IOIntIterable> getNeeded() {
 		return needed;
 	}
 
-	public void setNeeded(ObjectP<? super IntIterable> needed) {
+	public void setNeeded(IOObjectP<? super IOIntIterable> needed) {
 		this.needed = needed;
 	}
 
@@ -37,21 +37,21 @@ public class IntegerArrayJSONizer implements JSONizer<IntIterable> {
 		this.ifEmpty = ifEmpty;
 	}
 
-	public IntP getFilter() {
+	public IOIntP getFilter() {
 		return filter;
 	}
 
-	public void setFilter(IntP filter) {
+	public void setFilter(IOIntP filter) {
 		this.filter = filter;
 	}
 
 	@Override
-	public void jsonize(IntIterable value, JSONSink sink, int version) throws IOException {
+	public void jsonize(IOIntIterable value, JSONSink sink, int version) throws IOException {
 		if(value == null || (needed != null && !needed.testObject(value))) {
 			sink.foundNull();
 			return;
 		}
-		IntIterator it = value.intIterator();
+		IOIntIterator it = value.intIterator();
 		boolean first = true;
 		while(it.hasNext()) {
 			int element = it.nextInt();

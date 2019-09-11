@@ -2,28 +2,30 @@ package org.unclesniper.json.lens;
 
 import java.io.IOException;
 import org.unclesniper.json.JSONSink;
-import org.unclesniper.json.j8.ObjectP;
+import org.unclesniper.json.j8.IOObjectP;
+import org.unclesniper.json.j8.IOObjectIterator;
+import org.unclesniper.json.j8.IOObjectIterable;
 
-public class StringArrayJSONizer implements JSONizer<Iterable<String>> {
+public class StringArrayJSONizer implements JSONizer<IOObjectIterable<String>> {
 
-	private ObjectP<? super Iterable<String>> needed;
+	private IOObjectP<? super IOObjectIterable<String>> needed;
 
 	private StaticJSON ifEmpty;
 
-	private ObjectP<? super String> filter;
+	private IOObjectP<? super String> filter;
 
-	public StringArrayJSONizer(ObjectP<? super Iterable<String>> needed, StaticJSON ifEmpty,
-			ObjectP<? super String> filter) {
+	public StringArrayJSONizer(IOObjectP<? super IOObjectIterable<String>> needed, StaticJSON ifEmpty,
+			IOObjectP<? super String> filter) {
 		this.needed = needed;
 		this.ifEmpty = ifEmpty;
 		this.filter = filter;
 	}
 
-	public ObjectP<? super Iterable<String>> getNeeded() {
+	public IOObjectP<? super IOObjectIterable<String>> getNeeded() {
 		return needed;
 	}
 
-	public void setNeeded(ObjectP<? super Iterable<String>> needed) {
+	public void setNeeded(IOObjectP<? super IOObjectIterable<String>> needed) {
 		this.needed = needed;
 	}
 
@@ -35,22 +37,24 @@ public class StringArrayJSONizer implements JSONizer<Iterable<String>> {
 		this.ifEmpty = ifEmpty;
 	}
 
-	public ObjectP<? super String> getFilter() {
+	public IOObjectP<? super String> getFilter() {
 		return filter;
 	}
 
-	public void setFilter(ObjectP<? super String> filter) {
+	public void setFilter(IOObjectP<? super String> filter) {
 		this.filter = filter;
 	}
 
 	@Override
-	public void jsonize(Iterable<String> value, JSONSink sink, int version) throws IOException {
+	public void jsonize(IOObjectIterable<String> value, JSONSink sink, int version) throws IOException {
 		if(value == null || (needed != null && !needed.testObject(value))) {
 			sink.foundNull();
 			return;
 		}
 		boolean first = true;
-		for(String element : value) {
+		IOObjectIterator<String> it = value.objectIterator();
+		while(it.hasNext()) {
+			String element = it.next();
 			if(filter != null && !filter.testObject(element))
 				continue;
 			if(first) {

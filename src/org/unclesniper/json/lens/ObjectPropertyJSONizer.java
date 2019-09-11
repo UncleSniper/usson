@@ -2,37 +2,37 @@ package org.unclesniper.json.lens;
 
 import java.io.IOException;
 import org.unclesniper.json.JSONSink;
-import org.unclesniper.json.j8.ObjectP;
-import org.unclesniper.json.j8.ObjectGetter;
+import org.unclesniper.json.j8.IOObjectP;
+import org.unclesniper.json.j8.IOObjectGetter;
 
 public class ObjectPropertyJSONizer<BaseT, PropertyT> implements JSONizer<BaseT> {
 
-	private ObjectGetter<? super BaseT, ? extends PropertyT> getter;
+	private IOObjectGetter<? super BaseT, ? extends PropertyT> getter;
 
-	private ObjectP<? super BaseT> needed;
+	private IOObjectP<? super BaseT> needed;
 
 	private JSONizer<? super PropertyT> jsonizer;
 
-	public ObjectPropertyJSONizer(ObjectGetter<? super BaseT, ? extends PropertyT> getter,
-			ObjectP<? super BaseT> needed, JSONizer<? super PropertyT> jsonizer) {
+	public ObjectPropertyJSONizer(IOObjectGetter<? super BaseT, ? extends PropertyT> getter,
+			IOObjectP<? super BaseT> needed, JSONizer<? super PropertyT> jsonizer) {
 		this.getter = getter;
 		this.needed = needed;
 		this.jsonizer = jsonizer;
 	}
 
-	public ObjectGetter<? super BaseT, ? extends PropertyT> getGetter() {
+	public IOObjectGetter<? super BaseT, ? extends PropertyT> getGetter() {
 		return getter;
 	}
 
-	public void setGetter(ObjectGetter<? super BaseT, ? extends PropertyT> getter) {
+	public void setGetter(IOObjectGetter<? super BaseT, ? extends PropertyT> getter) {
 		this.getter = getter;
 	}
 
-	public ObjectP<? super BaseT> getNeeded() {
+	public IOObjectP<? super BaseT> getNeeded() {
 		return needed;
 	}
 
-	public void setNeeded(ObjectP<? super BaseT> needed) {
+	public void setNeeded(IOObjectP<? super BaseT> needed) {
 		this.needed = needed;
 	}
 

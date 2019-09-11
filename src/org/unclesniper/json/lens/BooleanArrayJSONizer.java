@@ -2,26 +2,26 @@ package org.unclesniper.json.lens;
 
 import java.io.IOException;
 import org.unclesniper.json.JSONSink;
-import org.unclesniper.json.j8.ObjectP;
-import org.unclesniper.json.j8.BooleanIterable;
-import org.unclesniper.json.j8.BooleanIterator;
+import org.unclesniper.json.j8.IOObjectP;
+import org.unclesniper.json.j8.IOBooleanIterable;
+import org.unclesniper.json.j8.IOBooleanIterator;
 
-public class BooleanArrayJSONizer implements JSONizer<BooleanIterable> {
+public class BooleanArrayJSONizer implements JSONizer<IOBooleanIterable> {
 
-	private ObjectP<? super BooleanIterable> needed;
+	private IOObjectP<? super IOBooleanIterable> needed;
 
 	private StaticJSON ifEmpty;
 
-	public BooleanArrayJSONizer(ObjectP<? super BooleanIterable> needed, StaticJSON ifEmpty) {
+	public BooleanArrayJSONizer(IOObjectP<? super IOBooleanIterable> needed, StaticJSON ifEmpty) {
 		this.needed = needed;
 		this.ifEmpty = ifEmpty;
 	}
 
-	public ObjectP<? super BooleanIterable> getNeeded() {
+	public IOObjectP<? super IOBooleanIterable> getNeeded() {
 		return needed;
 	}
 
-	public void setNeeded(ObjectP<? super BooleanIterable> needed) {
+	public void setNeeded(IOObjectP<? super IOBooleanIterable> needed) {
 		this.needed = needed;
 	}
 
@@ -34,12 +34,12 @@ public class BooleanArrayJSONizer implements JSONizer<BooleanIterable> {
 	}
 
 	@Override
-	public void jsonize(BooleanIterable value, JSONSink sink, int version) throws IOException {
+	public void jsonize(IOBooleanIterable value, JSONSink sink, int version) throws IOException {
 		if(value == null || (needed != null && !needed.testObject(value))) {
 			sink.foundNull();
 			return;
 		}
-		BooleanIterator it = value.booleanIterator();
+		IOBooleanIterator it = value.booleanIterator();
 		boolean first = true;
 		while(it.hasNext()) {
 			if(first) {

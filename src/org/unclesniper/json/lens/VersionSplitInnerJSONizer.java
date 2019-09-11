@@ -1,29 +1,29 @@
 package org.unclesniper.json.lens;
 
 import java.io.IOException;
-import org.unclesniper.json.j8.IntP;
 import org.unclesniper.json.JSONSink;
+import org.unclesniper.json.j8.IOIntP;
 
 public class VersionSplitInnerJSONizer<ValueT> implements InnerJSONizer<ValueT> {
 
-	private IntP predicate;
+	private IOIntP predicate;
 
 	private InnerJSONizer<? super ValueT> ifFalse;
 
 	private InnerJSONizer<? super ValueT> ifTrue;
 
-	public VersionSplitInnerJSONizer(IntP predicate, InnerJSONizer<? super ValueT> ifFalse,
+	public VersionSplitInnerJSONizer(IOIntP predicate, InnerJSONizer<? super ValueT> ifFalse,
 			InnerJSONizer<? super ValueT> ifTrue) {
 		this.predicate = predicate;
 		this.ifFalse = ifFalse;
 		this.ifTrue = ifTrue;
 	}
 
-	public IntP getPredicate() {
+	public IOIntP getPredicate() {
 		return predicate;
 	}
 
-	public void setPredicate(IntP predicate) {
+	public void setPredicate(IOIntP predicate) {
 		this.predicate = predicate;
 	}
 

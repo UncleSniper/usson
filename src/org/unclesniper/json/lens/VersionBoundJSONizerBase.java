@@ -1,23 +1,23 @@
 package org.unclesniper.json.lens;
 
-import org.unclesniper.json.j8.IntP;
+import org.unclesniper.json.j8.IOIntP;
 
 public abstract class VersionBoundJSONizerBase<ValueT> {
 
-	protected IntP predicate;
+	protected IOIntP predicate;
 
 	protected InnerJSONizer<? super ValueT> jsonizer;
 
-	public VersionBoundJSONizerBase(IntP predicate, InnerJSONizer<? super ValueT> jsonizer) {
+	public VersionBoundJSONizerBase(IOIntP predicate, InnerJSONizer<? super ValueT> jsonizer) {
 		this.predicate = predicate;
 		this.jsonizer = jsonizer;
 	}
 
-	public IntP getPredicate() {
+	public IOIntP getPredicate() {
 		return predicate;
 	}
 
-	public void setPredicate(IntP predicate) {
+	public void setPredicate(IOIntP predicate) {
 		this.predicate = predicate;
 	}
 

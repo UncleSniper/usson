@@ -2,21 +2,23 @@ package org.unclesniper.json.lens;
 
 import java.io.IOException;
 import org.unclesniper.json.JSONSink;
-import org.unclesniper.json.j8.ObjectP;
-import org.unclesniper.json.j8.ArrayIterable;
+import org.unclesniper.json.j8.IOObjectP;
+import org.unclesniper.json.j8.IOObjectIterable;
+import org.unclesniper.json.j8.IOObjectIterator;
+import org.unclesniper.json.j8.ArrayObjectIterable;
 
 public class ObjectJSONizer<BaseT> implements JSONizer<BaseT> {
 
-	private Iterable<? extends InnerJSONizer<? super BaseT>> properties;
+	private IOObjectIterable<? extends InnerJSONizer<? super BaseT>> properties;
 
-	private ObjectP<? super BaseT> needed;
+	private IOObjectP<? super BaseT> needed;
 
-	public ObjectJSONizer(Iterable<? extends InnerJSONizer<? super BaseT>> properties) {
+	public ObjectJSONizer(IOObjectIterable<? extends InnerJSONizer<? super BaseT>> properties) {
 		this(properties, null);
 	}
 
-	public ObjectJSONizer(Iterable<? extends InnerJSONizer<? super BaseT>> properties,
-			ObjectP<? super BaseT> needed) {
+	public ObjectJSONizer(IOObjectIterable<? extends InnerJSONizer<? super BaseT>> properties,
+			IOObjectP<? super BaseT> needed) {
 		this.properties = properties;
 		this.needed = needed;
 	}
@@ -25,29 +27,29 @@ public class ObjectJSONizer<BaseT> implements JSONizer<BaseT> {
 		this(null, properties);
 	}
 
-	public ObjectJSONizer(ObjectP<? super BaseT> needed, InnerJSONizer<? super BaseT>... properties) {
+	public ObjectJSONizer(IOObjectP<? super BaseT> needed, InnerJSONizer<? super BaseT>... properties) {
 		setProperties(properties);
 		this.needed = needed;
 	}
 
-	public Iterable<? extends InnerJSONizer<? super BaseT>> getProperties() {
+	public IOObjectIterable<? extends InnerJSONizer<? super BaseT>> getProperties() {
 		return properties;
 	}
 
-	public void setProperties(Iterable<? extends InnerJSONizer<? super BaseT>> properties) {
+	public void setProperties(IOObjectIterable<? extends InnerJSONizer<? super BaseT>> properties) {
 		this.properties = properties;
 	}
 
 	public void setProperties(InnerJSONizer<? super BaseT>[] properties) {
 		this.properties = properties == null || properties.length == 0
-				? null : new ArrayIterable<InnerJSONizer<? super BaseT>>(properties);
+				? null : new ArrayObjectIterable<InnerJSONizer<? super BaseT>>(properties);
 	}
 
-	public ObjectP<? super BaseT> getNeeded() {
+	public IOObjectP<? super BaseT> getNeeded() {
 		return needed;
 	}
 
-	public void setNeeded(ObjectP<? super BaseT> needed) {
+	public void setNeeded(IOObjectP<? super BaseT> needed) {
 		this.needed = needed;
 	}
 
@@ -59,8 +61,9 @@ public class ObjectJSONizer<BaseT> implements JSONizer<BaseT> {
 		}
 		sink.beginObject();
 		if(properties != null) {
-			for(InnerJSONizer<? super BaseT> property : properties)
-				property.jsonize(base, sink, version);
+			IOObjectIterator<? extends InnerJSONizer<? super BaseT>> it = properties.objectIterator();
+			while(it.hasNext())
+				it.next().jsonize(base, sink, version);
 		}
 		sink.endObject();
 	}

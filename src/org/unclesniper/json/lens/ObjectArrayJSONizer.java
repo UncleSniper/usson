@@ -2,21 +2,23 @@ package org.unclesniper.json.lens;
 
 import java.io.IOException;
 import org.unclesniper.json.JSONSink;
-import org.unclesniper.json.j8.ObjectP;
+import org.unclesniper.json.j8.IOObjectP;
+import org.unclesniper.json.j8.IOObjectIterable;
+import org.unclesniper.json.j8.IOObjectIterator;
 
-public class ObjectArrayJSONizer<ElementT> implements JSONizer<Iterable<? extends ElementT>> {
+public class ObjectArrayJSONizer<ElementT> implements JSONizer<IOObjectIterable<? extends ElementT>> {
 
 	private JSONizer<? super ElementT> jsonizer;
 
-	private ObjectP<? super Iterable<? extends ElementT>> needed;
+	private IOObjectP<? super IOObjectIterable<? extends ElementT>> needed;
 
 	private StaticJSON ifEmpty;
 
-	private ObjectP<? super ElementT> filter;
+	private IOObjectP<? super ElementT> filter;
 
 	public ObjectArrayJSONizer(JSONizer<? super ElementT> jsonizer,
-			ObjectP<? super Iterable<? extends ElementT>> needed, StaticJSON ifEmpty,
-			ObjectP<? super ElementT> filter) {
+			IOObjectP<? super IOObjectIterable<? extends ElementT>> needed, StaticJSON ifEmpty,
+			IOObjectP<? super ElementT> filter) {
 		this.jsonizer = jsonizer;
 		this.needed = needed;
 		this.ifEmpty = ifEmpty;
@@ -31,11 +33,11 @@ public class ObjectArrayJSONizer<ElementT> implements JSONizer<Iterable<? extend
 		this.jsonizer = jsonizer;
 	}
 
-	public ObjectP<? super Iterable<? extends ElementT>> getNeeded() {
+	public IOObjectP<? super IOObjectIterable<? extends ElementT>> getNeeded() {
 		return needed;
 	}
 
-	public void setNeeded(ObjectP<? super Iterable<? extends ElementT>> needed) {
+	public void setNeeded(IOObjectP<? super IOObjectIterable<? extends ElementT>> needed) {
 		this.needed = needed;
 	}
 
@@ -47,22 +49,24 @@ public class ObjectArrayJSONizer<ElementT> implements JSONizer<Iterable<? extend
 		this.ifEmpty = ifEmpty;
 	}
 
-	public ObjectP<? super ElementT> getFilter() {
+	public IOObjectP<? super ElementT> getFilter() {
 		return filter;
 	}
 
-	public void setFilter(ObjectP<? super ElementT> filter) {
+	public void setFilter(IOObjectP<? super ElementT> filter) {
 		this.filter = filter;
 	}
 
 	@Override
-	public void jsonize(Iterable<? extends ElementT> value, JSONSink sink, int version) throws IOException {
+	public void jsonize(IOObjectIterable<? extends ElementT> value, JSONSink sink, int version) throws IOException {
 		if(value == null || (needed != null && !needed.testObject(value))) {
 			sink.foundNull();
 			return;
 		}
 		boolean first = true;
-		for(ElementT element : value) {
+		IOObjectIterator<? extends ElementT> it = value.objectIterator();
+		while(it.hasNext()) {
+			ElementT element = it.next();
 			if(filter != null && !filter.testObject(element))
 				continue;
 			if(first) {

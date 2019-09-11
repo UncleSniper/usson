@@ -1,34 +1,34 @@
 package org.unclesniper.json.lens;
 
 import java.io.IOException;
-import org.unclesniper.json.j8.IntP;
 import org.unclesniper.json.JSONSink;
-import org.unclesniper.json.j8.IntGetter;
+import org.unclesniper.json.j8.IOIntP;
+import org.unclesniper.json.j8.IOIntGetter;
 
 public class IntegerPropertyJSONizer<BaseT> implements JSONizer<BaseT> {
 
-	private IntGetter<? super BaseT> getter;
+	private IOIntGetter<? super BaseT> getter;
 
-	private IntP needed;
+	private IOIntP needed;
 
-	public IntegerPropertyJSONizer(IntGetter<? super BaseT> getter, IntP needed) {
+	public IntegerPropertyJSONizer(IOIntGetter<? super BaseT> getter, IOIntP needed) {
 		this.getter = getter;
 		this.needed = needed;
 	}
 
-	public IntGetter<? super BaseT> getGetter() {
+	public IOIntGetter<? super BaseT> getGetter() {
 		return getter;
 	}
 
-	public void setGetter(IntGetter<? super BaseT> getter) {
+	public void setGetter(IOIntGetter<? super BaseT> getter) {
 		this.getter = getter;
 	}
 
-	public IntP getNeeded() {
+	public IOIntP getNeeded() {
 		return needed;
 	}
 
-	public void setNeeded(IntP needed) {
+	public void setNeeded(IOIntP needed) {
 		this.needed = needed;
 	}
 

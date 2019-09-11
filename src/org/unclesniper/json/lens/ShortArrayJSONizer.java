@@ -2,30 +2,30 @@ package org.unclesniper.json.lens;
 
 import java.io.IOException;
 import org.unclesniper.json.JSONSink;
-import org.unclesniper.json.j8.ShortP;
-import org.unclesniper.json.j8.ObjectP;
-import org.unclesniper.json.j8.ShortIterator;
-import org.unclesniper.json.j8.ShortIterable;
+import org.unclesniper.json.j8.IOShortP;
+import org.unclesniper.json.j8.IOObjectP;
+import org.unclesniper.json.j8.IOShortIterator;
+import org.unclesniper.json.j8.IOShortIterable;
 
-public class ShortArrayJSONizer implements JSONizer<ShortIterable> {
+public class ShortArrayJSONizer implements JSONizer<IOShortIterable> {
 
-	private ObjectP<? super ShortIterable> needed;
+	private IOObjectP<? super IOShortIterable> needed;
 
 	private StaticJSON ifEmpty;
 
-	private ShortP filter;
+	private IOShortP filter;
 
-	public ShortArrayJSONizer(ObjectP<? super ShortIterable> needed, StaticJSON ifEmpty, ShortP filter) {
+	public ShortArrayJSONizer(IOObjectP<? super IOShortIterable> needed, StaticJSON ifEmpty, IOShortP filter) {
 		this.needed = needed;
 		this.ifEmpty = ifEmpty;
 		this.filter = filter;
 	}
 
-	public ObjectP<? super ShortIterable> getNeeded() {
+	public IOObjectP<? super IOShortIterable> getNeeded() {
 		return needed;
 	}
 
-	public void setNeeded(ObjectP<? super ShortIterable> needed) {
+	public void setNeeded(IOObjectP<? super IOShortIterable> needed) {
 		this.needed = needed;
 	}
 
@@ -37,21 +37,21 @@ public class ShortArrayJSONizer implements JSONizer<ShortIterable> {
 		this.ifEmpty = ifEmpty;
 	}
 
-	public ShortP getFilter() {
+	public IOShortP getFilter() {
 		return filter;
 	}
 
-	public void setFilter(ShortP filter) {
+	public void setFilter(IOShortP filter) {
 		this.filter = filter;
 	}
 
 	@Override
-	public void jsonize(ShortIterable value, JSONSink sink, int version) throws IOException {
+	public void jsonize(IOShortIterable value, JSONSink sink, int version) throws IOException {
 		if(value == null || (needed != null && !needed.testObject(value))) {
 			sink.foundNull();
 			return;
 		}
-		ShortIterator it = value.shortIterator();
+		IOShortIterator it = value.shortIterator();
 		boolean first = true;
 		while(it.hasNext()) {
 			short element = it.nextShort();

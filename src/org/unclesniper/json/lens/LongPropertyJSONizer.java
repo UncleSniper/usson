@@ -1,34 +1,34 @@
 package org.unclesniper.json.lens;
 
 import java.io.IOException;
-import org.unclesniper.json.j8.LongP;
 import org.unclesniper.json.JSONSink;
-import org.unclesniper.json.j8.LongGetter;
+import org.unclesniper.json.j8.IOLongP;
+import org.unclesniper.json.j8.IOLongGetter;
 
 public class LongPropertyJSONizer<BaseT> implements JSONizer<BaseT> {
 
-	private LongGetter<? super BaseT> getter;
+	private IOLongGetter<? super BaseT> getter;
 
-	private LongP needed;
+	private IOLongP needed;
 
-	public LongPropertyJSONizer(LongGetter<? super BaseT> getter, LongP needed) {
+	public LongPropertyJSONizer(IOLongGetter<? super BaseT> getter, IOLongP needed) {
 		this.getter = getter;
 		this.needed = needed;
 	}
 
-	public LongGetter<? super BaseT> getGetter() {
+	public IOLongGetter<? super BaseT> getGetter() {
 		return getter;
 	}
 
-	public void setGetter(LongGetter<? super BaseT> getter) {
+	public void setGetter(IOLongGetter<? super BaseT> getter) {
 		this.getter = getter;
 	}
 
-	public LongP getNeeded() {
+	public IOLongP getNeeded() {
 		return needed;
 	}
 
-	public void setNeeded(LongP needed) {
+	public void setNeeded(IOLongP needed) {
 		this.needed = needed;
 	}
 

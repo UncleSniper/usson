@@ -2,33 +2,33 @@ package org.unclesniper.json.lens;
 
 import java.io.IOException;
 import org.unclesniper.json.JSONSink;
-import org.unclesniper.json.j8.DoubleP;
-import org.unclesniper.json.j8.DoubleGetter;
+import org.unclesniper.json.j8.IODoubleP;
+import org.unclesniper.json.j8.IODoubleGetter;
 
 public class DoublePropertyJSONizer<BaseT> implements JSONizer<BaseT> {
 
-	private DoubleGetter<? super BaseT> getter;
+	private IODoubleGetter<? super BaseT> getter;
 
-	private DoubleP needed;
+	private IODoubleP needed;
 
-	public DoublePropertyJSONizer(DoubleGetter<? super BaseT> getter, DoubleP needed) {
+	public DoublePropertyJSONizer(IODoubleGetter<? super BaseT> getter, IODoubleP needed) {
 		this.getter = getter;
 		this.needed = needed;
 	}
 
-	public DoubleGetter<? super BaseT> getGetter() {
+	public IODoubleGetter<? super BaseT> getGetter() {
 		return getter;
 	}
 
-	public void setGetter(DoubleGetter<? super BaseT> getter) {
+	public void setGetter(IODoubleGetter<? super BaseT> getter) {
 		this.getter = getter;
 	}
 
-	public DoubleP getNeeded() {
+	public IODoubleP getNeeded() {
 		return needed;
 	}
 
-	public void setNeeded(DoubleP needed) {
+	public void setNeeded(IODoubleP needed) {
 		this.needed = needed;
 	}
 

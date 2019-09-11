@@ -1,34 +1,34 @@
 package org.unclesniper.json.lens;
 
 import java.io.IOException;
-import org.unclesniper.json.j8.ByteP;
 import org.unclesniper.json.JSONSink;
-import org.unclesniper.json.j8.ByteGetter;
+import org.unclesniper.json.j8.IOByteP;
+import org.unclesniper.json.j8.IOByteGetter;
 
 public class BytePropertyJSONizer<BaseT> implements JSONizer<BaseT> {
 
-	private ByteGetter<? super BaseT> getter;
+	private IOByteGetter<? super BaseT> getter;
 
-	private ByteP needed;
+	private IOByteP needed;
 
-	public BytePropertyJSONizer(ByteGetter<? super BaseT> getter, ByteP needed) {
+	public BytePropertyJSONizer(IOByteGetter<? super BaseT> getter, IOByteP needed) {
 		this.getter = getter;
 		this.needed = needed;
 	}
 
-	public ByteGetter<? super BaseT> getGetter() {
+	public IOByteGetter<? super BaseT> getGetter() {
 		return getter;
 	}
 
-	public void setGetter(ByteGetter<? super BaseT> getter) {
+	public void setGetter(IOByteGetter<? super BaseT> getter) {
 		this.getter = getter;
 	}
 
-	public ByteP getNeeded() {
+	public IOByteP getNeeded() {
 		return needed;
 	}
 
-	public void setNeeded(ByteP needed) {
+	public void setNeeded(IOByteP needed) {
 		this.needed = needed;
 	}
 
