@@ -7,25 +7,25 @@ import org.unclesniper.json.j8.IOObjectP;
 import org.unclesniper.json.j8.IOLongIterator;
 import org.unclesniper.json.j8.IOLongIterable;
 
-public class LongArrayJSONizer implements JSONizer<IOLongIterable> {
+public class LongArrayJSONizer<CollectionT extends IOLongIterable> implements JSONizer<CollectionT> {
 
-	private IOObjectP<? super IOLongIterable> needed;
+	private IOObjectP<? super CollectionT> needed;
 
 	private StaticJSON ifEmpty;
 
 	private IOLongP filter;
 
-	public LongArrayJSONizer(IOObjectP<? super IOLongIterable> needed, StaticJSON ifEmpty, IOLongP filter) {
+	public LongArrayJSONizer(IOObjectP<? super CollectionT> needed, StaticJSON ifEmpty, IOLongP filter) {
 		this.needed = needed;
 		this.ifEmpty = ifEmpty;
 		this.filter = filter;
 	}
 
-	public IOObjectP<? super IOLongIterable> getNeeded() {
+	public IOObjectP<? super CollectionT> getNeeded() {
 		return needed;
 	}
 
-	public void setNeeded(IOObjectP<? super IOLongIterable> needed) {
+	public void setNeeded(IOObjectP<? super CollectionT> needed) {
 		this.needed = needed;
 	}
 
@@ -46,7 +46,7 @@ public class LongArrayJSONizer implements JSONizer<IOLongIterable> {
 	}
 
 	@Override
-	public void jsonize(IOLongIterable value, JSONSink sink, int version) throws IOException {
+	public void jsonize(CollectionT value, JSONSink sink, int version) throws IOException {
 		if(value == null || (needed != null && !needed.testObject(value))) {
 			sink.foundNull();
 			return;

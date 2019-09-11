@@ -43,19 +43,22 @@ public class JSONizers {
 		return new ArrayJSONizer<ValueT>(generator, needed);
 	}
 
-	public static final JSONizer<IOBooleanIterable> booleanArray = new BooleanArrayJSONizer(null, null);
-
-	public static JSONizer<IOBooleanIterable> booleanArray(IOObjectP<? super IOBooleanIterable> needed) {
-		return new BooleanArrayJSONizer(needed, null);
+	public static <CollectionT extends IOBooleanIterable> JSONizer<CollectionT> booleanArray() {
+		return new BooleanArrayJSONizer<CollectionT>(null, null);
 	}
 
-	public static JSONizer<IOBooleanIterable> booleanArray(StaticJSON ifEmpty) {
-		return new BooleanArrayJSONizer(null, ifEmpty);
+	public static <CollectionT extends IOBooleanIterable> JSONizer<CollectionT>
+	booleanArray(IOObjectP<? super CollectionT> needed) {
+		return new BooleanArrayJSONizer<CollectionT>(needed, null);
 	}
 
-	public static JSONizer<IOBooleanIterable> booleanArray(IOObjectP<? super IOBooleanIterable> needed,
-			StaticJSON ifEmpty) {
-		return new BooleanArrayJSONizer(needed, ifEmpty);
+	public static <CollectionT extends IOBooleanIterable> JSONizer<CollectionT> booleanArray(StaticJSON ifEmpty) {
+		return new BooleanArrayJSONizer<CollectionT>(null, ifEmpty);
+	}
+
+	public static <CollectionT extends IOBooleanIterable> JSONizer<CollectionT>
+	booleanArray(IOObjectP<? super CollectionT> needed, StaticJSON ifEmpty) {
+		return new BooleanArrayJSONizer<CollectionT>(needed, ifEmpty);
 	}
 
 	public static final JSONizer<Boolean> booleanValue = BooleanJSONizer.instance;
@@ -77,37 +80,41 @@ public class JSONizers {
 		return new BooleanPropertyJSONizer<BaseT>(getter);
 	}
 
-	public static final JSONizer<IODoubleIterable> doubleArray = new DoubleArrayJSONizer(null, null, null);
-
-	public static JSONizer<IODoubleIterable> doubleArray(IOObjectP<? super IODoubleIterable> needed) {
-		return new DoubleArrayJSONizer(needed, null, null);
+	public static <CollectionT extends IODoubleIterable> JSONizer<CollectionT> doubleArray() {
+		return new DoubleArrayJSONizer<CollectionT>(null, null, null);
 	}
 
-	public static JSONizer<IODoubleIterable> doubleArray(StaticJSON ifEmpty) {
-		return new DoubleArrayJSONizer(null, ifEmpty, null);
+	public static <CollectionT extends IODoubleIterable> JSONizer<CollectionT>
+	doubleArray(IOObjectP<? super CollectionT> needed) {
+		return new DoubleArrayJSONizer<CollectionT>(needed, null, null);
 	}
 
-	public static JSONizer<IODoubleIterable> doubleArray(IODoubleP filter) {
-		return new DoubleArrayJSONizer(null, null, filter);
+	public static <CollectionT extends IODoubleIterable> JSONizer<CollectionT> doubleArray(StaticJSON ifEmpty) {
+		return new DoubleArrayJSONizer<CollectionT>(null, ifEmpty, null);
 	}
 
-	public static JSONizer<IODoubleIterable> doubleArray(IOObjectP<? super IODoubleIterable> needed,
-			StaticJSON ifEmpty) {
-		return new DoubleArrayJSONizer(needed, ifEmpty, null);
+	public static <CollectionT extends IODoubleIterable> JSONizer<CollectionT> doubleArray(IODoubleP filter) {
+		return new DoubleArrayJSONizer<CollectionT>(null, null, filter);
 	}
 
-	public static JSONizer<IODoubleIterable> doubleArray(IOObjectP<? super IODoubleIterable> needed,
+	public static <CollectionT extends IODoubleIterable> JSONizer<CollectionT>
+	doubleArray(IOObjectP<? super CollectionT> needed, StaticJSON ifEmpty) {
+		return new DoubleArrayJSONizer<CollectionT>(needed, ifEmpty, null);
+	}
+
+	public static <CollectionT extends IODoubleIterable> JSONizer<CollectionT>
+	doubleArray(IOObjectP<? super CollectionT> needed, IODoubleP filter) {
+		return new DoubleArrayJSONizer<CollectionT>(needed, null, filter);
+	}
+
+	public static <CollectionT extends IODoubleIterable> JSONizer<CollectionT> doubleArray(StaticJSON ifEmpty,
 			IODoubleP filter) {
-		return new DoubleArrayJSONizer(needed, null, filter);
+		return new DoubleArrayJSONizer<CollectionT>(null, ifEmpty, filter);
 	}
 
-	public static JSONizer<IODoubleIterable> doubleArray(StaticJSON ifEmpty, IODoubleP filter) {
-		return new DoubleArrayJSONizer(null, ifEmpty, filter);
-	}
-
-	public static JSONizer<IODoubleIterable> doubleArray(IOObjectP<? super IODoubleIterable> needed,
-			StaticJSON ifEmpty, IODoubleP filter) {
-		return new DoubleArrayJSONizer(needed, ifEmpty, filter);
+	public static <CollectionT extends IODoubleIterable> JSONizer<CollectionT>
+	doubleArray(IOObjectP<? super CollectionT> needed, StaticJSON ifEmpty, IODoubleP filter) {
+		return new DoubleArrayJSONizer<CollectionT>(needed, ifEmpty, filter);
 	}
 
 	public static final JSONizer<Double> doubleValue = DoubleJSONizer.instance;
@@ -149,36 +156,41 @@ public class JSONizers {
 		return new EmptySequenceJSONizer<ValueT>();
 	}
 
-	public static final JSONizer<IOFloatIterable> floatArray = new FloatArrayJSONizer(null, null, null);
-
-	public static JSONizer<IOFloatIterable> floatArray(IOObjectP<? super IOFloatIterable> needed) {
-		return new FloatArrayJSONizer(needed, null, null);
+	public static <CollectionT extends IOFloatIterable> JSONizer<CollectionT> floatArray() {
+		return new FloatArrayJSONizer<CollectionT>(null, null, null);
 	}
 
-	public static JSONizer<IOFloatIterable> floatArray(StaticJSON ifEmpty) {
-		return new FloatArrayJSONizer(null, ifEmpty, null);
+	public static <CollectionT extends IOFloatIterable> JSONizer<CollectionT>
+	floatArray(IOObjectP<? super CollectionT> needed) {
+		return new FloatArrayJSONizer<CollectionT>(needed, null, null);
 	}
 
-	public static JSONizer<IOFloatIterable> floatArray(IOFloatP filter) {
-		return new FloatArrayJSONizer(null, null, filter);
+	public static <CollectionT extends IOFloatIterable> JSONizer<CollectionT> floatArray(StaticJSON ifEmpty) {
+		return new FloatArrayJSONizer<CollectionT>(null, ifEmpty, null);
 	}
 
-	public static JSONizer<IOFloatIterable> floatArray(IOObjectP<? super IOFloatIterable> needed,
-			StaticJSON ifEmpty) {
-		return new FloatArrayJSONizer(needed, ifEmpty, null);
+	public static <CollectionT extends IOFloatIterable> JSONizer<CollectionT> floatArray(IOFloatP filter) {
+		return new FloatArrayJSONizer<CollectionT>(null, null, filter);
 	}
 
-	public static JSONizer<IOFloatIterable> floatArray(IOObjectP<? super IOFloatIterable> needed, IOFloatP filter) {
-		return new FloatArrayJSONizer(needed, null, filter);
+	public static <CollectionT extends IOFloatIterable> JSONizer<CollectionT>
+	floatArray(IOObjectP<? super CollectionT> needed, StaticJSON ifEmpty) {
+		return new FloatArrayJSONizer<CollectionT>(needed, ifEmpty, null);
 	}
 
-	public static JSONizer<IOFloatIterable> floatArray(StaticJSON ifEmpty, IOFloatP filter) {
-		return new FloatArrayJSONizer(null, ifEmpty, filter);
+	public static <CollectionT extends IOFloatIterable> JSONizer<CollectionT>
+	floatArray(IOObjectP<? super CollectionT> needed, IOFloatP filter) {
+		return new FloatArrayJSONizer<CollectionT>(needed, null, filter);
 	}
 
-	public static JSONizer<IOFloatIterable> floatArray(IOObjectP<? super IOFloatIterable> needed,
-			StaticJSON ifEmpty, IOFloatP filter) {
-		return new FloatArrayJSONizer(needed, ifEmpty, filter);
+	public static <CollectionT extends IOFloatIterable> JSONizer<CollectionT> floatArray(StaticJSON ifEmpty,
+			IOFloatP filter) {
+		return new FloatArrayJSONizer<CollectionT>(null, ifEmpty, filter);
+	}
+
+	public static <CollectionT extends IOFloatIterable> JSONizer<CollectionT>
+	floatArray(IOObjectP<? super CollectionT> needed, StaticJSON ifEmpty, IOFloatP filter) {
+		return new FloatArrayJSONizer<CollectionT>(needed, ifEmpty, filter);
 	}
 
 	public static final JSONizer<Float> floatValue = FloatJSONizer.instance;
@@ -214,35 +226,41 @@ public class JSONizers {
 		return new FloatPropertyJSONizer<BaseT>(getter, needed);
 	}
 
-	public static final JSONizer<IOIntIterable> intArray = new IntegerArrayJSONizer(null, null, null);
-
-	public static JSONizer<IOIntIterable> intArray(IOObjectP<? super IOIntIterable> needed) {
-		return new IntegerArrayJSONizer(needed, null, null);
+	public static <CollectionT extends IOIntIterable> JSONizer<CollectionT> intArray() {
+		return new IntegerArrayJSONizer<CollectionT>(null, null, null);
 	}
 
-	public static JSONizer<IOIntIterable> intArray(StaticJSON ifEmpty) {
-		return new IntegerArrayJSONizer(null, ifEmpty, null);
+	public static <CollectionT extends IOIntIterable> JSONizer<CollectionT>
+	intArray(IOObjectP<? super CollectionT> needed) {
+		return new IntegerArrayJSONizer<CollectionT>(needed, null, null);
 	}
 
-	public static JSONizer<IOIntIterable> intArray(IOIntP filter) {
-		return new IntegerArrayJSONizer(null, null, filter);
+	public static <CollectionT extends IOIntIterable> JSONizer<CollectionT> intArray(StaticJSON ifEmpty) {
+		return new IntegerArrayJSONizer<CollectionT>(null, ifEmpty, null);
 	}
 
-	public static JSONizer<IOIntIterable> intArray(IOObjectP<? super IOIntIterable> needed, StaticJSON ifEmpty) {
-		return new IntegerArrayJSONizer(needed, ifEmpty, null);
+	public static <CollectionT extends IOIntIterable> JSONizer<CollectionT> intArray(IOIntP filter) {
+		return new IntegerArrayJSONizer<CollectionT>(null, null, filter);
 	}
 
-	public static JSONizer<IOIntIterable> intArray(IOObjectP<? super IOIntIterable> needed, IOIntP filter) {
-		return new IntegerArrayJSONizer(needed, null, filter);
+	public static <CollectionT extends IOIntIterable> JSONizer<CollectionT>
+	intArray(IOObjectP<? super CollectionT> needed, StaticJSON ifEmpty) {
+		return new IntegerArrayJSONizer<CollectionT>(needed, ifEmpty, null);
 	}
 
-	public static JSONizer<IOIntIterable> intArray(StaticJSON ifEmpty, IOIntP filter) {
-		return new IntegerArrayJSONizer(null, ifEmpty, filter);
+	public static <CollectionT extends IOIntIterable> JSONizer<CollectionT>
+	intArray(IOObjectP<? super CollectionT> needed, IOIntP filter) {
+		return new IntegerArrayJSONizer<CollectionT>(needed, null, filter);
 	}
 
-	public static JSONizer<IOIntIterable> intArray(IOObjectP<? super IOIntIterable> needed,
-			StaticJSON ifEmpty, IOIntP filter) {
-		return new IntegerArrayJSONizer(needed, ifEmpty, filter);
+	public static <CollectionT extends IOIntIterable> JSONizer<CollectionT>
+	intArray(StaticJSON ifEmpty, IOIntP filter) {
+		return new IntegerArrayJSONizer<CollectionT>(null, ifEmpty, filter);
+	}
+
+	public static <CollectionT extends IOIntIterable> JSONizer<CollectionT>
+	intArray(IOObjectP<? super CollectionT> needed, StaticJSON ifEmpty, IOIntP filter) {
+		return new IntegerArrayJSONizer<CollectionT>(needed, ifEmpty, filter);
 	}
 
 	public static final JSONizer<Integer> intValue = IntegerJSONizer.instance;
@@ -278,35 +296,41 @@ public class JSONizers {
 		return new IntegerPropertyJSONizer<BaseT>(getter, needed);
 	}
 
-	public static final JSONizer<IOLongIterable> longArray = new LongArrayJSONizer(null, null, null);
-
-	public static JSONizer<IOLongIterable> longArray(IOObjectP<? super IOLongIterable> needed) {
-		return new LongArrayJSONizer(needed, null, null);
+	public static <CollectionT extends IOLongIterable> JSONizer<CollectionT> longArray() {
+		return new LongArrayJSONizer<CollectionT>(null, null, null);
 	}
 
-	public static JSONizer<IOLongIterable> longArray(StaticJSON ifEmpty) {
-		return new LongArrayJSONizer(null, ifEmpty, null);
+	public static <CollectionT extends IOLongIterable> JSONizer<CollectionT>
+	longArray(IOObjectP<? super CollectionT> needed) {
+		return new LongArrayJSONizer<CollectionT>(needed, null, null);
 	}
 
-	public static JSONizer<IOLongIterable> longArray(IOLongP filter) {
-		return new LongArrayJSONizer(null, null, filter);
+	public static <CollectionT extends IOLongIterable> JSONizer<CollectionT> longArray(StaticJSON ifEmpty) {
+		return new LongArrayJSONizer<CollectionT>(null, ifEmpty, null);
 	}
 
-	public static JSONizer<IOLongIterable> longArray(IOObjectP<? super IOLongIterable> needed, StaticJSON ifEmpty) {
-		return new LongArrayJSONizer(needed, ifEmpty, null);
+	public static <CollectionT extends IOLongIterable> JSONizer<CollectionT> longArray(IOLongP filter) {
+		return new LongArrayJSONizer<CollectionT>(null, null, filter);
 	}
 
-	public static JSONizer<IOLongIterable> longArray(IOObjectP<? super IOLongIterable> needed, IOLongP filter) {
-		return new LongArrayJSONizer(needed, null, filter);
+	public static <CollectionT extends IOLongIterable> JSONizer<CollectionT>
+	longArray(IOObjectP<? super CollectionT> needed, StaticJSON ifEmpty) {
+		return new LongArrayJSONizer<CollectionT>(needed, ifEmpty, null);
 	}
 
-	public static JSONizer<IOLongIterable> longArray(StaticJSON ifEmpty, IOLongP filter) {
-		return new LongArrayJSONizer(null, ifEmpty, filter);
+	public static <CollectionT extends IOLongIterable> JSONizer<CollectionT>
+	longArray(IOObjectP<? super CollectionT> needed, IOLongP filter) {
+		return new LongArrayJSONizer<CollectionT>(needed, null, filter);
 	}
 
-	public static JSONizer<IOLongIterable> longArray(IOObjectP<? super IOLongIterable> needed,
-			StaticJSON ifEmpty, IOLongP filter) {
-		return new LongArrayJSONizer(needed, ifEmpty, filter);
+	public static <CollectionT extends IOLongIterable> JSONizer<CollectionT> longArray(StaticJSON ifEmpty,
+			IOLongP filter) {
+		return new LongArrayJSONizer<CollectionT>(null, ifEmpty, filter);
+	}
+
+	public static <CollectionT extends IOLongIterable> JSONizer<CollectionT>
+	longArray(IOObjectP<? super CollectionT> needed, StaticJSON ifEmpty, IOLongP filter) {
+		return new LongArrayJSONizer<CollectionT>(needed, ifEmpty, filter);
 	}
 
 	public static final JSONizer<Long> longValue = LongJSONizer.instance;
@@ -346,26 +370,26 @@ public class JSONizers {
 		return new NullJSONizer<ValueT>();
 	}
 
-	public static <ElementT> JSONizer<IOObjectIterable<? extends ElementT>>
-	objectArray(JSONizer<? super ElementT> jsonizer) {
-		return new ObjectArrayJSONizer<ElementT>(jsonizer, null, null, null);
+	public static <ElementT, CollectionT extends IOObjectIterable<? extends ElementT>>
+	JSONizer<CollectionT> objectArray(JSONizer<? super ElementT> jsonizer) {
+		return new ObjectArrayJSONizer<ElementT, CollectionT>(jsonizer, null, null, null);
 	}
 
-	public static <ElementT> JSONizer<IOObjectIterable<? extends ElementT>>
-	objectArray(JSONizer<? super ElementT> jsonizer, IOObjectP<? super IOObjectIterable<? extends ElementT>> needed,
+	public static <ElementT, CollectionT extends IOObjectIterable<? extends ElementT>>
+	JSONizer<CollectionT> objectArray(JSONizer<? super ElementT> jsonizer, IOObjectP<? super CollectionT> needed,
 			IOObjectP<? super ElementT> filter) {
-		return new ObjectArrayJSONizer<ElementT>(jsonizer, needed, null, filter);
+		return new ObjectArrayJSONizer<ElementT, CollectionT>(jsonizer, needed, null, filter);
 	}
 
-	public static <ElementT> JSONizer<IOObjectIterable<? extends ElementT>>
-	objectArray(JSONizer<? super ElementT> jsonizer, StaticJSON ifEmpty) {
-		return new ObjectArrayJSONizer<ElementT>(jsonizer, null, ifEmpty, null);
+	public static <ElementT, CollectionT extends IOObjectIterable<? extends ElementT>>
+	JSONizer<CollectionT> objectArray(JSONizer<? super ElementT> jsonizer, StaticJSON ifEmpty) {
+		return new ObjectArrayJSONizer<ElementT, CollectionT>(jsonizer, null, ifEmpty, null);
 	}
 
-	public static <ElementT> JSONizer<IOObjectIterable<? extends ElementT>>
-	objectArray(JSONizer<? super ElementT> jsonizer, IOObjectP<? super IOObjectIterable<? extends ElementT>> needed,
+	public static <ElementT, CollectionT extends IOObjectIterable<? extends ElementT>>
+	JSONizer<CollectionT> objectArray(JSONizer<? super ElementT> jsonizer, IOObjectP<? super CollectionT> needed,
 			StaticJSON ifEmpty, IOObjectP<? super ElementT> filter) {
-		return new ObjectArrayJSONizer<ElementT>(jsonizer, needed, ifEmpty, filter);
+		return new ObjectArrayJSONizer<ElementT, CollectionT>(jsonizer, needed, ifEmpty, filter);
 	}
 
 	public static <BaseT> JSONizer<BaseT> object(InnerJSONizer<? super BaseT>... properties) {
@@ -408,36 +432,41 @@ public class JSONizers {
 		return new PropertyInnerJSONizer<BaseT>(name, property, needed);
 	}
 
-	public static final JSONizer<IOShortIterable> shortArray = new ShortArrayJSONizer(null, null, null);
-
-	public static JSONizer<IOShortIterable> shortArray(IOObjectP<? super IOShortIterable> needed) {
-		return new ShortArrayJSONizer(needed, null, null);
+	public static <CollectionT extends IOShortIterable> JSONizer<CollectionT> shortArray() {
+		return new ShortArrayJSONizer<CollectionT>(null, null, null);
 	}
 
-	public static JSONizer<IOShortIterable> shortArray(StaticJSON ifEmpty) {
-		return new ShortArrayJSONizer(null, ifEmpty, null);
+	public static <CollectionT extends IOShortIterable> JSONizer<CollectionT>
+	shortArray(IOObjectP<? super CollectionT> needed) {
+		return new ShortArrayJSONizer<CollectionT>(needed, null, null);
 	}
 
-	public static JSONizer<IOShortIterable> shortArray(IOShortP filter) {
-		return new ShortArrayJSONizer(null, null, filter);
+	public static <CollectionT extends IOShortIterable> JSONizer<CollectionT> shortArray(StaticJSON ifEmpty) {
+		return new ShortArrayJSONizer<CollectionT>(null, ifEmpty, null);
 	}
 
-	public static JSONizer<IOShortIterable> shortArray(IOObjectP<? super IOShortIterable> needed,
-			StaticJSON ifEmpty) {
-		return new ShortArrayJSONizer(needed, ifEmpty, null);
+	public static <CollectionT extends IOShortIterable> JSONizer<CollectionT> shortArray(IOShortP filter) {
+		return new ShortArrayJSONizer<CollectionT>(null, null, filter);
 	}
 
-	public static JSONizer<IOShortIterable> shortArray(IOObjectP<? super IOShortIterable> needed, IOShortP filter) {
-		return new ShortArrayJSONizer(needed, null, filter);
+	public static <CollectionT extends IOShortIterable> JSONizer<CollectionT>
+	shortArray(IOObjectP<? super CollectionT> needed, StaticJSON ifEmpty) {
+		return new ShortArrayJSONizer<CollectionT>(needed, ifEmpty, null);
 	}
 
-	public static JSONizer<IOShortIterable> shortArray(StaticJSON ifEmpty, IOShortP filter) {
-		return new ShortArrayJSONizer(null, ifEmpty, filter);
+	public static <CollectionT extends IOShortIterable> JSONizer<CollectionT>
+	shortArray(IOObjectP<? super CollectionT> needed, IOShortP filter) {
+		return new ShortArrayJSONizer<CollectionT>(needed, null, filter);
 	}
 
-	public static JSONizer<IOShortIterable> shortArray(IOObjectP<? super IOShortIterable> needed,
-			StaticJSON ifEmpty, IOShortP filter) {
-		return new ShortArrayJSONizer(needed, ifEmpty, filter);
+	public static <CollectionT extends IOShortIterable> JSONizer<CollectionT> shortArray(StaticJSON ifEmpty,
+			IOShortP filter) {
+		return new ShortArrayJSONizer<CollectionT>(null, ifEmpty, filter);
+	}
+
+	public static <CollectionT extends IOShortIterable> JSONizer<CollectionT>
+	shortArray(IOObjectP<? super CollectionT> needed, StaticJSON ifEmpty, IOShortP filter) {
+		return new ShortArrayJSONizer<CollectionT>(needed, ifEmpty, filter);
 	}
 
 	public static final JSONizer<Short> shortValue = ShortJSONizer.instance;
@@ -473,20 +502,23 @@ public class JSONizers {
 		return new ShortPropertyJSONizer<BaseT>(getter, needed);
 	}
 
-	public static final JSONizer<IOObjectIterable<String>> stringArray = new StringArrayJSONizer(null, null, null);
-
-	public static JSONizer<IOObjectIterable<String>> stringArray(IOObjectP<? super IOObjectIterable<String>> needed,
-			IOObjectP<? super String> filter) {
-		return new StringArrayJSONizer(needed, null, filter);
+	public static <CollectionT extends IOObjectIterable<String>> JSONizer<CollectionT> stringArray() {
+		return new StringArrayJSONizer<CollectionT>(null, null, null);
 	}
 
-	public static JSONizer<IOObjectIterable<String>> stringArray(StaticJSON ifEmpty) {
-		return new StringArrayJSONizer(null, ifEmpty, null);
+	public static <CollectionT extends IOObjectIterable<String>> JSONizer<CollectionT>
+	stringArray(IOObjectP<? super CollectionT> needed, IOObjectP<? super String> filter) {
+		return new StringArrayJSONizer<CollectionT>(needed, null, filter);
 	}
 
-	public static JSONizer<IOObjectIterable<String>> stringArray(IOObjectP<? super IOObjectIterable<String>> needed,
-			StaticJSON ifEmpty, IOObjectP<? super String> filter) {
-		return new StringArrayJSONizer(needed, ifEmpty, filter);
+	public static <CollectionT extends IOObjectIterable<String>> JSONizer<CollectionT>
+	stringArray(StaticJSON ifEmpty) {
+		return new StringArrayJSONizer<CollectionT>(null, ifEmpty, null);
+	}
+
+	public static <CollectionT extends IOObjectIterable<String>> JSONizer<CollectionT>
+	stringArray(IOObjectP<? super CollectionT> needed, StaticJSON ifEmpty, IOObjectP<? super String> filter) {
+		return new StringArrayJSONizer<CollectionT>(needed, ifEmpty, filter);
 	}
 
 	public static final JSONizer<String> string = StringJSONizer.instance;

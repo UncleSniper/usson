@@ -7,25 +7,25 @@ import org.unclesniper.json.j8.IOObjectP;
 import org.unclesniper.json.j8.IOFloatIterable;
 import org.unclesniper.json.j8.IOFloatIterator;
 
-public class FloatArrayJSONizer implements JSONizer<IOFloatIterable> {
+public class FloatArrayJSONizer<CollectionT extends IOFloatIterable> implements JSONizer<CollectionT> {
 
-	private IOObjectP<? super IOFloatIterable> needed;
+	private IOObjectP<? super CollectionT> needed;
 
 	private StaticJSON ifEmpty;
 
 	private IOFloatP filter;
 
-	public FloatArrayJSONizer(IOObjectP<? super IOFloatIterable> needed, StaticJSON ifEmpty, IOFloatP filter) {
+	public FloatArrayJSONizer(IOObjectP<? super CollectionT> needed, StaticJSON ifEmpty, IOFloatP filter) {
 		this.needed = needed;
 		this.ifEmpty = ifEmpty;
 		this.filter = filter;
 	}
 
-	public IOObjectP<? super IOFloatIterable> getNeeded() {
+	public IOObjectP<? super CollectionT> getNeeded() {
 		return needed;
 	}
 
-	public void setNeeded(IOObjectP<? super IOFloatIterable> needed) {
+	public void setNeeded(IOObjectP<? super CollectionT> needed) {
 		this.needed = needed;
 	}
 
@@ -46,7 +46,7 @@ public class FloatArrayJSONizer implements JSONizer<IOFloatIterable> {
 	}
 
 	@Override
-	public void jsonize(IOFloatIterable value, JSONSink sink, int version) throws IOException {
+	public void jsonize(CollectionT value, JSONSink sink, int version) throws IOException {
 		if(value == null || (needed != null && !needed.testObject(value))) {
 			sink.foundNull();
 			return;

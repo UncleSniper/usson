@@ -7,25 +7,25 @@ import org.unclesniper.json.j8.IODoubleP;
 import org.unclesniper.json.j8.IODoubleIterator;
 import org.unclesniper.json.j8.IODoubleIterable;
 
-public class DoubleArrayJSONizer implements JSONizer<IODoubleIterable> {
+public class DoubleArrayJSONizer<CollectionT extends IODoubleIterable> implements JSONizer<CollectionT> {
 
-	private IOObjectP<? super IODoubleIterable> needed;
+	private IOObjectP<? super CollectionT> needed;
 
 	private StaticJSON ifEmpty;
 
 	private IODoubleP filter;
 
-	public DoubleArrayJSONizer(IOObjectP<? super IODoubleIterable> needed, StaticJSON ifEmpty, IODoubleP filter) {
+	public DoubleArrayJSONizer(IOObjectP<? super CollectionT> needed, StaticJSON ifEmpty, IODoubleP filter) {
 		this.needed = needed;
 		this.ifEmpty = ifEmpty;
 		this.filter = filter;
 	}
 
-	public IOObjectP<? super IODoubleIterable> getNeeded() {
+	public IOObjectP<? super CollectionT> getNeeded() {
 		return needed;
 	}
 
-	public void setNeeded(IOObjectP<? super IODoubleIterable> needed) {
+	public void setNeeded(IOObjectP<? super CollectionT> needed) {
 		this.needed = needed;
 	}
 
@@ -46,7 +46,7 @@ public class DoubleArrayJSONizer implements JSONizer<IODoubleIterable> {
 	}
 
 	@Override
-	public void jsonize(IODoubleIterable value, JSONSink sink, int version) throws IOException {
+	public void jsonize(CollectionT value, JSONSink sink, int version) throws IOException {
 		if(value == null || (needed != null && !needed.testObject(value))) {
 			sink.foundNull();
 			return;

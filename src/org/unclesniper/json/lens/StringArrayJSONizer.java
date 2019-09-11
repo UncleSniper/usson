@@ -6,26 +6,26 @@ import org.unclesniper.json.j8.IOObjectP;
 import org.unclesniper.json.j8.IOObjectIterator;
 import org.unclesniper.json.j8.IOObjectIterable;
 
-public class StringArrayJSONizer implements JSONizer<IOObjectIterable<String>> {
+public class StringArrayJSONizer<CollectionT extends IOObjectIterable<String>> implements JSONizer<CollectionT> {
 
-	private IOObjectP<? super IOObjectIterable<String>> needed;
+	private IOObjectP<? super CollectionT> needed;
 
 	private StaticJSON ifEmpty;
 
 	private IOObjectP<? super String> filter;
 
-	public StringArrayJSONizer(IOObjectP<? super IOObjectIterable<String>> needed, StaticJSON ifEmpty,
+	public StringArrayJSONizer(IOObjectP<? super CollectionT> needed, StaticJSON ifEmpty,
 			IOObjectP<? super String> filter) {
 		this.needed = needed;
 		this.ifEmpty = ifEmpty;
 		this.filter = filter;
 	}
 
-	public IOObjectP<? super IOObjectIterable<String>> getNeeded() {
+	public IOObjectP<? super CollectionT> getNeeded() {
 		return needed;
 	}
 
-	public void setNeeded(IOObjectP<? super IOObjectIterable<String>> needed) {
+	public void setNeeded(IOObjectP<? super CollectionT> needed) {
 		this.needed = needed;
 	}
 
@@ -46,7 +46,7 @@ public class StringArrayJSONizer implements JSONizer<IOObjectIterable<String>> {
 	}
 
 	@Override
-	public void jsonize(IOObjectIterable<String> value, JSONSink sink, int version) throws IOException {
+	public void jsonize(CollectionT value, JSONSink sink, int version) throws IOException {
 		if(value == null || (needed != null && !needed.testObject(value))) {
 			sink.foundNull();
 			return;

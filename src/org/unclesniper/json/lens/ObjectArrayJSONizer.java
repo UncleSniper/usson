@@ -6,19 +6,19 @@ import org.unclesniper.json.j8.IOObjectP;
 import org.unclesniper.json.j8.IOObjectIterable;
 import org.unclesniper.json.j8.IOObjectIterator;
 
-public class ObjectArrayJSONizer<ElementT> implements JSONizer<IOObjectIterable<? extends ElementT>> {
+public class ObjectArrayJSONizer<ElementT, CollectionT extends IOObjectIterable<? extends ElementT>>
+		implements JSONizer<CollectionT> {
 
 	private JSONizer<? super ElementT> jsonizer;
 
-	private IOObjectP<? super IOObjectIterable<? extends ElementT>> needed;
+	private IOObjectP<? super CollectionT> needed;
 
 	private StaticJSON ifEmpty;
 
 	private IOObjectP<? super ElementT> filter;
 
-	public ObjectArrayJSONizer(JSONizer<? super ElementT> jsonizer,
-			IOObjectP<? super IOObjectIterable<? extends ElementT>> needed, StaticJSON ifEmpty,
-			IOObjectP<? super ElementT> filter) {
+	public ObjectArrayJSONizer(JSONizer<? super ElementT> jsonizer, IOObjectP<? super CollectionT> needed,
+			StaticJSON ifEmpty, IOObjectP<? super ElementT> filter) {
 		this.jsonizer = jsonizer;
 		this.needed = needed;
 		this.ifEmpty = ifEmpty;
@@ -33,11 +33,11 @@ public class ObjectArrayJSONizer<ElementT> implements JSONizer<IOObjectIterable<
 		this.jsonizer = jsonizer;
 	}
 
-	public IOObjectP<? super IOObjectIterable<? extends ElementT>> getNeeded() {
+	public IOObjectP<? super CollectionT> getNeeded() {
 		return needed;
 	}
 
-	public void setNeeded(IOObjectP<? super IOObjectIterable<? extends ElementT>> needed) {
+	public void setNeeded(IOObjectP<? super CollectionT> needed) {
 		this.needed = needed;
 	}
 
@@ -58,7 +58,7 @@ public class ObjectArrayJSONizer<ElementT> implements JSONizer<IOObjectIterable<
 	}
 
 	@Override
-	public void jsonize(IOObjectIterable<? extends ElementT> value, JSONSink sink, int version) throws IOException {
+	public void jsonize(CollectionT value, JSONSink sink, int version) throws IOException {
 		if(value == null || (needed != null && !needed.testObject(value))) {
 			sink.foundNull();
 			return;

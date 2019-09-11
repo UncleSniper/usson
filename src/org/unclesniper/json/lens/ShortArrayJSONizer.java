@@ -7,25 +7,25 @@ import org.unclesniper.json.j8.IOObjectP;
 import org.unclesniper.json.j8.IOShortIterator;
 import org.unclesniper.json.j8.IOShortIterable;
 
-public class ShortArrayJSONizer implements JSONizer<IOShortIterable> {
+public class ShortArrayJSONizer<CollectionT extends IOShortIterable> implements JSONizer<CollectionT> {
 
-	private IOObjectP<? super IOShortIterable> needed;
+	private IOObjectP<? super CollectionT> needed;
 
 	private StaticJSON ifEmpty;
 
 	private IOShortP filter;
 
-	public ShortArrayJSONizer(IOObjectP<? super IOShortIterable> needed, StaticJSON ifEmpty, IOShortP filter) {
+	public ShortArrayJSONizer(IOObjectP<? super CollectionT> needed, StaticJSON ifEmpty, IOShortP filter) {
 		this.needed = needed;
 		this.ifEmpty = ifEmpty;
 		this.filter = filter;
 	}
 
-	public IOObjectP<? super IOShortIterable> getNeeded() {
+	public IOObjectP<? super CollectionT> getNeeded() {
 		return needed;
 	}
 
-	public void setNeeded(IOObjectP<? super IOShortIterable> needed) {
+	public void setNeeded(IOObjectP<? super CollectionT> needed) {
 		this.needed = needed;
 	}
 
@@ -46,7 +46,7 @@ public class ShortArrayJSONizer implements JSONizer<IOShortIterable> {
 	}
 
 	@Override
-	public void jsonize(IOShortIterable value, JSONSink sink, int version) throws IOException {
+	public void jsonize(CollectionT value, JSONSink sink, int version) throws IOException {
 		if(value == null || (needed != null && !needed.testObject(value))) {
 			sink.foundNull();
 			return;
