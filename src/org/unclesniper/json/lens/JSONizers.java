@@ -2,6 +2,7 @@ package org.unclesniper.json.lens;
 
 import org.unclesniper.json.j8.IOIntP;
 import org.unclesniper.json.j8.IOLongP;
+import org.unclesniper.json.j8.IOByteP;
 import org.unclesniper.json.j8.IntBound;
 import org.unclesniper.json.j8.IOFloatP;
 import org.unclesniper.json.j8.IOShortP;
@@ -9,6 +10,7 @@ import org.unclesniper.json.j8.IOObjectP;
 import org.unclesniper.json.j8.IODoubleP;
 import org.unclesniper.json.j8.IOIntGetter;
 import org.unclesniper.json.j8.IOLongGetter;
+import org.unclesniper.json.j8.IOByteGetter;
 import org.unclesniper.json.j8.OrderRelation;
 import org.unclesniper.json.j8.IOIntIterable;
 import org.unclesniper.json.j8.IOFloatGetter;
@@ -16,6 +18,7 @@ import org.unclesniper.json.j8.IOShortGetter;
 import org.unclesniper.json.j8.IOLongIterable;
 import org.unclesniper.json.j8.IOObjectGetter;
 import org.unclesniper.json.j8.IODoubleGetter;
+import org.unclesniper.json.j8.IOByteIterable;
 import org.unclesniper.json.j8.IOFloatIterable;
 import org.unclesniper.json.j8.IOShortIterable;
 import org.unclesniper.json.j8.IOBooleanGetter;
@@ -78,6 +81,76 @@ public class JSONizers {
 
 	public static <BaseT> JSONizer<BaseT> booleanProperty(IOBooleanGetter<? super BaseT> getter) {
 		return new BooleanPropertyJSONizer<BaseT>(getter);
+	}
+
+	public static <CollectionT extends IOByteIterable> JSONizer<CollectionT> byteArray() {
+		return new ByteArrayJSONizer<CollectionT>(null, null, null);
+	}
+
+	public static <CollectionT extends IOByteIterable> JSONizer<CollectionT>
+	byteArray(IOObjectP<? super CollectionT> needed) {
+		return new ByteArrayJSONizer<CollectionT>(needed, null, null);
+	}
+
+	public static <CollectionT extends IOByteIterable> JSONizer<CollectionT> byteArray(StaticJSON ifEmpty) {
+		return new ByteArrayJSONizer<CollectionT>(null, ifEmpty, null);
+	}
+
+	public static <CollectionT extends IOByteIterable> JSONizer<CollectionT> byteArray(IOByteP filter) {
+		return new ByteArrayJSONizer<CollectionT>(null, null, filter);
+	}
+
+	public static <CollectionT extends IOByteIterable> JSONizer<CollectionT>
+	byteArray(IOObjectP<? super CollectionT> needed, StaticJSON ifEmpty) {
+		return new ByteArrayJSONizer<CollectionT>(needed, ifEmpty, null);
+	}
+
+	public static <CollectionT extends IOByteIterable> JSONizer<CollectionT>
+	byteArray(IOObjectP<? super CollectionT> needed, IOByteP filter) {
+		return new ByteArrayJSONizer<CollectionT>(needed, null, filter);
+	}
+
+	public static <CollectionT extends IOByteIterable> JSONizer<CollectionT> byteArray(StaticJSON ifEmpty,
+			IOByteP filter) {
+		return new ByteArrayJSONizer<CollectionT>(null, ifEmpty, filter);
+	}
+
+	public static <CollectionT extends IOByteIterable> JSONizer<CollectionT>
+	byteArray(IOObjectP<? super CollectionT> needed, StaticJSON ifEmpty, IOByteP filter) {
+		return new ByteArrayJSONizer<CollectionT>(needed, ifEmpty, filter);
+	}
+
+	public static final JSONizer<Byte> byteValue = ByteJSONizer.instance;
+
+	public static JSONizer<Byte> byteValue(IOObjectP<? super Byte> needed) {
+		return new ByteJSONizer(needed);
+	}
+
+	public static <BaseT> InnerJSONizer<BaseT> byteProperty(String name, IOByteGetter<? super BaseT> getter) {
+		return new BytePropertyInnerJSONizer<BaseT>(name, getter, null, null);
+	}
+
+	public static <BaseT> InnerJSONizer<BaseT> byteProperty(String name, IOByteGetter<? super BaseT> getter,
+			IOObjectP<? super BaseT> outerNeeded) {
+		return new BytePropertyInnerJSONizer<BaseT>(name, getter, outerNeeded, null);
+	}
+
+	public static <BaseT> InnerJSONizer<BaseT> byteProperty(String name, IOByteGetter<? super BaseT> getter,
+			IOByteP innerNeeded) {
+		return new BytePropertyInnerJSONizer<BaseT>(name, getter, null, innerNeeded);
+	}
+
+	public static <BaseT> InnerJSONizer<BaseT> byteProperty(String name, IOByteGetter<? super BaseT> getter,
+			IOObjectP<? super BaseT> outerNeeded, IOByteP innerNeeded) {
+		return new BytePropertyInnerJSONizer<BaseT>(name, getter, outerNeeded, innerNeeded);
+	}
+
+	public static <BaseT> JSONizer<BaseT> byteProperty(IOByteGetter<? super BaseT> getter) {
+		return new BytePropertyJSONizer<BaseT>(getter, null);
+	}
+
+	public static <BaseT> JSONizer<BaseT> byteProperty(IOByteGetter<? super BaseT> getter, IOByteP needed) {
+		return new BytePropertyJSONizer<BaseT>(getter, needed);
 	}
 
 	public static <CollectionT extends IODoubleIterable> JSONizer<CollectionT> doubleArray() {
