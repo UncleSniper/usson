@@ -7,7 +7,7 @@ import org.unclesniper.json.j8.IOObjectGetter;
 
 public class StringPropertyInnerJSONizer<BaseT> implements InnerJSONizer<BaseT> {
 
-	private String name;
+	private String propertyName;
 
 	private IOObjectGetter<? super BaseT, String> getter;
 
@@ -15,20 +15,20 @@ public class StringPropertyInnerJSONizer<BaseT> implements InnerJSONizer<BaseT> 
 
 	private IOObjectP<? super String> innerNeeded;
 
-	public StringPropertyInnerJSONizer(String name, IOObjectGetter<? super BaseT, String> getter,
+	public StringPropertyInnerJSONizer(String propertyName, IOObjectGetter<? super BaseT, String> getter,
 			IOObjectP<? super BaseT> outerNeeded, IOObjectP<? super String> innerNeeded) {
-		this.name = name;
+		this.propertyName = propertyName;
 		this.getter = getter;
 		this.outerNeeded = outerNeeded;
 		this.innerNeeded = innerNeeded;
 	}
 
-	public String getName() {
-		return name;
+	public String getPropertyName() {
+		return propertyName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setPropertyName(String propertyName) {
+		this.propertyName = propertyName;
 	}
 
 	public IOObjectGetter<? super BaseT, String> getGetter() {
@@ -62,7 +62,7 @@ public class StringPropertyInnerJSONizer<BaseT> implements InnerJSONizer<BaseT> 
 		String value = getter.getProperty(base);
 		if(innerNeeded != null && !innerNeeded.testObject(value))
 			return;
-		sink.foundString(name);
+		sink.foundString(propertyName);
 		sink.foundString(value);
 	}
 

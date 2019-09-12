@@ -8,7 +8,7 @@ import org.unclesniper.json.j8.IODoubleGetter;
 
 public class DoublePropertyInnerJSONizer<BaseT> implements InnerJSONizer<BaseT> {
 
-	private String name;
+	private String propertyName;
 
 	private IODoubleGetter<? super BaseT> getter;
 
@@ -16,20 +16,20 @@ public class DoublePropertyInnerJSONizer<BaseT> implements InnerJSONizer<BaseT> 
 
 	private IODoubleP innerNeeded;
 
-	public DoublePropertyInnerJSONizer(String name, IODoubleGetter<? super BaseT> getter,
+	public DoublePropertyInnerJSONizer(String propertyName, IODoubleGetter<? super BaseT> getter,
 			IOObjectP<? super BaseT> outerNeeded, IODoubleP innerNeeded) {
-		this.name = name;
+		this.propertyName = propertyName;
 		this.getter = getter;
 		this.outerNeeded = outerNeeded;
 		this.innerNeeded = innerNeeded;
 	}
 
-	public String getName() {
-		return name;
+	public String getPropertyName() {
+		return propertyName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setPropertyName(String propertyName) {
+		this.propertyName = propertyName;
 	}
 
 	public IODoubleGetter<? super BaseT> getGetter() {
@@ -63,7 +63,7 @@ public class DoublePropertyInnerJSONizer<BaseT> implements InnerJSONizer<BaseT> 
 		double value = getter.getDouble(base);
 		if(innerNeeded != null && !innerNeeded.testDouble(value))
 			return;
-		sink.foundString(name);
+		sink.foundString(propertyName);
 		sink.foundFraction(value);
 	}
 

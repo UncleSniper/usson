@@ -70,13 +70,14 @@ public class JSONizers {
 		return new BooleanJSONizer(needed);
 	}
 
-	public static <BaseT> InnerJSONizer<BaseT> booleanProperty(String name, IOBooleanGetter<? super BaseT> getter) {
-		return new BooleanPropertyInnerJSONizer<BaseT>(name, getter, null);
+	public static <BaseT> InnerJSONizer<BaseT> booleanProperty(String propertyName,
+			IOBooleanGetter<? super BaseT> getter) {
+		return new BooleanPropertyInnerJSONizer<BaseT>(propertyName, getter, null);
 	}
 
-	public static <BaseT> InnerJSONizer<BaseT> booleanProperty(String name, IOBooleanGetter<? super BaseT> getter,
-			IOObjectP<? super BaseT> needed) {
-		return new BooleanPropertyInnerJSONizer<BaseT>(name, getter, needed);
+	public static <BaseT> InnerJSONizer<BaseT> booleanProperty(String propertyName,
+			IOBooleanGetter<? super BaseT> getter, IOObjectP<? super BaseT> needed) {
+		return new BooleanPropertyInnerJSONizer<BaseT>(propertyName, getter, needed);
 	}
 
 	public static <BaseT> JSONizer<BaseT> booleanProperty(IOBooleanGetter<? super BaseT> getter) {
@@ -126,23 +127,23 @@ public class JSONizers {
 		return new ByteJSONizer(needed);
 	}
 
-	public static <BaseT> InnerJSONizer<BaseT> byteProperty(String name, IOByteGetter<? super BaseT> getter) {
-		return new BytePropertyInnerJSONizer<BaseT>(name, getter, null, null);
+	public static <BaseT> InnerJSONizer<BaseT> byteProperty(String propertyName, IOByteGetter<? super BaseT> getter) {
+		return new BytePropertyInnerJSONizer<BaseT>(propertyName, getter, null, null);
 	}
 
-	public static <BaseT> InnerJSONizer<BaseT> byteProperty(String name, IOByteGetter<? super BaseT> getter,
+	public static <BaseT> InnerJSONizer<BaseT> byteProperty(String propertyName, IOByteGetter<? super BaseT> getter,
 			IOObjectP<? super BaseT> outerNeeded) {
-		return new BytePropertyInnerJSONizer<BaseT>(name, getter, outerNeeded, null);
+		return new BytePropertyInnerJSONizer<BaseT>(propertyName, getter, outerNeeded, null);
 	}
 
-	public static <BaseT> InnerJSONizer<BaseT> byteProperty(String name, IOByteGetter<? super BaseT> getter,
+	public static <BaseT> InnerJSONizer<BaseT> byteProperty(String propertyName, IOByteGetter<? super BaseT> getter,
 			IOByteP innerNeeded) {
-		return new BytePropertyInnerJSONizer<BaseT>(name, getter, null, innerNeeded);
+		return new BytePropertyInnerJSONizer<BaseT>(propertyName, getter, null, innerNeeded);
 	}
 
-	public static <BaseT> InnerJSONizer<BaseT> byteProperty(String name, IOByteGetter<? super BaseT> getter,
+	public static <BaseT> InnerJSONizer<BaseT> byteProperty(String propertyName, IOByteGetter<? super BaseT> getter,
 			IOObjectP<? super BaseT> outerNeeded, IOByteP innerNeeded) {
-		return new BytePropertyInnerJSONizer<BaseT>(name, getter, outerNeeded, innerNeeded);
+		return new BytePropertyInnerJSONizer<BaseT>(propertyName, getter, outerNeeded, innerNeeded);
 	}
 
 	public static <BaseT> JSONizer<BaseT> byteProperty(IOByteGetter<? super BaseT> getter) {
@@ -196,23 +197,24 @@ public class JSONizers {
 		return new DoubleJSONizer(needed);
 	}
 
-	public static <BaseT> InnerJSONizer<BaseT> doubleProperty(String name, IODoubleGetter<? super BaseT> getter) {
-		return new DoublePropertyInnerJSONizer<BaseT>(name, getter, null, null);
+	public static <BaseT> InnerJSONizer<BaseT> doubleProperty(String propertyName,
+			IODoubleGetter<? super BaseT> getter) {
+		return new DoublePropertyInnerJSONizer<BaseT>(propertyName, getter, null, null);
 	}
 
-	public static <BaseT> InnerJSONizer<BaseT> doubleProperty(String name, IODoubleGetter<? super BaseT> getter,
-			IOObjectP<? super BaseT> outerNeeded) {
-		return new DoublePropertyInnerJSONizer<BaseT>(name, getter, outerNeeded, null);
+	public static <BaseT> InnerJSONizer<BaseT> doubleProperty(String propertyName,
+			IODoubleGetter<? super BaseT> getter, IOObjectP<? super BaseT> outerNeeded) {
+		return new DoublePropertyInnerJSONizer<BaseT>(propertyName, getter, outerNeeded, null);
 	}
 
-	public static <BaseT> InnerJSONizer<BaseT> doubleProperty(String name, IODoubleGetter<? super BaseT> getter,
-			IODoubleP innerNeeded) {
-		return new DoublePropertyInnerJSONizer<BaseT>(name, getter, null, innerNeeded);
+	public static <BaseT> InnerJSONizer<BaseT> doubleProperty(String propertyName,
+			IODoubleGetter<? super BaseT> getter, IODoubleP innerNeeded) {
+		return new DoublePropertyInnerJSONizer<BaseT>(propertyName, getter, null, innerNeeded);
 	}
 
-	public static <BaseT> InnerJSONizer<BaseT> doubleProperty(String name, IODoubleGetter<? super BaseT> getter,
-			IOObjectP<? super BaseT> outerNeeded, IODoubleP innerNeeded) {
-		return new DoublePropertyInnerJSONizer<BaseT>(name, getter, outerNeeded, innerNeeded);
+	public static <BaseT> InnerJSONizer<BaseT> doubleProperty(String propertyName,
+			IODoubleGetter<? super BaseT> getter, IOObjectP<? super BaseT> outerNeeded, IODoubleP innerNeeded) {
+		return new DoublePropertyInnerJSONizer<BaseT>(propertyName, getter, outerNeeded, innerNeeded);
 	}
 
 	public static <BaseT> JSONizer<BaseT> doubleProperty(IODoubleGetter<? super BaseT> getter) {
@@ -272,23 +274,24 @@ public class JSONizers {
 		return new FloatJSONizer(needed);
 	}
 
-	public static <BaseT> InnerJSONizer<BaseT> floatProperty(String name, IOFloatGetter<? super BaseT> getter) {
-		return new FloatPropertyInnerJSONizer<BaseT>(name, getter, null, null);
+	public static <BaseT> InnerJSONizer<BaseT> floatProperty(String propertyName,
+			IOFloatGetter<? super BaseT> getter) {
+		return new FloatPropertyInnerJSONizer<BaseT>(propertyName, getter, null, null);
 	}
 
-	public static <BaseT> InnerJSONizer<BaseT> floatProperty(String name, IOFloatGetter<? super BaseT> getter,
-			IOObjectP<? super BaseT> outerNeeded) {
-		return new FloatPropertyInnerJSONizer<BaseT>(name, getter, outerNeeded, null);
+	public static <BaseT> InnerJSONizer<BaseT> floatProperty(String propertyName,
+			IOFloatGetter<? super BaseT> getter, IOObjectP<? super BaseT> outerNeeded) {
+		return new FloatPropertyInnerJSONizer<BaseT>(propertyName, getter, outerNeeded, null);
 	}
 
-	public static <BaseT> InnerJSONizer<BaseT> floatProperty(String name, IOFloatGetter<? super BaseT> getter,
-			IOFloatP innerNeeded) {
-		return new FloatPropertyInnerJSONizer<BaseT>(name, getter, null, innerNeeded);
+	public static <BaseT> InnerJSONizer<BaseT> floatProperty(String propertyName,
+			IOFloatGetter<? super BaseT> getter, IOFloatP innerNeeded) {
+		return new FloatPropertyInnerJSONizer<BaseT>(propertyName, getter, null, innerNeeded);
 	}
 
-	public static <BaseT> InnerJSONizer<BaseT> floatProperty(String name, IOFloatGetter<? super BaseT> getter,
-			IOObjectP<? super BaseT> outerNeeded, IOFloatP innerNeeded) {
-		return new FloatPropertyInnerJSONizer<BaseT>(name, getter, outerNeeded, innerNeeded);
+	public static <BaseT> InnerJSONizer<BaseT> floatProperty(String propertyName,
+			IOFloatGetter<? super BaseT> getter, IOObjectP<? super BaseT> outerNeeded, IOFloatP innerNeeded) {
+		return new FloatPropertyInnerJSONizer<BaseT>(propertyName, getter, outerNeeded, innerNeeded);
 	}
 
 	public static <BaseT> JSONizer<BaseT> floatProperty(IOFloatGetter<? super BaseT> getter) {
@@ -342,23 +345,23 @@ public class JSONizers {
 		return new IntegerJSONizer(needed);
 	}
 
-	public static <BaseT> InnerJSONizer<BaseT> intProperty(String name, IOIntGetter<? super BaseT> getter) {
-		return new IntegerPropertyInnerJSONizer<BaseT>(name, getter, null, null);
+	public static <BaseT> InnerJSONizer<BaseT> intProperty(String propertyName, IOIntGetter<? super BaseT> getter) {
+		return new IntegerPropertyInnerJSONizer<BaseT>(propertyName, getter, null, null);
 	}
 
-	public static <BaseT> InnerJSONizer<BaseT> intProperty(String name, IOIntGetter<? super BaseT> getter,
+	public static <BaseT> InnerJSONizer<BaseT> intProperty(String propertyName, IOIntGetter<? super BaseT> getter,
 			IOObjectP<? super BaseT> outerNeeded) {
-		return new IntegerPropertyInnerJSONizer<BaseT>(name, getter, outerNeeded, null);
+		return new IntegerPropertyInnerJSONizer<BaseT>(propertyName, getter, outerNeeded, null);
 	}
 
-	public static <BaseT> InnerJSONizer<BaseT> intProperty(String name, IOIntGetter<? super BaseT> getter,
+	public static <BaseT> InnerJSONizer<BaseT> intProperty(String propertyName, IOIntGetter<? super BaseT> getter,
 			IOIntP innerNeeded) {
-		return new IntegerPropertyInnerJSONizer<BaseT>(name, getter, null, innerNeeded);
+		return new IntegerPropertyInnerJSONizer<BaseT>(propertyName, getter, null, innerNeeded);
 	}
 
-	public static <BaseT> InnerJSONizer<BaseT> intProperty(String name, IOIntGetter<? super BaseT> getter,
+	public static <BaseT> InnerJSONizer<BaseT> intProperty(String propertyName, IOIntGetter<? super BaseT> getter,
 			IOObjectP<? super BaseT> outerNeeded, IOIntP innerNeeded) {
-		return new IntegerPropertyInnerJSONizer<BaseT>(name, getter, outerNeeded, innerNeeded);
+		return new IntegerPropertyInnerJSONizer<BaseT>(propertyName, getter, outerNeeded, innerNeeded);
 	}
 
 	public static <BaseT> JSONizer<BaseT> intProperty(IOIntGetter<? super BaseT> getter) {
@@ -412,23 +415,23 @@ public class JSONizers {
 		return new LongJSONizer(needed);
 	}
 
-	public static <BaseT> InnerJSONizer<BaseT> longProperty(String name, IOLongGetter<? super BaseT> getter) {
-		return new LongPropertyInnerJSONizer<BaseT>(name, getter, null, null);
+	public static <BaseT> InnerJSONizer<BaseT> longProperty(String propertyName, IOLongGetter<? super BaseT> getter) {
+		return new LongPropertyInnerJSONizer<BaseT>(propertyName, getter, null, null);
 	}
 
-	public static <BaseT> InnerJSONizer<BaseT> longProperty(String name, IOLongGetter<? super BaseT> getter,
+	public static <BaseT> InnerJSONizer<BaseT> longProperty(String propertyName, IOLongGetter<? super BaseT> getter,
 			IOObjectP<? super BaseT> outerNeeded) {
-		return new LongPropertyInnerJSONizer<BaseT>(name, getter, outerNeeded, null);
+		return new LongPropertyInnerJSONizer<BaseT>(propertyName, getter, outerNeeded, null);
 	}
 
-	public static <BaseT> InnerJSONizer<BaseT> longProperty(String name, IOLongGetter<? super BaseT> getter,
+	public static <BaseT> InnerJSONizer<BaseT> longProperty(String propertyName, IOLongGetter<? super BaseT> getter,
 			IOLongP innerNeeded) {
-		return new LongPropertyInnerJSONizer<BaseT>(name, getter, null, innerNeeded);
+		return new LongPropertyInnerJSONizer<BaseT>(propertyName, getter, null, innerNeeded);
 	}
 
-	public static <BaseT> InnerJSONizer<BaseT> longProperty(String name, IOLongGetter<? super BaseT> getter,
+	public static <BaseT> InnerJSONizer<BaseT> longProperty(String propertyName, IOLongGetter<? super BaseT> getter,
 			IOObjectP<? super BaseT> outerNeeded, IOLongP innerNeeded) {
-		return new LongPropertyInnerJSONizer<BaseT>(name, getter, outerNeeded, innerNeeded);
+		return new LongPropertyInnerJSONizer<BaseT>(propertyName, getter, outerNeeded, innerNeeded);
 	}
 
 	public static <BaseT> JSONizer<BaseT> longProperty(IOLongGetter<? super BaseT> getter) {
@@ -474,15 +477,16 @@ public class JSONizers {
 		return new ObjectJSONizer<BaseT>(needed, properties);
 	}
 
-	public static <BaseT, PropertyT> InnerJSONizer<BaseT> objectProperty(String name,
+	public static <BaseT, PropertyT> InnerJSONizer<BaseT> objectProperty(String propertyName,
 			IOObjectGetter<? super BaseT, ? extends PropertyT> getter, JSONizer<? super PropertyT> jsonizer) {
-		return new ObjectPropertyInnerJSONizer<BaseT, PropertyT>(name, getter, null, null, jsonizer);
+		return new ObjectPropertyInnerJSONizer<BaseT, PropertyT>(propertyName, getter, null, null, jsonizer);
 	}
 
-	public static <BaseT, PropertyT> InnerJSONizer<BaseT> objectProperty(String name,
+	public static <BaseT, PropertyT> InnerJSONizer<BaseT> objectProperty(String propertyName,
 			IOObjectGetter<? super BaseT, ? extends PropertyT> getter, IOObjectP<? super BaseT> outerNeeded,
 			IOObjectP<? super PropertyT> innerNeeded, JSONizer<? super PropertyT> jsonizer) {
-		return new ObjectPropertyInnerJSONizer<BaseT, PropertyT>(name, getter, outerNeeded, innerNeeded, jsonizer);
+		return new ObjectPropertyInnerJSONizer<BaseT, PropertyT>(propertyName, getter, outerNeeded,
+				innerNeeded, jsonizer);
 	}
 
 	public static <BaseT, PropertyT> JSONizer<BaseT>
@@ -496,13 +500,13 @@ public class JSONizers {
 		return new ObjectPropertyJSONizer<BaseT, PropertyT>(getter, needed, jsonizer);
 	}
 
-	public static <BaseT> InnerJSONizer<BaseT> property(String name, JSONizer<? super BaseT> property) {
-		return new PropertyInnerJSONizer<BaseT>(name, property);
+	public static <BaseT> InnerJSONizer<BaseT> property(String propertyName, JSONizer<? super BaseT> property) {
+		return new PropertyInnerJSONizer<BaseT>(propertyName, property);
 	}
 
-	public static <BaseT> InnerJSONizer<BaseT> property(String name, IOObjectP<? super BaseT> needed,
+	public static <BaseT> InnerJSONizer<BaseT> property(String propertyName, IOObjectP<? super BaseT> needed,
 			JSONizer<? super BaseT> property) {
-		return new PropertyInnerJSONizer<BaseT>(name, property, needed);
+		return new PropertyInnerJSONizer<BaseT>(propertyName, property, needed);
 	}
 
 	public static <CollectionT extends IOShortIterable> JSONizer<CollectionT> shortArray() {
@@ -548,23 +552,24 @@ public class JSONizers {
 		return new ShortJSONizer(needed);
 	}
 
-	public static <BaseT> InnerJSONizer<BaseT> shortProperty(String name, IOShortGetter<? super BaseT> getter) {
-		return new ShortPropertyInnerJSONizer<BaseT>(name, getter, null, null);
+	public static <BaseT> InnerJSONizer<BaseT> shortProperty(String propertyName,
+			IOShortGetter<? super BaseT> getter) {
+		return new ShortPropertyInnerJSONizer<BaseT>(propertyName, getter, null, null);
 	}
 
-	public static <BaseT> InnerJSONizer<BaseT> shortProperty(String name, IOShortGetter<? super BaseT> getter,
-			IOObjectP<? super BaseT> outerNeeded) {
-		return new ShortPropertyInnerJSONizer<BaseT>(name, getter, outerNeeded, null);
+	public static <BaseT> InnerJSONizer<BaseT> shortProperty(String propertyName,
+			IOShortGetter<? super BaseT> getter, IOObjectP<? super BaseT> outerNeeded) {
+		return new ShortPropertyInnerJSONizer<BaseT>(propertyName, getter, outerNeeded, null);
 	}
 
-	public static <BaseT> InnerJSONizer<BaseT> shortProperty(String name, IOShortGetter<? super BaseT> getter,
-			IOShortP innerNeeded) {
-		return new ShortPropertyInnerJSONizer<BaseT>(name, getter, null, innerNeeded);
+	public static <BaseT> InnerJSONizer<BaseT> shortProperty(String propertyName,
+			IOShortGetter<? super BaseT> getter, IOShortP innerNeeded) {
+		return new ShortPropertyInnerJSONizer<BaseT>(propertyName, getter, null, innerNeeded);
 	}
 
-	public static <BaseT> InnerJSONizer<BaseT> shortProperty(String name, IOShortGetter<? super BaseT> getter,
-			IOObjectP<? super BaseT> outerNeeded, IOShortP innerNeeded) {
-		return new ShortPropertyInnerJSONizer<BaseT>(name, getter, outerNeeded, innerNeeded);
+	public static <BaseT> InnerJSONizer<BaseT> shortProperty(String propertyName,
+			IOShortGetter<? super BaseT> getter, IOObjectP<? super BaseT> outerNeeded, IOShortP innerNeeded) {
+		return new ShortPropertyInnerJSONizer<BaseT>(propertyName, getter, outerNeeded, innerNeeded);
 	}
 
 	public static <BaseT> JSONizer<BaseT> shortProperty(IOShortGetter<? super BaseT> getter) {
@@ -600,15 +605,15 @@ public class JSONizers {
 		return new StringJSONizer(needed);
 	}
 
-	public static <BaseT> InnerJSONizer<BaseT> stringProperty(String name,
+	public static <BaseT> InnerJSONizer<BaseT> stringProperty(String propertyName,
 			IOObjectGetter<? super BaseT, String> getter) {
-		return new StringPropertyInnerJSONizer<BaseT>(name, getter, null, null);
+		return new StringPropertyInnerJSONizer<BaseT>(propertyName, getter, null, null);
 	}
 
-	public static <BaseT> InnerJSONizer<BaseT> stringProperty(String name,
+	public static <BaseT> InnerJSONizer<BaseT> stringProperty(String propertyName,
 			IOObjectGetter<? super BaseT, String> getter, IOObjectP<? super BaseT> outerNeeded,
 			IOObjectP<? super String> innerNeeded) {
-		return new StringPropertyInnerJSONizer<BaseT>(name, getter, outerNeeded, innerNeeded);
+		return new StringPropertyInnerJSONizer<BaseT>(propertyName, getter, outerNeeded, innerNeeded);
 	}
 
 	public static <BaseT> JSONizer<BaseT> stringProperty(IOObjectGetter<? super BaseT, String> getter) {

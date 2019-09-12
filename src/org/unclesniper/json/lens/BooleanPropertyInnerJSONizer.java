@@ -7,25 +7,25 @@ import org.unclesniper.json.j8.IOBooleanGetter;
 
 public class BooleanPropertyInnerJSONizer<BaseT> implements InnerJSONizer<BaseT> {
 
-	private String name;
+	private String propertyName;
 
 	private IOBooleanGetter<? super BaseT> getter;
 
 	private IOObjectP<? super BaseT> needed;
 
-	public BooleanPropertyInnerJSONizer(String name, IOBooleanGetter<? super BaseT> getter,
+	public BooleanPropertyInnerJSONizer(String propertyName, IOBooleanGetter<? super BaseT> getter,
 			IOObjectP<? super BaseT> needed) {
-		this.name = name;
+		this.propertyName = propertyName;
 		this.getter = getter;
 		this.needed = needed;
 	}
 
-	public String getName() {
-		return name;
+	public String getPropertyName() {
+		return propertyName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setPropertyName(String propertyName) {
+		this.propertyName = propertyName;
 	}
 
 	public IOBooleanGetter<? super BaseT> getGetter() {
@@ -48,7 +48,7 @@ public class BooleanPropertyInnerJSONizer<BaseT> implements InnerJSONizer<BaseT>
 	public void jsonize(BaseT base, JSONSink sink, int version) throws IOException {
 		if(needed != null ? !needed.testObject(base) : base == null)
 			return;
-		sink.foundString(name);
+		sink.foundString(propertyName);
 		sink.foundBoolean(getter.getBoolean(base));
 	}
 

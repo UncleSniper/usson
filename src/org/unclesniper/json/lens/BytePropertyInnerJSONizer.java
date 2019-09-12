@@ -8,7 +8,7 @@ import org.unclesniper.json.j8.IOByteGetter;
 
 public class BytePropertyInnerJSONizer<BaseT> implements InnerJSONizer<BaseT> {
 
-	private String name;
+	private String propertyName;
 
 	private IOByteGetter<? super BaseT> getter;
 
@@ -16,20 +16,20 @@ public class BytePropertyInnerJSONizer<BaseT> implements InnerJSONizer<BaseT> {
 
 	private IOByteP innerNeeded;
 
-	public BytePropertyInnerJSONizer(String name, IOByteGetter<? super BaseT> getter,
+	public BytePropertyInnerJSONizer(String propertyName, IOByteGetter<? super BaseT> getter,
 			IOObjectP<? super BaseT> outerNeeded, IOByteP innerNeeded) {
-		this.name = name;
+		this.propertyName = propertyName;
 		this.getter = getter;
 		this.outerNeeded = outerNeeded;
 		this.innerNeeded = innerNeeded;
 	}
 
-	public String getName() {
-		return name;
+	public String getPropertyName() {
+		return propertyName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setPropertyName(String propertyName) {
+		this.propertyName = propertyName;
 	}
 
 	public IOByteGetter<? super BaseT> getGetter() {
@@ -63,7 +63,7 @@ public class BytePropertyInnerJSONizer<BaseT> implements InnerJSONizer<BaseT> {
 		byte value = getter.getByte(base);
 		if(innerNeeded != null && !innerNeeded.testByte(value))
 			return;
-		sink.foundString(name);
+		sink.foundString(propertyName);
 		sink.foundInteger(value);
 	}
 
