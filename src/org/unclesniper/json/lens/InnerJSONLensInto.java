@@ -3,22 +3,22 @@ package org.unclesniper.json.lens;
 import java.io.IOException;
 import org.unclesniper.json.JSONSink;
 
-public class JSONLensInto<ValueT> implements JSONizer<ValueT>, DeJSONizerInto<ValueT> {
+public class InnerJSONLensInto<ValueT> implements InnerJSONizer<ValueT>, InnerDeJSONizerInto<ValueT> {
 
-	private final JSONizer<ValueT> jsonizer;
+	private final InnerJSONizer<ValueT> jsonizer;
 
-	private final DeJSONizerInto<ValueT> dejsonizer;
+	private final InnerDeJSONizerInto<ValueT> dejsonizer;
 
-	public JSONLensInto(JSONizer<ValueT> jsonizer, DeJSONizerInto<ValueT> dejsonizer) {
+	public InnerJSONLensInto(InnerJSONizer<ValueT> jsonizer, InnerDeJSONizerInto<ValueT> dejsonizer) {
 		this.jsonizer = jsonizer;
 		this.dejsonizer = dejsonizer;
 	}
 
-	public JSONizer<ValueT> getJSONizer() {
+	public InnerJSONizer<ValueT> getJSONizer() {
 		return jsonizer;
 	}
 
-	public DeJSONizerInto<ValueT> getDeJSONizer() {
+	public InnerDeJSONizerInto<ValueT> getDeJSONizer() {
 		return dejsonizer;
 	}
 
@@ -30,6 +30,11 @@ public class JSONLensInto<ValueT> implements JSONizer<ValueT>, DeJSONizerInto<Va
 	@Override
 	public JSONState dejsonize(ValueT value, int version, JSONState parent) {
 		return dejsonizer.dejsonize(value, version, parent);
+	}
+
+	@Override
+	public String getPropertyName() {
+		return dejsonizer.getPropertyName();
 	}
 
 }

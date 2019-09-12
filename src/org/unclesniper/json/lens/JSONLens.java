@@ -2,6 +2,7 @@ package org.unclesniper.json.lens;
 
 import java.io.IOException;
 import org.unclesniper.json.JSONSink;
+import org.unclesniper.json.j8.IOObjectSink;
 
 public final class JSONLens<ValueT> implements JSONizer<ValueT>, DeJSONizer<ValueT> {
 
@@ -28,8 +29,8 @@ public final class JSONLens<ValueT> implements JSONizer<ValueT>, DeJSONizer<Valu
 	}
 
 	@Override
-	public JSONState<ValueT> dejsonize(int version) {
-		return dejsonizer.dejsonize(version);
+	public JSONState dejsonize(IOObjectSink<? super ValueT> sink, int version, JSONState parent) {
+		return dejsonizer.dejsonize(sink, version, parent);
 	}
 
 }

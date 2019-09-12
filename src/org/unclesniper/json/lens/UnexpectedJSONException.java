@@ -2,12 +2,24 @@ package org.unclesniper.json.lens;
 
 import java.util.Deque;
 import java.util.LinkedList;
+import org.unclesniper.json.j8.ObjectSink;
 
 public abstract class UnexpectedJSONException extends Exception {
 
 	public interface JSONPath {
 
 		void renderPath(StringBuilder sink);
+
+	}
+
+	private class PathSegmentFirstSink implements ObjectSink<JSONPath> {
+
+		public PathSegmentFirstSink() {}
+
+		@Override
+		public void putObject(JSONPath segment) {
+			addPathSegmentFirst(segment);
+		}
 
 	}
 
@@ -31,6 +43,10 @@ public abstract class UnexpectedJSONException extends Exception {
 			return;
 		path.addLast(segment);
 		cachedPath = null;
+	}
+
+	public ObjectSink<JSONPath> getPathSegmentFirstSink() {
+		return new PathSegmentFirstSink();
 	}
 
 	public String getPath() {
